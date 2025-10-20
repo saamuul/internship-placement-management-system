@@ -1,1 +1,1 @@
-# sc2002-group2
+# sc2002-scea-group2
