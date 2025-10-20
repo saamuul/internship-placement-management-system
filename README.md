@@ -1,1 +1,1 @@
-# sc2002-scea-group2
+# Internship Placement Management System
