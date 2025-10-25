@@ -1,7 +1,6 @@
 # 🎓 Internship Placement Management System
 
 [![Java](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)](https://www.java.com/)
-[![License](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)](LICENSE)
 
 A comprehensive Java-based system for managing internship placements. This application facilitates the entire internship lifecycle, from opportunity posting to placement management, serving students, career staff, and company representatives.
 
@@ -199,12 +198,6 @@ The `CSVLoader` utility class handles loading and parsing of these data files.
 **Lim Xiao Xuan**
 
 **Samuel Chan**
-
----
-
-SC2002 - Object Oriented Design & Programming <br/>
-Nanyang Technological University <br/>
-Academic Year 2024/2025 <br/>
 
 </div>
 
