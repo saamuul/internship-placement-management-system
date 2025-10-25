@@ -48,15 +48,15 @@ Alternatively, open the project in your preferred Java IDE and run `InternshipSy
 
 ## 👨‍💻 Authors
 
-**Emmanuel Matthew Christopher Loho**
+1. **Emmanuel Matthew Christopher Loho**
 
-**Goh Pei Han**
+2. **Goh Pei Han**
 
-**Lai Kah Seng**
+3. **Lai Kah Seng**
 
-**Lim Xiao Xuan**
+4. **Lim Xiao Xuan**
 
-**Samuel Chan**
+5. **Samuel Chan**
 
 ## 📄 License
 
@@ -64,7 +64,7 @@ This project is developed for educational purposes as part of the SC2002 course 
 
 ---
 
-<div align="center">
+<div>
   <p><strong>Built with ❤️ by SCEA Group 2</strong></p>
   <p>Nanyang Technological University • 2024-2025</p>
 </div>
