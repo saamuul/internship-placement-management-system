@@ -2,23 +2,6 @@
 
 [![Java](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)](https://www.java.com/)
 
-A comprehensive Java-based system for managing internship placements. This application facilitates the entire internship lifecycle, from opportunity posting to placement management, serving students, career staff, and company representatives.
-
-## 📋 Table of Contents
-
-- [🎯 Overview](#-overview)
-- [✨ Features](#-features)
-- [🏗️ System Architecture](#️-system-architecture)
-- [🚀 Getting Started](#-getting-started)
-  - [Prerequisites](#prerequisites)
-  - [Installation](#installation)
-  - [Running the Application](#running-the-application)
-- [👥 User Roles](#-user-roles)
-- [📁 Project Structure](#-project-structure)
-- [💾 Data Management](#-data-management)
-- [👨‍💻 Authors](#-authors)
-- [📄 License](#-license)
-
 ## 🎯 Overview
 
 The Internship Placement Management System is developed as part of the **SC2002 - Object Oriented Design & Programming** course at NTU. This system streamlines the internship management process by providing a centralized platform where:
@@ -183,12 +166,6 @@ The `CSVLoader` utility class handles loading and parsing of these data files.
 
 ## 👨‍💻 Authors
 
-<div>
-
-### SCEA Group 2
-
----
-
 **Emmanuel Matthew Christopher Loho**
 
 **Goh Pei Han**
@@ -198,8 +175,6 @@ The `CSVLoader` utility class handles loading and parsing of these data files.
 **Lim Xiao Xuan**
 
 **Samuel Chan**
-
-</div>
 
 ## 📄 License
 
