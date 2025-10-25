@@ -3,7 +3,7 @@
 [![Java](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)](https://www.java.com/)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)](LICENSE)
 
-A comprehensive Java-based system for managing internship placements at Nanyang Technological University (NTU). This application facilitates the entire internship lifecycle, from opportunity posting to placement management, serving students, career staff, and company representatives.
+A comprehensive Java-based system for managing internship placements. This application facilitates the entire internship lifecycle, from opportunity posting to placement management, serving students, career staff, and company representatives.
 
 ## 📋 Table of Contents
 
@@ -17,7 +17,6 @@ A comprehensive Java-based system for managing internship placements at Nanyang 
 - [User Roles](#user-roles)
 - [Project Structure](#project-structure)
 - [Data Management](#data-management)
-- [Contributing](#contributing)
 - [Authors](#authors)
 - [License](#license)
 
@@ -183,17 +182,15 @@ The system uses CSV files for data persistence, located in the `data/` directory
 
 The `CSVLoader` utility class handles loading and parsing of these data files.
 
-## 🤝 Contributing
-
-This is an academic project for SC2002. Contributions are limited to group members:
-
-1. Create a feature branch
-2. Make your changes
-3. Submit a pull request for review
-
 ## 👨‍💻 Authors
 
 **SCEA Group 2**
+
+1. Emmanuel Matthew Christopher Loho
+2. Goh Pei Han
+3. Lai Kah Seng
+4. Lim Xiao Xuan
+5. Samuel Chan
 
 - SC2002 - Object Oriented Design & Programming
 - Nanyang Technological University
