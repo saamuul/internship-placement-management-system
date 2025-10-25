@@ -59,5 +59,5 @@ This project is developed for educational purposes as part of the SC2002 course 
 
 <div>
   <p><strong>Built with ❤️ by SCEA Group 2</strong></p>
-  <p>Nanyang Technological University • 2024-2025</p>
+  <p>Nanyang Technological University • 2025</p>
 </div>
