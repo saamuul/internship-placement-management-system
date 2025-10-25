@@ -1,1 +1,0 @@
-# Internship Placement Management System
