@@ -7,18 +7,18 @@ A comprehensive Java-based system for managing internship placements. This appli
 
 ## 📋 Table of Contents
 
-- [Overview](#overview)
-- [Features](#features)
-- [System Architecture](#system-architecture)
-- [Getting Started](#getting-started)
+- [🎯 Overview](#-overview)
+- [✨ Features](#-features)
+- [🏗️ System Architecture](#️-system-architecture)
+- [🚀 Getting Started](#-getting-started)
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
   - [Running the Application](#running-the-application)
-- [User Roles](#user-roles)
-- [Project Structure](#project-structure)
-- [Data Management](#data-management)
-- [Authors](#authors)
-- [License](#license)
+- [👥 User Roles](#-user-roles)
+- [📁 Project Structure](#-project-structure)
+- [💾 Data Management](#-data-management)
+- [👨‍💻 Authors](#-authors)
+- [📄 License](#-license)
 
 ## 🎯 Overview
 
@@ -184,7 +184,7 @@ The `CSVLoader` utility class handles loading and parsing of these data files.
 
 ## 👨‍💻 Authors
 
-<div align="center">
+<div>
 
 ### **SCEA Group 2**
 
