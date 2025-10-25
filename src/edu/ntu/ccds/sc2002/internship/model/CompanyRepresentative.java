@@ -5,7 +5,7 @@ public class CompanyRepresentative extends User{
     private String department;
     private String position;
     private String email;
-    private Status status;
+    private InternshipStatus status;
     private ArrayList<InternshipOpportunity> createdOpportunities = new ArrayList<>();
 
     public CompanyRepresentative(String userID, String name, Company company, String department, String position, String email) {
@@ -21,18 +21,20 @@ public class CompanyRepresentative extends User{
     }
 
     public boolean login(String inputID, String inputPassword) {
-        if (status == Status.SUCCESSFUL){
+        if (status == InternshipStatus.SUCCESSFUL){
             return inputID.equals(this.getUserID()) && inputPassword.equals(this.getPassword());
         }
         return false;
     }
 
-    public InternshipOpportunity createInternshipOpportunity(String title, String description, Level level, String preferredMajor, String applicationOpenDate, String applicationClosingDate, Status status, int numOfSlots, boolean visibility) {
-        InternshipOpportunity oppo1 = new InternshipOpportunity(title, description, level, preferredMajor, applicationOpenDate, applicationClosingDate, status, numOfSlots, visibility);
+    public InternshipOpportunity createInternshipOpportunity(String title, String description, Level level, String preferredMajor, String applicationOpenDate, String applicationClosingDate, int numOfSlots, boolean visibility) {
+        InternshipOpportunity oppo1 = new InternshipOpportunity(title, description, preferredMajor, applicationOpenDate, applicationClosingDate, this, numOfSlots, visibility, level);
+        createdOpportunities.add(oppo1);
+        return oppo1;
     }
 
     public boolean approveApplications(InternshipApplication application) {
-        //Fill in later
+        
     }
 
     public boolean toggleVisibility(InternshipOpportunity internOpportunity) {
@@ -51,7 +53,7 @@ public class CompanyRepresentative extends User{
         return email;
     }
 
-    public Status getStatus() {
+    public InternshipStatus getStatus() {
         return status;
     }
 

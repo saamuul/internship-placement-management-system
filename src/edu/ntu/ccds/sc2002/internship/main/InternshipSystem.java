@@ -1,6 +1,6 @@
 package main;
 
-public class InternshipApp {
+public class InternshipSystem {
     public static void main(String[] args) {
         System.out.println("Hello, World!");
     }
