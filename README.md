@@ -184,17 +184,23 @@ The `CSVLoader` utility class handles loading and parsing of these data files.
 
 ## 👨‍💻 Authors
 
-**SCEA Group 2**
+<div align="center">
 
-1. Emmanuel Matthew Christopher Loho
-2. Goh Pei Han
-3. Lai Kah Seng
-4. Lim Xiao Xuan
-5. Samuel Chan
+### **SCEA Group 2**
 
-- SC2002 - Object Oriented Design & Programming
-- Nanyang Technological University
-- Academic Year 2024/2025
+| Team Member |
+|:---:|
+| **Emmanuel Matthew Christopher Loho** |
+| **Goh Pei Han** |
+| **Lai Kah Seng** |
+| **Lim Xiao Xuan** |
+| **Samuel Chan** |
+
+**SC2002 - Object Oriented Design & Programming**  
+*Nanyang Technological University*  
+*Academic Year 2024/2025*
+
+</div>
 
 ## 📄 License
 
