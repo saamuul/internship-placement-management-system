@@ -202,9 +202,9 @@ The `CSVLoader` utility class handles loading and parsing of these data files.
 
 ---
 
-_SC2002 - Object Oriented Design & Programming_  
-_Nanyang Technological University_  
-_Academic Year 2024/2025_
+>SC2002 - Object Oriented Design & Programming
+>Nanyang Technological University
+>Academic Year 2024/2025
 
 </div>
 
