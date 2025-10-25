@@ -48,15 +48,15 @@ Alternatively, open the project in your preferred Java IDE and run `InternshipSy
 
 ## 👨‍💻 Authors
 
-1. **Emmanuel Matthew Christopher Loho**
+**Matthew Loho**
 
-2. **Goh Pei Han**
+**Goh Pei Han**
 
-3. **Lai Kah Seng**
+**Lai Kah Seng**
 
-4. **Lim Xiao Xuan**
+**Lim Xiao Xuan**
 
-5. **Samuel Chan**
+**Samuel Chan**
 
 ## 📄 License
 
