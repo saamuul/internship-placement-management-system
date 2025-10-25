@@ -48,8 +48,6 @@ Alternatively, open the project in your preferred Java IDE and run `InternshipSy
 
 ## 👨‍💻 Authors
 
-## 👨‍💻 Authors
-
 | Name | Contact |
 |:---|:---|
 | Matthew Loho | [mtlh01p](https://github.com/mtlh01p) |
