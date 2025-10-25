@@ -20,7 +20,6 @@ The Internship Placement Management System is developed as part of the **SC2002 
 
    ```bash
    git clone https://github.com/saamuul/internship-placement-management-system.git
-   cd internship-placement-management-system
    ```
 
 2. **Navigate to the project directory**
