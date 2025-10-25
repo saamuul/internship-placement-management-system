@@ -1,8 +1,8 @@
-# 🎓 Internship Placement Management System
+# Internship Placement Management System
 
 [![Java](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)](https://www.java.com/)
 
-## 🎯 Overview
+## Overview
 
 The Internship Placement Management System is developed as part of the **SC2002 - Object Oriented Design & Programming** course at NTU. This system streamlines the internship management process by providing a centralized platform where:
 
@@ -10,7 +10,7 @@ The Internship Placement Management System is developed as part of the **SC2002 
 - **Company Representatives** can post and manage internship listings
 - **Career Staff** can oversee the entire placement process
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 
@@ -23,14 +23,14 @@ The Internship Placement Management System is developed as part of the **SC2002 
 1. **Clone the repository**
 
    ```bash
-   git clone https://github.com/saamuul/sc2002-scea-group2.git
-   cd sc2002-scea-group2
+   git clone https://github.com/saamuul/internship-placement-management-system.git
+   cd internship-placement-management-system
    ```
 
 2. **Navigate to the project directory**
 
    ```bash
-   cd "sc2002-scea-group2"
+   cd "internship-placement-management-system"
    ```
 
 3. **Compile the Java files**
@@ -46,7 +46,7 @@ java -cp bin edu.ntu.ccds.sc2002.internship.main.InternshipSystem
 
 Alternatively, open the project in your preferred Java IDE and run `InternshipSystem.java`.
 
-## 👨‍💻 Authors
+## Authors
 
 | Name | Contact |
 |:---|:---|
@@ -56,7 +56,7 @@ Alternatively, open the project in your preferred Java IDE and run `InternshipSy
 | Lim Xiao Xuan | [erthiee](https://github.com/erthiee) |
 | Samuel Chan | [saamuul](https://github.com/saamuul) |
 
-## 📄 License
+## License
 
 This project is developed for educational purposes as part of the SC2002 course at NTU.
 
