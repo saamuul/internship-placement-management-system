@@ -17,7 +17,7 @@ A comprehensive Java-based system for managing internship placements. This appli
 - [👥 User Roles](#-user-roles)
 - [📁 Project Structure](#-project-structure)
 - [💾 Data Management](#-data-management)
-- [👨‍💻 Authors](#--authors)
+- [👨‍💻 Authors](#-authors)
 - [📄 License](#-license)
 
 ## 🎯 Overview
@@ -202,9 +202,9 @@ The `CSVLoader` utility class handles loading and parsing of these data files.
 
 ---
 
-SC2002 - Object Oriented Design & Programming.
-Nanyang Technological University.
-Academic Year 2024/2025.
+SC2002 - Object Oriented Design & Programming <br/>
+Nanyang Technological University <br/>
+Academic Year 2024/2025 <br/>
 
 </div>
 
