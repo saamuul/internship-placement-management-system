@@ -17,7 +17,7 @@ A comprehensive Java-based system for managing internship placements. This appli
 - [👥 User Roles](#-user-roles)
 - [📁 Project Structure](#-project-structure)
 - [💾 Data Management](#-data-management)
-- [👨‍💻 Authors](#-authors)
+- [👨‍💻 Authors](#--authors)
 - [📄 License](#-license)
 
 ## 🎯 Overview
@@ -184,23 +184,20 @@ The `CSVLoader` utility class handles loading and parsing of these data files.
 
 ## 👨‍💻 Authors
 
-<div>
-
 ### **SCEA Group 2**
 
-| Team Member                           |
-| :------------------------------------ |
+**Team Member**
+<div width = "100px">
 | **Emmanuel Matthew Christopher Loho** |
-| **Goh Pei Han**                       |
-| **Lai Kah Seng**                      |
-| **Lim Xiao Xuan**                     |
-| **Samuel Chan**                       |
+| **Goh Pei Han** |
+| **Lai Kah Seng** |
+| **Lim Xiao Xuan** |
+| **Samuel Chan** |
+</div>
 
 **SC2002 - Object Oriented Design & Programming**  
 **Nanyang Technological University**  
 **Academic Year 2024/2025**
-
-</div>
 
 ## 📄 License
 
