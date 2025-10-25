@@ -3,10 +3,6 @@
 [![Java](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)](https://www.java.com/)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)](LICENSE)
 
-<!-- Nav: links to section documents in docs/ -->
-
-[Overview](md/overview.md) • [Features](md/features.md) • [Architecture](md/architecture.md) • [Getting Started](md/getting-started.md) • [User Roles](md/user-roles.md) • [Project Structure](md/project-structure.md) • [Data Management](md/data-management.md) • [Authors](md/authors.md) • [License](md/license.md)
-
 A comprehensive Java-based system for managing internship placements. This application facilitates the entire internship lifecycle, from opportunity posting to placement management, serving students, career staff, and company representatives.
 
 ## 🎯 Overview
