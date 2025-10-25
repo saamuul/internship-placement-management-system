@@ -1,4 +1,3 @@
-package Assignment;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -10,6 +9,7 @@ public class CareerStaff extends User {
     private String email;
     private String department;
     private String role;
+    
     public CareerStaff(String userID, String name, String role, String email, String department) {
         super(userID, name); 
         this.role = role;

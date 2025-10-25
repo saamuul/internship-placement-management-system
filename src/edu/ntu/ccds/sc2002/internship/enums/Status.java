@@ -1,0 +1,3 @@
+public enum Status{ 
+    PENDING, SUCCESSFUL, UNSUCCESSFUL, FILLED
+}

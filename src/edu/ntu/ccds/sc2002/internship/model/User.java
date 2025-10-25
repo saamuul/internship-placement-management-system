@@ -1,4 +1,3 @@
-package Assignment;
 
 abstract class User {
     private String userID;
