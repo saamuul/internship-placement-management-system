@@ -20,12 +20,15 @@ public class CompanyRepresentative extends User{
         //Fill in later
     }
 
-    public boolean login() {
-        //Fill in later
+    public boolean login(String inputID, String inputPassword) {
+        if (status == Status.SUCCESSFUL){
+            return inputID.equals(this.getUserID()) && inputPassword.equals(this.getPassword());
+        }
+        return false;
     }
 
     public InternshipOpportunity createInternshipOpportunity(String title, String description, Level level, String preferredMajor, String applicationOpenDate, String applicationClosingDate, Status status, int numOfSlots, boolean visibility) {
-        //Fill in later
+        InternshipOpportunity oppo1 = new InternshipOpportunity(title, description, level, preferredMajor, applicationOpenDate, applicationClosingDate, status, numOfSlots, visibility);
     }
 
     public boolean approveApplications(InternshipApplication application) {

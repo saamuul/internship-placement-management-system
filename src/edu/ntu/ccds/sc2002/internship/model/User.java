@@ -11,6 +11,7 @@ abstract class User {
 
     public String getUserID() { return this.userID; }
     public String getName() { return this.name; }
+    public String getPassword(){ return this.password; }
     public void setName(String inputName) { this.name = inputName; }
 
     public boolean login(String inputID, String inputPassword) {
