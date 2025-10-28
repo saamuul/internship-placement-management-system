@@ -1,3 +1,3 @@
-public enum InternshipStatus{ 
+public enum Status{ 
     PENDING, SUCCESSFUL, UNSUCCESSFUL, FILLED
 }

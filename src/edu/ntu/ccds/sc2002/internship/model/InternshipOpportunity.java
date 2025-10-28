@@ -1,5 +1,3 @@
-package model;
-
 public class InternshipOpportunity {
     private String title;
     private String description;
@@ -9,12 +7,12 @@ public class InternshipOpportunity {
     private CompanyRepresentative rep;
     private int numofslots;
     private boolean visibility;
-    private InternshipStatus status;
+    private Status status;
     private Level level;
 
     public InternshipOpportunity(String t, String descrip, String major, String startdate, String enddate,
             CompanyRepresentative r, int slots, boolean visible, Level l) {
-        this.status = InternshipStatus.PENDING;
+        this.status = Status.PENDING;
         this.title = t;
         this.description = descrip;
         this.prefMajor = major;
@@ -28,6 +26,14 @@ public class InternshipOpportunity {
 
     public void setVisibility(boolean set) {
         this.visibility = set;
+    }
+
+    public CompanyRepresentative getRep() {
+        return this.rep;
+    }
+
+    public Level getLevel() {
+        return this.level;
     }
 
     public String getTitle() {
@@ -50,7 +56,7 @@ public class InternshipOpportunity {
         return this.closedate;
     }
 
-    public InternshipStatus getStatus() {
+    public Status getStatus() {
         return this.status;
     }
 
@@ -61,4 +67,5 @@ public class InternshipOpportunity {
     public boolean getVisibility() {
         return this.visibility;
     }
+    
 }

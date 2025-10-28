@@ -5,7 +5,7 @@ public class CompanyRepresentative extends User{
     private String department;
     private String position;
     private String email;
-    private InternshipStatus status;
+    private Status status;
     private ArrayList<InternshipOpportunity> createdOpportunities = new ArrayList<>();
 
     public CompanyRepresentative(String userID, String name, Company company, String department, String position, String email) {
@@ -21,7 +21,7 @@ public class CompanyRepresentative extends User{
     }
 
     public boolean login(String inputID, String inputPassword) {
-        if (status == InternshipStatus.SUCCESSFUL){
+        if (status == Status.SUCCESSFUL){
             return inputID.equals(this.getUserID()) && inputPassword.equals(this.getPassword());
         }
         return false;
@@ -34,11 +34,13 @@ public class CompanyRepresentative extends User{
     }
 
     public boolean approveApplications(InternshipApplication application) {
-        
+        //Conditions to be added later
+        return true;
     }
 
     public boolean toggleVisibility(InternshipOpportunity internOpportunity) {
-        //Fill in later
+        //Conditions to be added later
+        return true;
     }
 
     public String getDepartment() {
@@ -49,11 +51,15 @@ public class CompanyRepresentative extends User{
         return position;
     }
 
+    public Company getCompany() {
+        return company;
+    }
+
     public String getEmail() {
         return email;
     }
 
-    public InternshipStatus getStatus() {
+    public Status getStatus() {
         return status;
     }
 

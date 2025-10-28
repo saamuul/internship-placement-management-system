@@ -1,5 +1,3 @@
-package model;
-
 public class Internship {
     private String internshipID ;
     private String companyName;
@@ -8,6 +6,7 @@ public class Internship {
     private InternshipOpportunity acceptedFrom;
         
     public String getDetails() {
-        
+        //Placeholder
+        return "Internship ID: " + internshipID + "\nCompany Name: " + companyName + "\nTitle: " + title + "\nLevel: " + level;
     }
 }

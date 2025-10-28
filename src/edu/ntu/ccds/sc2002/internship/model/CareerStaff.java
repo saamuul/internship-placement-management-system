@@ -1,4 +1,3 @@
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -9,7 +8,6 @@ public class CareerStaff extends User {
     private String email;
     private String department;
     private String role;
-    
     public CareerStaff(String userID, String name, String role, String email, String department) {
         super(userID, name); 
         this.role = role;
@@ -44,6 +42,7 @@ public class CareerStaff extends User {
     }
     public boolean authoriseComRepAcc(CompanyRepresentative comrep) {
         //Conditions to be added later
+        //Conditions ask later
         return true;
     }
     public boolean approveOpportunity(InternshipOpportunity intopp) {
@@ -63,8 +62,8 @@ public class CareerStaff extends User {
     public String getRole() {
         return this.role;
     }
-    public Report generateReport(Filter f) {
-        Report report = new Report(f);
+    public Report generateReport(Filter f, CareerStaff generatedBy) {
+        Report report = new Report(f, generatedBy);
         return report;
     }
 }

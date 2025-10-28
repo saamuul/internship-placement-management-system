@@ -1,4 +1,4 @@
-public enum InternshipLevel{
+public enum Level{
     BASIC,
     INTERMEDIATE,
     ADVANCED
