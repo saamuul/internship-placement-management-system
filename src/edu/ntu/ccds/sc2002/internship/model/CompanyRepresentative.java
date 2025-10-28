@@ -1,4 +1,6 @@
+package model;
 import java.util.ArrayList;
+import util.CSVLoader;
 
 public class CompanyRepresentative extends User{
     private Company company;
@@ -27,9 +29,16 @@ public class CompanyRepresentative extends User{
         return false;
     }
 
-    public InternshipOpportunity createInternshipOpportunity(String title, String description, Level level, String preferredMajor, String applicationOpenDate, String applicationClosingDate, int numOfSlots, boolean visibility) {
+    public InternshipOpportunity createInternshipOpportunity(String title, String description, InternshipLevel level, String preferredMajor, String applicationOpenDate, String applicationClosingDate, int numOfSlots, boolean visibility) {
         InternshipOpportunity oppo1 = new InternshipOpportunity(title, description, preferredMajor, applicationOpenDate, applicationClosingDate, this, numOfSlots, visibility, level);
         createdOpportunities.add(oppo1);
+        String[][] data = {
+            {oppo1.getTitle(), oppo1.getDescription(), oppo1.getPreferredMajor(),
+            oppo1.getOpenDate(), oppo1.getClosingDate(),this.getUserID(), 
+            String.valueOf(oppo1.getNumOfSlots()), String.valueOf(oppo1.getVisibility()),
+            oppo1.getInternshipLevel().toString()}
+        };
+        CSVLoader.write("data/IntershipOpp_List.csv", data);
         return oppo1;
     }
 
@@ -37,10 +46,13 @@ public class CompanyRepresentative extends User{
         
     }
 
-    public boolean toggleVisibility(InternshipOpportunity internOpportunity) {
-        //Fill in later
+    public boolean toggleVisibility(InternshipOpportunity internOpportunity, boolean value) {
+        internOpportunity.setVisibility(value);
+        return true;
     }
-
+    public Company getCompany(){
+        return company;
+    }
     public String getDepartment() {
         return department;
     }

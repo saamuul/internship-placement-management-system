@@ -10,10 +10,10 @@ public class InternshipOpportunity {
     private int numofslots;
     private boolean visibility;
     private InternshipStatus status;
-    private Level level;
+    private InternshipLevel level;
 
     public InternshipOpportunity(String t, String descrip, String major, String startdate, String enddate,
-            CompanyRepresentative r, int slots, boolean visible, Level l) {
+            CompanyRepresentative r, int slots, boolean visible, InternshipLevel l) {
         this.status = InternshipStatus.PENDING;
         this.title = t;
         this.description = descrip;
@@ -38,7 +38,7 @@ public class InternshipOpportunity {
         return this.description;
     }
 
-    public String getPrefMajor() {
+    public String getPreferredMajor() {
         return this.prefMajor;
     }
 
@@ -46,12 +46,16 @@ public class InternshipOpportunity {
         return this.opendate;
     }
 
-    public String getCloseDate() {
+    public String getClosingDate() {
         return this.closedate;
     }
 
     public InternshipStatus getStatus() {
         return this.status;
+    }
+
+    public InternshipLevel getInternshipLevel(){
+        return this.level;
     }
 
     public int getNumOfSlots() {
