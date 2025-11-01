@@ -1,11 +1,15 @@
-package util;
+package edu.ntu.ccds.sc2002.internship.util;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CSVLoader{
-    public static void write(String filePath , String[][] data){
+public class CSVLoader {
+    public static void write(String filePath, String[][] data) {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath, true))) {
             for (String[] row : data) {
                 bw.write(String.join(",", row));
