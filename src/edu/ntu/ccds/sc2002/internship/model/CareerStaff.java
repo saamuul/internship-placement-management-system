@@ -48,8 +48,19 @@ public class CareerStaff extends User {
     }
 
     public boolean authoriseComRepAcc(CompanyRepresentative comrep) {
-        // Conditions to be added later
-        // Conditions ask later
+
+        // Condition 1: Must be linked to an existing company
+        if (comrep.getCompany() == null) {
+            return false;
+        }
+
+        // Condition 3: Status cannot already be approved
+        if (comrep.getStatus() == Status.SUCCESSFUL) {
+            return false;
+        }
+
+        // If all conditions pass → Approve representative
+        comrep.setStatus(Status.SUCCESSFUL);
         return true;
     }
 
@@ -57,12 +68,10 @@ public class CareerStaff extends User {
         // Conditions to be added later
         return true;
     }
-
     public boolean approveWithdrawal(InternshipApplication intappl) {
-        // Conditions to be added later
+        //Conditions to be added later
         return true;
     }
-
     public String getEmail() {
         return this.email;
     }
