@@ -9,7 +9,7 @@ import java.util.List;
 
 import edu.ntu.ccds.sc2002.internship.model.CompanyRepresentative;
 
-public class CareerStaffCSVLoader {
+public class CareerStaffCSV {
 
     public static List<String[]> readCSV(String filePath) {
         List<String[]> rows = new ArrayList<>();
