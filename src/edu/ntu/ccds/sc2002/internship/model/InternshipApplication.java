@@ -1,3 +1,5 @@
+package edu.ntu.ccds.sc2002.internship.model;
+
 public class InternshipApplication {
     private String applicationID;
     private String studentID;

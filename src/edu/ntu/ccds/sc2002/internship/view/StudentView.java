@@ -1,4 +1,9 @@
+package edu.ntu.ccds.sc2002.internship.view;
+
 import java.util.Scanner;
+
+import edu.ntu.ccds.sc2002.internship.controller.StudentController;
+import edu.ntu.ccds.sc2002.internship.model.Student;
 
 public class StudentView {
     public static void main(String[] args) {

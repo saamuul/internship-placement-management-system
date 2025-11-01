@@ -1,3 +1,4 @@
+package edu.ntu.ccds.sc2002.internship.model;
 
 abstract class User {
     private String userID;
@@ -9,21 +10,31 @@ abstract class User {
         this.name = name;
     }
 
-    public String getUserID() { return this.userID; }
-    public String getName() { return this.name; }
-    public String getPassword(){ return this.password; }
-    public void setName(String inputName) { this.name = inputName; }
+    public String getUserID() {
+        return this.userID;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public String getPassword() {
+        return this.password;
+    }
+
+    public void setName(String inputName) {
+        this.name = inputName;
+    }
 
     public boolean login(String inputID, String inputPassword) {
         return inputID.equals(this.userID) && inputPassword.equals(this.password);
     }
 
     public void changePassword(String oldPassword, String newPassword) {
-        if(this.password.equals(oldPassword)) {
+        if (this.password.equals(oldPassword)) {
             this.password = newPassword;
         } else {
             System.out.println("Failed, wrong old password");
         }
     }
 }
-

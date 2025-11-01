@@ -1,3 +1,5 @@
+package edu.ntu.ccds.sc2002.internship.model;
+
 public class InternshipOpportunity {
     private String title;
     private String description;
@@ -67,5 +69,5 @@ public class InternshipOpportunity {
     public boolean getVisibility() {
         return this.visibility;
     }
-    
+
 }

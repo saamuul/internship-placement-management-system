@@ -1,3 +1,5 @@
+package edu.ntu.ccds.sc2002.internship.model;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +22,7 @@ public class Report {
 
     private List<InternshipOpportunity> fetchInternshipsBasedOnFilter(Filter filter) {
         // TODO: Replace with actual data source or repository
-        List<InternshipOpportunity> allInternships = InternshipRepository.getAllInternships(); // placeholder
+        List<InternshipOpportunity> allInternships = new ArrayList<>(); // placeholder - repository not yet implemented
         List<InternshipOpportunity> filtered = new ArrayList<>();
 
         for (InternshipOpportunity opp : allInternships) {
@@ -29,7 +31,8 @@ public class Report {
             if (filter.getLevel() != null && opp.getLevel() != filter.getLevel()) {
                 matches = false;
             }
-            if (filter.getPreferredMajor() != null && !filter.getPreferredMajor().equalsIgnoreCase(opp.getPrefMajor())) {
+            if (filter.getPreferredMajor() != null
+                    && !filter.getPreferredMajor().equalsIgnoreCase(opp.getPrefMajor())) {
                 matches = false;
             }
             if (filter.getStatus() != null && opp.getStatus() != filter.getStatus()) {
@@ -45,7 +48,8 @@ public class Report {
                 matches = false;
             }
 
-            // Optional: filter by dates if needed (dates are strings in "yyyy-MM-dd" format)
+            // Optional: filter by dates if needed (dates are strings in "yyyy-MM-dd"
+            // format)
             // You could convert to LocalDate for comparison here
 
             if (matches) {
@@ -82,7 +86,8 @@ public class Report {
                 System.out.println("Company: " + valueOrNA(opp.getRep() != null ? opp.getRep().getCompany() : null));
                 System.out.println("Level: " + valueOrNA(opp.getLevel()));
                 System.out.println("Preferred Major: " + valueOrNA(opp.getPrefMajor()));
-                System.out.println("Application Dates: " + valueOrNA(opp.getOpenDate()) + " to " + valueOrNA(opp.getCloseDate()));
+                System.out.println(
+                        "Application Dates: " + valueOrNA(opp.getOpenDate()) + " to " + valueOrNA(opp.getCloseDate()));
                 System.out.println("Number of Slots: " + valueOrNA(opp.getNumOfSlots()));
                 System.out.println("Status: " + valueOrNA(opp.getStatus()));
                 System.out.println("Visibility: " + opp.getVisibility());

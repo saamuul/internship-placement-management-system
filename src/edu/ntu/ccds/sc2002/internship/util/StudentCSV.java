@@ -1,3 +1,5 @@
+package edu.ntu.ccds.sc2002.internship.util;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -7,6 +9,8 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
+
+import edu.ntu.ccds.sc2002.internship.model.InternshipApplication;
 
 public class StudentCSV {
 

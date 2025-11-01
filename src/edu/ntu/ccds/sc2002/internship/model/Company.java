@@ -1,3 +1,5 @@
+package edu.ntu.ccds.sc2002.internship.model;
+
 import java.util.ArrayList;
 
 public class Company {
