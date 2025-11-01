@@ -6,16 +6,12 @@ import java.util.Scanner;
 public class CareerStaffView {
 
     public static void main(String[] args) {
-
-        // Create a sample CareerStaff account
         CareerStaff staff = new CareerStaff("1", "Alice Tan", "Officer", "alice.tan@university.edu", "Career Services");
 
-        // Create dummy ComRep list to test approval
         ArrayList<CompanyRepresentative> comRepList = new ArrayList<>();
         comRepList.add(new CompanyRepresentative("1", "John Lim", new Company("TechNova"), "Sales", "Executive", "john@technova.com"));
         comRepList.add(new CompanyRepresentative("2", "Maya Ong", new Company("BlueStar"), "Marketing", "Manager", "maya@bluestar.com"));
 
-        // Set their default registration status
         comRepList.get(0).setStatus(Status.PENDING);
         comRepList.get(1).setStatus(Status.PENDING);
 

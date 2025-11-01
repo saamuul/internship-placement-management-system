@@ -1,15 +1,19 @@
 package edu.ntu.ccds.sc2002.internship.model;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+
+import edu.ntu.ccds.sc2002.internship.util.CareerStaffCSV;
 
 public class CareerStaff extends User {
+    private static final String STAFF_CSV_PATH = "data/sample_company_representative_list.csv";
+
     private String email;
     private String department;
     private String role;
+
+    private static ArrayList<CareerStaff> registeredStaff = new ArrayList<>();
 
     public CareerStaff(String userID, String name, String role, String email, String department) {
         super(userID, name);
@@ -18,28 +22,21 @@ public class CareerStaff extends User {
         this.department = department;
     }
 
-    private static ArrayList<CareerStaff> registeredStaff = new ArrayList<>();
-
     public void autoRegister(File staffListFile) {
-        try (BufferedReader br = new BufferedReader(new FileReader(staffListFile))) {
-            String line;
-            br.readLine();
+        List<String[]> rows = CareerStaffCSV.readCSV(staffListFile.getPath());
+        registeredStaff.clear(); // optional: clear previous registrations
+        for (String[] parts : rows) {
+            if (parts.length >= 7) { // CSV has headers + status
+                String userID = parts[0].trim();
+                String name = parts[1].trim();
+                String company = parts[2].trim();
+                String department = parts[3].trim();
+                String role = parts[4].trim();
+                String email = parts[5].trim();
 
-            while ((line = br.readLine()) != null) {
-                String[] parts = line.split(",");
-                if (parts.length == 5) {
-                    String userID = parts[0].trim();
-                    String name = parts[1].trim();
-                    String role = parts[2].trim();
-                    String department = parts[3].trim();
-                    String email = parts[4].trim();
-
-                    CareerStaff staff = new CareerStaff(userID, name, role, email, department);
-                    registeredStaff.add(staff);
-                }
+                CareerStaff staff = new CareerStaff(userID, name, role, email, department);
+                registeredStaff.add(staff);
             }
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 
@@ -48,30 +45,17 @@ public class CareerStaff extends User {
     }
 
     public boolean authoriseComRepAcc(CompanyRepresentative comrep) {
-
-        // Condition 1: Must be linked to an existing company
-        if (comrep.getCompany() == null) {
-            return false;
-        }
-
-        // Condition 3: Status cannot already be approved
-        if (comrep.getStatus() == Status.SUCCESSFUL) {
-            return false;
-        }
-
-        // If all conditions pass → Approve representative
-        comrep.setStatus(Status.SUCCESSFUL);
-        return true;
+        return CareerStaffCSV.updateStatus(STAFF_CSV_PATH, Integer.parseInt(comrep.getUserID()), "SUCCESSFUL");
     }
 
     public boolean approveOpportunity(InternshipOpportunity intopp) {
-        // Conditions to be added later
-        return true;
+        return true; 
     }
+
     public boolean approveWithdrawal(InternshipApplication intappl) {
-        //Conditions to be added later
         return true;
     }
+
     public String getEmail() {
         return this.email;
     }
@@ -85,7 +69,6 @@ public class CareerStaff extends User {
     }
 
     public Report generateReport(Filter f, CareerStaff generatedBy) {
-        Report report = new Report(f, generatedBy);
-        return report;
+        return new Report(f, generatedBy);
     }
 }
