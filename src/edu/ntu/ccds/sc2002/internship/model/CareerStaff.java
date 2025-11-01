@@ -4,7 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.ntu.ccds.sc2002.internship.util.CareerStaffCSV;
+import util.CareerStaffCSVLoader;
 
 public class CareerStaff extends User {
     private static final String STAFF_CSV_PATH = "data/sample_company_representative_list.csv";
@@ -23,7 +23,7 @@ public class CareerStaff extends User {
     }
 
     public void autoRegister(File staffListFile) {
-        List<String[]> rows = CareerStaffCSV.readCSV(staffListFile.getPath());
+        List<String[]> rows = CareerStaffCSVLoader.readCSV(staffListFile.getPath());
         registeredStaff.clear(); // optional: clear previous registrations
         for (String[] parts : rows) {
             if (parts.length >= 7) { // CSV has headers + status
@@ -45,7 +45,7 @@ public class CareerStaff extends User {
     }
 
     public boolean authoriseComRepAcc(CompanyRepresentative comrep) {
-        return CareerStaffCSV.updateStatus(STAFF_CSV_PATH, Integer.parseInt(comrep.getUserID()), "SUCCESSFUL");
+        return CareerStaffCSVLoader.updateStatus(STAFF_CSV_PATH, Integer.parseInt(comrep.getUserID()), "SUCCESSFUL");
     }
 
     public boolean approveOpportunity(InternshipOpportunity intopp) {

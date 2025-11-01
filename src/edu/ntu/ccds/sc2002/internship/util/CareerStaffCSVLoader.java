@@ -7,8 +7,6 @@ import java.nio.file.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.ntu.ccds.sc2002.internship.model.CompanyRepresentative;
-
 public class CareerStaffCSVLoader {
 
     public static List<String[]> readCSV(String filePath) {
@@ -46,21 +44,6 @@ public class CareerStaffCSVLoader {
             System.out.println("CareerStaffCSV.appendLine error: " + e.getMessage());
             return false;
         }
-    }
-
-    // Append a CompanyRepresentative object
-    public static boolean appendLine(CompanyRepresentative comRep, String filePath) {
-        if (comRep == null) return false;
-        String[] row = new String[] {
-            String.valueOf(comRep.getCompanyRepID()),
-            comRep.getName(),
-            comRep.getCompanyName(),
-            comRep.getDepartment(),
-            comRep.getPosition(),
-            comRep.getEmail(),
-            comRep.getStatus()
-        };
-        return appendLine(filePath, row);
     }
 
     public static boolean updateStatus(String filePath, int companyRepID, String newStatus) {
