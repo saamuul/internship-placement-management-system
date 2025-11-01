@@ -1,7 +1,11 @@
-package edu.ntu.ccds.sc2002.internship.view;
+package view;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+import edu.ntu.ccds.sc2002.internship.model.CareerStaff;
+import edu.ntu.ccds.sc2002.internship.model.CompanyRepresentative;
+import edu.ntu.ccds.sc2002.internship.model.Company;
+import edu.ntu.ccds.sc2002.internship.model.Status;
 
 public class CareerStaffView {
 
