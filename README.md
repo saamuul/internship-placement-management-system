@@ -1,6 +1,6 @@
 # Internship Placement Management System
 
-The Internship Placement Management System is developed as part of the **SC2002 - Object Oriented Design & Programming** course at NTU. This system streamlines the internship management process by providing a centralized platform where:
+This system streamlines the internship management process by providing a centralized platform where:
 
 - **Students** can browse and apply for internship opportunities
 - **Company Representatives** can post and manage internship listings
