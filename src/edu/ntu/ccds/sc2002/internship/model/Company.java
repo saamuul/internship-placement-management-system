@@ -13,20 +13,10 @@ public class Company {
         this.repList = new ArrayList<>();
     }
 
-    public String getName() {
-        return name;
-    }
+    public String getName() {return name;}
+    public int getCompanyID() {return companyID;}
+    public ArrayList<CompanyRepresentative> getRepList() {return repList;}
 
-    public int getCompanyID() {
-        return companyID;
-    }
-
-    public ArrayList<CompanyRepresentative> getRepList() {
-        return repList;
-    };
-
-    public void addRep(CompanyRepresentative person) {
-        repList.add(person);
-    }
+    public void addRep(CompanyRepresentative person) { repList.add(person); }
 
 }

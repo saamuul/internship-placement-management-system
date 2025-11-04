@@ -13,21 +13,10 @@ public class Internship {
         this.level = level;
     }
 
-    public String getInternshipID() {
-        return internshipID;
-    }
-
-    public String getCompanyName() {
-        return companyName;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public Level getLevel() {
-        return level;
-    }
+    public String getInternshipID() {return internshipID;}
+    public String getCompanyName() {return companyName;}
+    public String getTitle() {return title;}
+    public Level getLevel() {return level;}
 
     public String getDetails() {
         // Placeholder
