@@ -41,7 +41,7 @@ java -cp bin edu.ntu.ccds.sc2002.internship.main.InternshipSystem
 
 Alternatively, open the project in your preferred Java IDE and run `InternshipSystem.java`.
 
-## Authors
+## Project Contributors
 
 | Name | Contact |
 |:---|:---|
