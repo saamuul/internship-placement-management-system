@@ -13,25 +13,11 @@ public class InternshipApplication {
         this.status = status;
     }
 
-    public String getApplicationID() {
-        return applicationID;
-    }
-
-    public String getStudentID() {
-        return studentID;
-    }
-
-    public String getInternshipID() {
-        return internshipID;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
+    public String getApplicationID() { return applicationID;}
+    public String getStudentID() { return studentID; }
+    public String getInternshipID() { return internshipID; }
+    public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
 
     // Return a CSV row representation compatible with StudentCSV.appendLine
     public String[] toCSVRow() {

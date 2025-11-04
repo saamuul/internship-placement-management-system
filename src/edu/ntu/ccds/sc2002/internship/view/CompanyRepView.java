@@ -1,75 +1,64 @@
 package edu.ntu.ccds.sc2002.internship.view;
 
-import edu.ntu.ccds.sc2002.internship.util.CSVLoader;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
+import edu.ntu.ccds.sc2002.internship.model.User;
 
-import edu.ntu.ccds.sc2002.internship.model.CompanyRepresentative;
-import edu.ntu.ccds.sc2002.internship.model.Company;
-
+/**
+ * View class for Company Representative interface.
+ * Responsible ONLY for displaying information to the user.
+ * Does NOT contain business logic - that belongs in CompanyRepController.
+ */
 public class CompanyRepView {
-    public static void main(String[] args) {
-        System.out.println("Hello, World!");
-        //testing read function start
-        String path = "data/sample_student_list.csv";
 
-        String[][] data1 = CSVLoader.read(path);
-        for (String[] row : data1) {
-            for (String value : row) {
-                System.out.print(value + " | ");
-            }
-            System.out.println();
-        }
-        //testing read function end
+    /**
+     * Displays the company representative dashboard menu.
+     * 
+     * @param user The logged-in company representative user
+     */
+    public void showDashboard(User user) {
+        System.out.println("\n=== Company Representative Dashboard ===");
+        System.out.println("Welcome, " + user.getName());
+        System.out.println("1) Create Internship Opportunity");
+        System.out.println("2) View Applications");
+        System.out.println("3) Manage Opportunities");
+        System.out.println("4) Logout");
+        System.out.print("Choose: ");
+    }
 
+    /**
+     * Displays internship opportunities created by this company rep.
+     * 
+     * @param opportunities List of opportunities (to be implemented)
+     */
+    public void displayOpportunities(/* List<InternshipOpportunity> opportunities */) {
+        System.out.println("\n=== Your Internship Opportunities ===");
+        // TODO: Display opportunities list
+    }
 
-        // testing and writing sample company rep list
-       /* String filePath = "data/sample_company_representative_list.csv";
+    /**
+     * Displays applications for company's internships.
+     * 
+     * @param applications List of applications (to be implemented)
+     */
+    public void displayApplications(/* List<InternshipApplication> applications */) {
+        System.out.println("\n=== Applications ===");
+        // TODO: Display applications list
+    }
 
-        // Example data
-        // data to input : CompanyRepID,Name,CompanyName,Department,Position,Email,Status
-        String[][] data1 = {
-            {"R001", "Annie", "ABC", "HR", "Manager", "Annie123@gmail.com", "APPROVED"}
-        };
+    /**
+     * Displays a success message.
+     * 
+     * @param message The success message to display
+     */
+    public void showSuccess(String message) {
+        System.out.println("✓ " + message);
+    }
 
-        // Write to CSV
-        CSVLoader.write(filePath, data1);
-
-        // Optional: read back and print
-        String[][] readData = CSVLoader.read(filePath);
-        for (String[] row : readData) {
-            System.out.println(String.join(" | ", row));
-        }*/
-
-        //main function
-        String filePath = "data/sample_company_representative_list.csv";
-        String[][] data = CSVLoader.read(filePath);
-        List<CompanyRepresentative> employees = new ArrayList<>();
-
-        // Skip header (start at i = 1)
-        for (int i = 1; i < data.length; i++) {
-            String id = data[i][0];
-            String name = data[i][1];
-            Company company = data[i][2]; //fix later
-            String depart = data[i][3];
-            String position = data[i][4];
-            String email = data[i][5];
-            String status = data[i][6];  // last column
-
-            // ✅ Only add if approved
-            if (status.equalsIgnoreCase("approved")) {
-                CompanyRepresentative emp = new CompanyRepresentative(id, name, company,depart,position,email);
-                employees.add(emp);
-            }
-        }
-
-        // Print who was added
-        System.out.println("Approved employees:");
-        for (CompanyRepresentative emp : employees) {
-            emp.printInfo();
-        }
+    /**
+     * Displays an error message.
+     * 
+     * @param message The error message to display
+     */
+    public void showError(String message) {
+        System.out.println("✗ " + message);
     }
 }

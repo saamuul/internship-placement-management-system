@@ -5,7 +5,29 @@ public class Internship {
     private String companyName;
     private String title;
     private Level level;
-    private InternshipOpportunity acceptedFrom;
+
+    public Internship(String internshipID, String companyName, String title, Level level) {
+        this.internshipID = internshipID;
+        this.companyName = companyName;
+        this.title = title;
+        this.level = level;
+    }
+
+    public String getInternshipID() {
+        return internshipID;
+    }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public Level getLevel() {
+        return level;
+    }
 
     public String getDetails() {
         // Placeholder

@@ -1,82 +1,40 @@
-package view;
+package edu.ntu.ccds.sc2002.internship.view;
 
-import java.util.ArrayList;
-import java.util.Scanner;
-import edu.ntu.ccds.sc2002.internship.model.CareerStaff;
-import edu.ntu.ccds.sc2002.internship.model.CompanyRepresentative;
-import edu.ntu.ccds.sc2002.internship.model.Company;
-import edu.ntu.ccds.sc2002.internship.model.Status;
+import edu.ntu.ccds.sc2002.internship.model.User;
 
+/**
+ * View class for Career Staff interface.
+ * Responsible ONLY for displaying information to the user.
+ * Does NOT contain business logic - that belongs in CareerStaffController.
+ */
 public class CareerStaffView {
 
-    public static void main(String[] args) {
-        CareerStaff staff = new CareerStaff("1", "Alice Tan", "Officer", "alice.tan@university.edu", "Career Services");
+    public void showDashboard(User user) {
+        System.out.println("\n=== Career Staff Dashboard ===");
+        System.out.println("Welcome, " + user.getName());
+        System.out.println("1) View Pending Company Representatives");
+        System.out.println("2) Approve Company Representative");
+        System.out.println("3) View All Internship Opportunities");
+        System.out.println("4) View Applications");
+        System.out.println("5) Logout");
+        System.out.print("Choose: ");
+    }
 
-        ArrayList<CompanyRepresentative> comRepList = new ArrayList<>();
-        comRepList.add(new CompanyRepresentative("1", "John Lim", new Company("TechNova"), "Sales", "Executive", "john@technova.com"));
-        comRepList.add(new CompanyRepresentative("2", "Maya Ong", new Company("BlueStar"), "Marketing", "Manager", "maya@bluestar.com"));
+    public void displayAllOpportunities(/* List<InternshipOpportunity> opportunities */) {
+        System.out.println("\n=== All Internship Opportunities ===");
+        // TODO: Display all opportunities
+    }
 
-        comRepList.get(0).setStatus(Status.PENDING);
-        comRepList.get(1).setStatus(Status.PENDING);
+    public void displayAllApplications(/* List<InternshipApplication> applications */) {
+        System.out.println("\n=== All Applications ===");
+        // TODO: Display all applications
+    }
 
-        Scanner sc = new Scanner(System.in);
-        int choice = -1;
+    public void showSuccess(String message) {
+        System.out.println("✓ " + message);
+    }
 
-        while(choice != 0) {
-            System.out.println("\n===== CAREER STAFF MENU =====");
-            System.out.println("Logged in as: " + staff.getName());
-            System.out.println("------------------------------");
-            System.out.println("[1] View Pending Company Representatives");
-            System.out.println("[2] Approve a Company Representative");
-            System.out.println("[0] Exit");
-            System.out.print("Enter choice: ");
-
-            choice = sc.nextInt();
-            sc.nextLine();
-
-            switch(choice) {
-
-                case 1:
-                    System.out.println("\n--- Pending Company Representatives ---");
-                    for (CompanyRepresentative rep : comRepList) {
-                        if (rep.getStatus() != Status.SUCCESSFUL) {
-                            System.out.println(rep.getUserID() + " | " + rep.getName() + " | " + rep.getCompany().getName());
-                        }
-                    }
-                    break;
-
-                case 2:
-                    System.out.print("Enter UserID to approve: ");
-                    String repID = sc.nextLine();
-
-                    CompanyRepresentative target = null;
-                    for (CompanyRepresentative rep : comRepList) {
-                        if (rep.getUserID().equals(repID)) {
-                            target = rep;
-                            break;
-                        }
-                    }
-
-                    if (target == null) {
-                        System.out.println("Representative not found.");
-                    } else {
-                        boolean approved = staff.authoriseComRepAcc(target);
-                        if (approved) {
-                            System.out.println(target.getName() + " has been approved!");
-                        } else {
-                            System.out.println("Approval failed.");
-                        }
-                    }
-                    break;
-
-                case 0:
-                    System.out.println("Exiting...");
-                    break;
-
-                default:
-                    System.out.println("Invalid option.");
-            }
-        }
-        sc.close();
+    public void showError(String message) {
+        System.out.println("✗ " + message);
     }
 }

@@ -22,35 +22,12 @@ public class Filter {
         this.visibility = visibility;
     }
 
-    public Level getLevel() {
-        return Level;
-    }
-
-    public String getPreferredMajor() {
-        return preferredMajor;
-    }
-
-    public String getApplicationOpenDate() {
-        return applicationOpenDate;
-    }
-
-    public String getApplicationCloseDate() {
-        return applicationCloseDate;
-    }
-
-    public CompanyRepresentative getRepresentative() {
-        return representative;
-    }
-
-    public int getNumOfSlots() {
-        return numOfSlots;
-    }
-
-    public Status getStatus() {
-        return Status;
-    }
-
-    public boolean isVisibility() {
-        return visibility;
-    }
+    public Level getLevel() {return Level;}
+    public String getPreferredMajor() {return preferredMajor;}
+    public String getApplicationOpenDate() {return applicationOpenDate;}
+    public String getApplicationCloseDate() {return applicationCloseDate;}
+    public CompanyRepresentative getRepresentative() {return representative;}
+    public int getNumOfSlots() {return numOfSlots;}
+    public Status getStatus() {return Status;}
+    public boolean isVisibility() {return visibility;}
 }

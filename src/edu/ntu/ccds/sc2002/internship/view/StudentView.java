@@ -1,36 +1,33 @@
 package edu.ntu.ccds.sc2002.internship.view;
 
-import java.util.Scanner;
+import edu.ntu.ccds.sc2002.internship.model.User;
 
-import edu.ntu.ccds.sc2002.internship.controller.StudentController;
-import edu.ntu.ccds.sc2002.internship.model.Student;
-
+/**
+ * View class for Student interface.
+ * Responsible ONLY for displaying information to the user.
+ * Does NOT contain business logic - that belongs in StudentController.
+ */
 public class StudentView {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        System.out.println("=== Simple Student Apply Test ===");
-        System.out.print("Student ID (default s001): ");
-        String sid = sc.nextLine().trim();
-        if (sid.isEmpty())
-            sid = "s001";
 
-        System.out.print("Student Name (default Alice): ");
-        String name = sc.nextLine().trim();
-        if (name.isEmpty())
-            name = "Alice";
+    public void showDashboard(User user) {
+        System.out.println("\n=== Student Dashboard ===");
+        System.out.println("Welcome, " + user.getName());
+        System.out.println("1) View Available Internships");
+        System.out.println("2) Apply for Internship");
+        System.out.println("3) Logout");
+        System.out.print("Choose: ");
+    }
 
-        System.out.print("Internship ID to apply (default I001): ");
-        String iid = sc.nextLine().trim();
-        if (iid.isEmpty())
-            iid = "I001";
+    public void displayInternships(/* List<InternshipOpportunity> internships */) {
+        System.out.println("\n=== Available Internships ===");
+        // TODO: Display internship list
+    }
 
-        // create a Student and apply
-        Student student = new Student(sid, name, 2, "Undeclared");
-        StudentController s = new StudentController();
-        s.applyForInternship(student, iid);
+    public void showSuccess(String message) {
+        System.out.println("✓ " + message);
+    }
 
-        System.out.println("Application attempt finished.");
-        System.out.println("Check the application file: Internship_Applications_List.csv (in project folder)");
-        sc.close();
+    public void showError(String message) {
+        System.out.println("✗ " + message);
     }
 }

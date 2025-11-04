@@ -7,7 +7,7 @@ import java.nio.file.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CareerStaffCSVLoader {
+public class CareerStaffCSV {
 
     public static List<String[]> readCSV(String filePath) {
         List<String[]> rows = new ArrayList<>();

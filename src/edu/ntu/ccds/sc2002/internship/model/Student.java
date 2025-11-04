@@ -8,17 +8,15 @@ import edu.ntu.ccds.sc2002.internship.util.StudentCSV;
 public class Student extends User {
     private int yearOfStudy;
     private String major;
-    private List<InternshipApplication> appliedInternships; // Will this change..? As this will be blank every time
+    private List<InternshipApplication> appliedInternships; // Will this change..? As this will be blank every time,
                                                             // terminal resets too
-    private InternshipApplication acceptedInternship;
 
-    public Student(String userID, String name, int yearOfStudy, String major) {
-        super(userID, name);
+    public Student(String userID, String name, String Password, int yearOfStudy, String major) {
+        super(userID, name, Password, UserRole.STUDENT);
         this.yearOfStudy = yearOfStudy;
         this.major = major;
-        this.appliedInternships = new ArrayList<>(); // Prob need change later? It will be blank every time terminal
+        this.appliedInternships = new ArrayList<>(); // Prob need change later? It will be blank every time terminal,
                                                      // resets
-        this.acceptedInternship = null;
     }
 
     public int getYearOfStudy() {
@@ -30,7 +28,7 @@ public class Student extends User {
     }
 
     // public List<Internship> viewInternships(){
-    // //Fill in later
+    // Fill in later
     // }
 
     public void applyForInternship(String internshipID) {
@@ -71,7 +69,7 @@ public class Student extends User {
         List<String[]> application = StudentCSV.readCSV(applicationFile);
         int count = 0;
         for (String[] row : application) {
-            if (row[1].equalsIgnoreCase(getUserID())) {
+            if (row[1].equalsIgnoreCase(getUserId())) {
                 String status = row[3].trim();
                 if (status.equalsIgnoreCase("Pending") || status.equalsIgnoreCase("Successful")) {
                     count++;
@@ -86,7 +84,7 @@ public class Student extends User {
 
         // Check if they applied for it before and is rejected
         for (String[] row : application) {
-            if (row[1].equalsIgnoreCase(getUserID()) && row[2].equalsIgnoreCase(internshipID)) {
+            if (row[1].equalsIgnoreCase(getUserId()) && row[2].equalsIgnoreCase(internshipID)) {
                 String status = row[3].trim();
                 if (!status.equalsIgnoreCase("Unsuccessful")) {
                     System.out.println("Student have already applied for this internship (Result: " + status + ").");
@@ -109,7 +107,7 @@ public class Student extends User {
         String appID = String.valueOf(maxID + 1);
 
         // Create an application and append it
-        InternshipApplication app = new InternshipApplication(appID, getUserID(), internshipID, "Pending");
+        InternshipApplication app = new InternshipApplication(appID, getUserId(), internshipID, "Pending");
         csvhelper.appendLine(app, applicationFile);
 
         appliedInternships.add(app); // Append to the current attribute(might remove depending on above..?)
@@ -118,18 +116,18 @@ public class Student extends User {
     }
 
     // public void viewInternshipApplications(){
-    // //Fill in later
+    // Fill in later
     // }
 
     // public void acceptInternship(String applicationID){
-    // //Fill in later
+    // Fill in later
     // }
 
     // public void withdrawApplication(String applicationID){
-    // //Fill in later
+    // Fill in later
     // }
 
     // public void autoRegister(File studentListFile){
-    // //Fill in later
+    // Fill in later
     // }
 }

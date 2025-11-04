@@ -26,48 +26,16 @@ public class InternshipOpportunity {
         this.level = l;
     }
 
-    public void setVisibility(boolean set) {
-        this.visibility = set;
-    }
-
-    public CompanyRepresentative getRep() {
-        return this.rep;
-    }
-
-    public Level getLevel() {
-        return this.level;
-    }
-
-    public String getTitle() {
-        return this.title;
-    }
-
-    public String getDescription() {
-        return this.description;
-    }
-
-    public String getPrefMajor() {
-        return this.prefMajor;
-    }
-
-    public String getOpenDate() {
-        return this.opendate;
-    }
-
-    public String getCloseDate() {
-        return this.closedate;
-    }
-
-    public Status getStatus() {
-        return this.status;
-    }
-
-    public int getNumOfSlots() {
-        return this.numofslots;
-    }
-
-    public boolean getVisibility() {
-        return this.visibility;
-    }
+    public void setVisibility(boolean set) { this.visibility = set; }
+    public CompanyRepresentative getRep() { return this.rep; }
+    public Level getLevel() { return this.level; }
+    public String getTitle() { return this.title; }
+    public String getDescription() { return this.description; }
+    public String getPrefMajor() { return this.prefMajor; }
+    public String getOpenDate() { return this.opendate; }
+    public String getCloseDate() { return this.closedate; }
+    public Status getStatus() { return this.status; }
+    public int getNumOfSlots() { return this.numofslots; }
+    public boolean getVisibility() { return this.visibility; }
 
 }
