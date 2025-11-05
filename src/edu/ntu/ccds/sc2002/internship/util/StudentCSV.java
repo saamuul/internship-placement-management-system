@@ -29,7 +29,7 @@ public class StudentCSV {
                 rows.add(cols);
             }
         } catch (IOException e) {
-            System.out.println("CSVLoader.readCSV error: " + e.getMessage());
+            System.out.println("CompanyRepCSV.readCSV error: " + e.getMessage());
         }
         return rows;
     }
@@ -51,7 +51,7 @@ public class StudentCSV {
             bw.newLine();
             return true;
         } catch (IOException e) {
-            System.out.println("CSVLoader.appendLine error: " + e.getMessage());
+            System.out.println("CompanyRepCSV.appendLine error: " + e.getMessage());
             return false;
         }
     }

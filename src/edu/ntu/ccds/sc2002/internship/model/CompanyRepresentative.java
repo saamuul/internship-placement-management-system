@@ -18,12 +18,29 @@ public class CompanyRepresentative extends User {
         this.status = Status.PENDING;
     }
 
-    public Company getCompany() {return company;}
-    public String getDepartment() {return department;}
-    public String getPosition() {return position;}
-    public Status getStatus() {return status;}
-    public void setStatus(Status status) { this.status = status;}
-    public ArrayList<InternshipOpportunity> getCreatedInternshipOpportunities() { return createdOpportunities; }
+    public Company getCompany() {
+        return company;
+    }
+
+    public String getDepartment() {
+        return department;
+    }
+
+    public String getPosition() {
+        return position;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    public ArrayList<InternshipOpportunity> getCreatedInternshipOpportunities() {
+        return createdOpportunities;
+    }
 
     public void printInfo() {
         System.out.println("ID: " + getUserId() + ", Name: " + getName() +
@@ -56,7 +73,7 @@ public class CompanyRepresentative extends User {
     // String.valueOf(oppo1.getNumOfSlots()), String.valueOf(oppo1.getVisibility()),
     // oppo1.getInternshipLevel().toString()}
     // };
-    // CSVLoader.write("data/IntershipOpp_List.csv", data);
+    // CompanyRepCSV.write("data/IntershipOpp_List.csv", data);
     // return oppo1;
     // }
 
