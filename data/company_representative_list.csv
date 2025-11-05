@@ -1,0 +1,11 @@
+CompanyRepID,Name,Password,CompanyName,Department,Position,Email,Status,CreatedOpportunities
+1,Emily Tan,password,TechNova Solutions,Sales,Account Manager,emily.tan@technova.com,PENDING,
+2,Daniel Lee,password,GreenWave Industries,Marketing,Marketing Executive,daniel.lee@greenwave.com,PENDING,
+3,Sarah Lim,password,BlueStar Logistics,Operations,Operations Coordinator,sarah.lim@bluestarlog.com,PENDING,
+4,Marcus Ong,password,HelioTech Labs,Engineering,Project Engineer,marcus.ong@heliotech.com,PENDING,
+5,Nicole Chua,password,SilverPeak Finance,Finance,Financial Analyst,nicole.chua@silverpeak.com,PENDING,
+6,Jonathan Wong,password,AeroLink Systems,Support,Customer Support Lead,jonathan.wong@aerolink.com,PENDING,
+7,Rachel Ng,password,UrbanBuild Construction,Procurement,Procurement Officer,rachel.ng@urbanbuild.com,PENDING,
+8,Alex Ho,password,PrimeSpark Retail,Human Resources,HR Specialist,alex.ho@primespark.com,PENDING,
+9,Brandon Yap,password,CoreWave Technologies,IT,IT Systems Administrator,brandon.yap@corewave.com,PENDING,
+10,Cheryl Goh,password,Suncrest Healthcare,Administration,Administrative Executive,cheryl.goh@suncresthc.com,PENDING,

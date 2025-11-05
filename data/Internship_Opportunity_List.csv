@@ -1,2 +1,11 @@
 ID,Title,Description,Major,Opendate,CloseDate,RepName,Slots,Visibility,Status,Level
-1,Software Developer,Develop software,CE,28/10/2025,28/10/2025,SAM,3,FALSE,OPEN,BASIC
+OPP001,Software Engineering Intern,Develop and test web applications using modern frameworks,Computer Science,2025-01-15,2025-03-31,Emily Tan,5,true,PENDING,UNDERGRADUATE
+OPP002,Data Analytics Intern,Analyze business data and create insightful reports,Data Science,2025-02-01,2025-04-15,Marcus Lee,3,true,PENDING,UNDERGRADUATE
+OPP003,AI/ML Research Intern,Research and implement machine learning algorithms,Computer Science,2025-01-20,2025-03-20,Sarah Wong,2,true,PENDING,POSTGRADUATE
+OPP004,Cybersecurity Analyst Intern,Assist in security audits and vulnerability assessments,Information Security,2025-02-10,2025-04-30,David Chen,4,true,PENDING,UNDERGRADUATE
+OPP005,Mobile App Developer Intern,Build iOS and Android applications,Computer Science,2025-01-25,2025-03-25,Rachel Lim,3,true,PENDING,UNDERGRADUATE
+OPP006,Cloud Solutions Intern,Work with AWS/Azure cloud infrastructure,Information Technology,2025-02-05,2025-04-20,James Ng,4,true,PENDING,UNDERGRADUATE
+OPP007,Full Stack Developer Intern,Develop end-to-end web solutions with React and Node.js,Computer Science,2025-01-30,2025-04-10,Priya Kumar,5,true,PENDING,UNDERGRADUATE
+OPP008,Business Intelligence Intern,Design dashboards and data visualization solutions,Data Science,2025-02-15,2025-05-01,Kevin Tan,2,true,PENDING,UNDERGRADUATE
+OPP009,DevOps Engineering Intern,Automate deployment pipelines and CI/CD processes,Computer Engineering,2025-01-18,2025-03-28,Michelle Koh,3,true,PENDING,POSTGRADUATE
+OPP010,Database Administrator Intern,Manage and optimize database systems,Information Systems,2025-02-20,2025-04-25,Andrew Ong,4,true,PENDING,UNDERGRADUATE

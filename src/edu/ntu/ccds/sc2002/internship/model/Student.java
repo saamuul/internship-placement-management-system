@@ -19,19 +19,14 @@ public class Student extends User {
                                                      // resets
     }
 
-    public int getYearOfStudy() {
-        return yearOfStudy;
-    }
-
-    public String getMajor() {
-        return major;
-    }
+    public int getYearOfStudy() { return yearOfStudy;}
+    public String getMajor() {return major;}
 
     // public List<Internship> viewInternships(){
     // Fill in later
     // }
 
-    public void applyForInternship(String internshipID) {
+    public void applyForInternship(int internshipID) {
         // Helper to navigate CSV
         StudentCSV csvhelper = new StudentCSV();
 

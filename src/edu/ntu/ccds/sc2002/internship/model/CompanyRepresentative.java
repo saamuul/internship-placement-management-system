@@ -18,29 +18,12 @@ public class CompanyRepresentative extends User {
         this.status = Status.PENDING;
     }
 
-    public Company getCompany() {
-        return company;
-    }
-
-    public String getDepartment() {
-        return department;
-    }
-
-    public String getPosition() {
-        return position;
-    }
-
-    public Status getStatus() {
-        return status;
-    }
-
-    public void setStatus(Status status) {
-        this.status = status;
-    }
-
-    public ArrayList<InternshipOpportunity> getCreatedInternshipOpportunities() {
-        return createdOpportunities;
-    }
+    public Company getCompany() {return company;}
+    public String getDepartment() {return department;}
+    public String getPosition() {return position;}
+    public Status getStatus() {return status;}
+    public void setStatus(Status status) {this.status = status;}
+    public ArrayList<InternshipOpportunity> getCreatedInternshipOpportunities() { return createdOpportunities;}
 
     public void printInfo() {
         System.out.println("ID: " + getUserId() + ", Name: " + getName() +

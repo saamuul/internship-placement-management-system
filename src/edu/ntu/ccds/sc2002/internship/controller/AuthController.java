@@ -26,12 +26,15 @@ public class AuthController {
 
     private final String studentFilePath;
     private final String staffFilePath;
+    private final String companyRepFilePath;
 
-    public AuthController(String studentFilePath, String staffFilePath) {
+    public AuthController(String studentFilePath, String staffFilePath, String companyRepFilePath) {
         this.studentFilePath = studentFilePath;
         this.staffFilePath = staffFilePath;
+        this.companyRepFilePath = companyRepFilePath;
         loadStudentsFromFile();
         loadStaffFromFile();
+        loadCompanyRepsFromFile();
     }
 
     // -----------------------------
@@ -48,20 +51,27 @@ public class AuthController {
                 }
                 if (line.isBlank())
                     continue;
-                String[] parts = line.split(",");
-                if (parts.length < 5)
+                String[] parts = line.split(",", -1); // -1 to keep empty trailing fields
+                if (parts.length < 6)
                     continue;
-                // CSV format: StudentID,Name,Major,Year,Email
+                // CSV format:
+                // StudentID,Name,Password,Major,Year,Email,AppliedInternships,AcceptedInternship
                 String id = parts[0].trim();
                 String name = parts[1].trim();
-                String major = parts[2].trim();
-                int year = Integer.parseInt(parts[3].trim());
-                String pw = "password"; // Default password
+                String pw = parts[2].trim();
+                String major = parts[3].trim();
+                int year = Integer.parseInt(parts[4].trim());
+                // Note: parts[5] is email, parts[6] is appliedInternships, parts[7] is
+                // acceptedInternship
+                // These will be loaded separately if needed
+
                 userRepo.put(id, new Student(id, name, pw, year, major));
             }
             System.out.println("[INFO] Loaded students from file.");
         } catch (IOException e) {
             System.out.println("[WARN] Could not load students.txt: " + e.getMessage());
+        } catch (NumberFormatException e) {
+            System.out.println("[ERROR] Invalid year format in student data: " + e.getMessage());
         }
     }
 
@@ -91,6 +101,54 @@ public class AuthController {
             System.out.println("[INFO] Loaded staff from file.");
         } catch (IOException e) {
             System.out.println("[WARN] Could not load staff.txt: " + e.getMessage());
+        }
+    }
+
+    private void loadCompanyRepsFromFile() {
+        try (BufferedReader br = new BufferedReader(new FileReader(companyRepFilePath))) {
+            String line;
+            boolean isFirstLine = true;
+            while ((line = br.readLine()) != null) {
+                if (isFirstLine) {
+                    isFirstLine = false; // Skip header row
+                    continue;
+                }
+                if (line.isBlank())
+                    continue;
+                String[] parts = line.split(",", -1); // -1 to preserve trailing empty strings
+                if (parts.length < 9)
+                    continue;
+                // CSV format:
+                // CompanyRepID,Name,Password,CompanyName,Department,Position,Email,Status,CreatedOpportunities
+                String id = parts[0].trim();
+                String name = parts[1].trim();
+                String password = parts[2].trim();
+                String companyName = parts[3].trim();
+                String dept = parts[4].trim();
+                String position = parts[5].trim();
+                String email = parts[6].trim();
+                String statusStr = parts[7].trim();
+                // parts[8] contains CreatedOpportunities (semicolon-separated) - not loaded yet
+
+                Company company = new Company(companyName, Integer.parseInt(id));
+                CompanyRepresentative rep = new CompanyRepresentative(email, name, password, company, dept, position);
+
+                // Set status from CSV
+                try {
+                    Status status = Status.valueOf(statusStr);
+                    rep.setStatus(status);
+                } catch (IllegalArgumentException e) {
+                    rep.setStatus(Status.PENDING); // Default if invalid
+                }
+
+                // TODO: Parse createdOppsStr and load InternshipOpportunity objects
+                // For now, we skip loading the opportunities list
+
+                userRepo.put(email, rep);
+            }
+            System.out.println("[INFO] Loaded company representatives from file.");
+        } catch (IOException e) {
+            System.out.println("[WARN] Could not load company representatives: " + e.getMessage());
         }
     }
 
