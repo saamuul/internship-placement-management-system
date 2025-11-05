@@ -31,6 +31,9 @@ public class StudentController {
             case "2":
                 // TODO: Apply for internship
                 System.out.println("[Controller] Processing internship application...");
+                student.applyForInternship("internshipID");
+                System.out.println("[Controller] Processing internship application...");
+
                 // promptAndApplyForInternship(student);
                 break;
             case "3":
