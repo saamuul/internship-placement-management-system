@@ -73,7 +73,7 @@ public class CompanyRepresentative extends User {
     // String.valueOf(oppo1.getNumOfSlots()), String.valueOf(oppo1.getVisibility()),
     // oppo1.getInternshipLevel().toString()}
     // };
-    // CompanyRepCSV.write("data/IntershipOpp_List.csv", data);
+    // CSVLoader.write("data/IntershipOpp_List.csv", data);
     // return oppo1;
     // }
 
