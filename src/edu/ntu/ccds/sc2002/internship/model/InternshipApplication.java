@@ -4,9 +4,9 @@ public class InternshipApplication {
     private String applicationID;
     private String studentID;
     private String internshipID;
-    private String status;
+    private Status status;
 
-    public InternshipApplication(String applicationID, String studentID, String internshipID, String status) {
+    public InternshipApplication(String applicationID, String studentID, String internshipID, Status status) {
         this.applicationID = applicationID;
         this.studentID = studentID;
         this.internshipID = internshipID;
@@ -16,14 +16,16 @@ public class InternshipApplication {
     public String getApplicationID() { return applicationID;}
     public String getStudentID() { return studentID; }
     public String getInternshipID() { return internshipID; }
-    public String getStatus() { return status; }
-    public void setStatus(String status) { this.status = status; }
+    public Status getStatus() { return status; }
 
     // Return a CSV row representation compatible with StudentCSV.appendLine
     public String[] toCSVRow() {
-        return new String[] { applicationID, studentID, internshipID, status };
+        return new String[] { applicationID, studentID, internshipID, status.toString() };
     }
 
+    public void toggleStatus(Status status){
+        this.status = status;
+    }
     @Override
     public String toString() {
         return String.join(",", toCSVRow());

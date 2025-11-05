@@ -1,7 +1,7 @@
-
+package edu.ntu.ccds.sc2002.internship.model;
 
 import java.util.ArrayList;
-import util.CSVLoader;
+import edu.ntu.ccds.sc2002.internship.util.CSVLoader;
 
 public class CompanyRepresentative extends User {
     private Company company;
@@ -57,15 +57,15 @@ public class CompanyRepresentative extends User {
     return false;
     }
 
-    public InternshipOpportunity createInternshipOpportunity(String title, String
+    public InternshipOpportunity createInternshipOpportunity(String ID, String title, String
     description, Level level, String preferredMajor, String applicationOpenDate,
     String applicationClosingDate, int numOfSlots, boolean visibility) {
-    InternshipOpportunity oppo1 = new InternshipOpportunity(title, description,
+    InternshipOpportunity oppo1 = new InternshipOpportunity(ID, title, description,
     preferredMajor, applicationOpenDate, applicationClosingDate, this,
     numOfSlots, visibility, level);
     createdOpportunities.add(oppo1);
     String[][] data = {
-    {oppo1.getTitle(), oppo1.getDescription(), oppo1.getPrefMajor(),
+    {oppo1.getInternshipID(), oppo1.getTitle(), oppo1.getDescription(), oppo1.getPrefMajor(),
     oppo1.getOpenDate(), oppo1.getCloseDate(),this.getUserId(),
     String.valueOf(oppo1.getNumOfSlots()), String.valueOf(oppo1.getVisibility()),
     oppo1.getLevel().toString()}
@@ -89,12 +89,10 @@ public class CompanyRepresentative extends User {
 
     public void viewInternshipApplication() {
     //Fill in later
-        String filePath = "../data/Internship_Applications_List.csv";
+        
+    }
 
-        String[][] data = CSVLoader.read(filePath);
-
-        for (String[] row : data) {
-            System.out.println(String.join(" | ", row));
-        }
+    public void viewOpportunityList(){
+        
     }
 }
