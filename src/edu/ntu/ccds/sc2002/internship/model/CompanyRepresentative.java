@@ -1,7 +1,7 @@
-
+package edu.ntu.ccds.sc2002.internship.model;
 
 import java.util.ArrayList;
-import util.CSVLoader;
+import edu.ntu.ccds.sc2002.internship.util.CSVLoader;
 
 public class CompanyRepresentative extends User {
     private Company company;
@@ -58,7 +58,7 @@ public class CompanyRepresentative extends User {
     }
 
     public boolean reviewApplications(InternshipApplication application, Status status) {
-        application.toggleStatus(status);
+        //application.toggleStatus(status);
         System.out.println("Application Changed!");
         System.out.println("Application ID:" + application.getApplicationID() + ", StudentID: "+ application.getStudentID() + ", Status: " + application.getStatus().toString());
         return true;

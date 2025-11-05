@@ -26,7 +26,7 @@ public class Student extends User {
     // Fill in later
     // }
 
-    public void applyForInternship(int internshipID) {
+    public void applyForInternship(String internshipID) {
         // Helper to navigate CSV
         StudentCSV csvhelper = new StudentCSV();
 

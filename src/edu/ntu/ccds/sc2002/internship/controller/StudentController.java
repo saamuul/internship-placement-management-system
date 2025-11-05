@@ -12,11 +12,6 @@ import java.util.Scanner;
  */
 public class StudentController {
 
-    public void applyForInternship(Student student, String internshipID) {
-        // Business logic: delegate to model
-        student.applyForInternship(internshipID);
-    }
-
     public boolean handleMenuChoice(User user, String choice) {
         if (!(user instanceof Student)) {
             return false;
@@ -34,8 +29,9 @@ public class StudentController {
                 break;
             case "2":
                 // TODO: Apply for internship
+                System.out.print("Enter Internship ID to apply: ");
                 int internshipID = scanner.nextInt();
-                student.applyForInternship(internshipID);
+                student.applyForInternship(String.valueOf(internshipID));
 
                 // promptAndApplyForInternship(student);
                 break;
