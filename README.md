@@ -6,6 +6,18 @@ The Internship Placement Management System is developed as part of the **SC2002 
 - **Company Representatives** can post and manage internship listings
 - **Career Staff** can oversee the entire placement process
 
+## Project Architecture
+
+This project follows the **Model-View-Controller (MVC)** architectural pattern for clear separation of concerns:
+
+- **model/** - Data entities and enums (User, Internship, Application, etc.)
+- **controller/** - Business logic and coordination (StudentController, etc.)
+- **view/** - User interface and display (StudentView, MainView, etc.)
+- **util/** - Helper classes for file I/O, validation, date handling
+- **main/** - Application entry point
+- **data/** - CSV files for data storage
+- **docs/** - Project documentation, diagrams, and reports
+
 ## Getting Started
 
 ### Prerequisites
@@ -43,13 +55,13 @@ Alternatively, open the project in your preferred Java IDE and run `InternshipSy
 
 ## Authors
 
-| Name | Contact |
-|:---|:---|
-| Matthew Loho | [mtlh01p](https://github.com/mtlh01p) |
-| Goh Pei Han | [Erence](https://github.com/Erence) |
-| Lai Kah Seng | [ExFlameZ](https://github.com/ExFlameZ) |
-| Lim Xiao Xuan | [erthiee](https://github.com/erthiee) |
-| Samuel Chan | [saamuul](https://github.com/saamuul) |
+| Name          | Contact                                 |
+| :------------ | :-------------------------------------- |
+| Matthew Loho  | [mtlh01p](https://github.com/mtlh01p)   |
+| Goh Pei Han   | [Erence](https://github.com/Erence)     |
+| Lai Kah Seng  | [ExFlameZ](https://github.com/ExFlameZ) |
+| Lim Xiao Xuan | [erthiee](https://github.com/erthiee)   |
+| Samuel Chan   | [saamuul](https://github.com/saamuul)   |
 
 ## License
 
