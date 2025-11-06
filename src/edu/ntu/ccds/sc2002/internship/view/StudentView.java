@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import edu.ntu.ccds.sc2002.internship.model.Internship;
+import edu.ntu.ccds.sc2002.internship.model.InternshipApplication;
 import edu.ntu.ccds.sc2002.internship.model.User;
 
 /**
@@ -35,45 +36,12 @@ public class StudentView {
         System.out.print("Choose: ");
     }
 
-    /**
-     * Gets menu choice from user.
-     * VIEW LAYER: Handles input.
-     */
+    // Gets menu choice from user.
     public String getMenuChoice() {
         return scanner.nextLine();
     }
 
-    /**
-     * Prompts for and gets internship ID from user.
-     * VIEW LAYER: Handles input with prompt.
-     */
-    public String getInternshipIdInput() {
-        System.out.print("Enter Internship ID to apply: ");
-        return scanner.nextLine();
-    }
-
-    /**
-     * Prompts for and gets old password from user.
-     * VIEW LAYER: Handles input with prompt.
-     */
-    public String getOldPasswordInput() {
-        System.out.print("Enter old password: ");
-        return scanner.nextLine();
-    }
-
-    /**
-     * Prompts for and gets new password from user.
-     * VIEW LAYER: Handles input with prompt.
-     */
-    public String getNewPasswordInput() {
-        System.out.print("Enter new password: ");
-        return scanner.nextLine();
-    }
-
-    /**
-     * Display list of internships in a formatted table.
-     * VIEW LAYER: Only displays data passed from Controller.
-     */
+    // Display list of internships in a formatted table.
     public void displayInternships(List<Internship> internships) {
         System.out.println("\n=== Available Internships ===");
         if (internships == null || internships.isEmpty()) {
@@ -87,12 +55,36 @@ public class StudentView {
 
         for (Internship internship : internships) {
             System.out.printf("%-5s %-35s %-20s %-10s%n",
-                    internship.getInternshipID(),
+                    internship.getInternshipId(),
                     truncate(internship.getTitle(), 35),
                     truncate(internship.getCompanyName(), 20),
                     internship.getLevel());
         }
         System.out.println("─────────────────────────────────────────────────────────────────────");
+    }
+    
+    // Prompts for and gets internship ID from user to apply internship.
+    public String getInternshipIdInput() {
+        System.out.print("Enter Internship ID to apply: ");
+        return scanner.nextLine();
+    }
+
+    // View Internship Application(s)
+    public void displayInternshipApplications(List<InternshipApplication> applications) {
+        System.out.println("\n=== Your Internship Applications ===");
+
+    }
+
+    // Prompts for and gets old password from user.
+    public String getOldPasswordInput() {
+        System.out.print("Enter old password: ");
+        return scanner.nextLine();
+    }
+
+    // Prompts for and gets new password from user.
+    public String getNewPasswordInput() {
+        System.out.print("Enter new password: ");
+        return scanner.nextLine();
     }
 
     private String truncate(String str, int maxLength) {
@@ -103,30 +95,22 @@ public class StudentView {
         return str.substring(0, maxLength - 3) + "...";
     }
 
-    /**
-     * Display success message.
-     */
+    // Display success message.
     public void showSuccess(String message) {
-        System.out.println("\n✓ SUCCESS: " + message);
+        System.out.println("SUCCESS: " + message);
     }
 
-    /**
-     * Display error message.
-     */
+    // Display error message.
     public void showError(String message) {
-        System.out.println("\n✗ ERROR: " + message);
+        System.out.println("ERROR: " + message);
     }
 
-    /**
-     * Display invalid choice message.
-     */
+    // Display invalid choice message.
     public void showInvalidChoice() {
-        System.out.println("\n✗ Invalid option. Please try again.");
+        System.out.println("Invalid option. Please try again.");
     }
 
-    /**
-     * Display logout message.
-     */
+    // Display logout message.
     public void showLogout() {
         System.out.println("Logging out...");
     }

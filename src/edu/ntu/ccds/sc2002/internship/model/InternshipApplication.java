@@ -1,27 +1,41 @@
 package edu.ntu.ccds.sc2002.internship.model;
 
 public class InternshipApplication {
-    private String applicationID;
-    private String studentID;
-    private String internshipID;
+    private String applicationId;
+    private String studentId;
+    private String internshipId;
     private String status;
 
-    public InternshipApplication(String applicationID, String studentID, String internshipID, String status) {
-        this.applicationID = applicationID;
-        this.studentID = studentID;
-        this.internshipID = internshipID;
+    public InternshipApplication(String applicationId, String studentId, String internshipId, String status) {
+        this.applicationId = applicationId;
+        this.studentId = studentId;
+        this.internshipId = internshipId;
         this.status = status;
     }
 
-    public String getApplicationID() { return applicationID;}
-    public String getStudentID() { return studentID; }
-    public String getInternshipID() { return internshipID; }
-    public String getStatus() { return status; }
-    public void setStatus(String status) { this.status = status; }
+    public String getApplicationId() {
+        return applicationId;
+    }
 
-    // Return a CSV row representation compatible with StudentCSV.appendLine
+    public String getStudentId() {
+        return studentId;
+    }
+
+    public String getInternshipId() {
+        return internshipId;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    // Return a CSV row representation compatible with CSVUtil.appendRow
     public String[] toCSVRow() {
-        return new String[] { applicationID, studentID, internshipID, status };
+        return new String[] { applicationId, studentId, internshipId, status };
     }
 
     @Override

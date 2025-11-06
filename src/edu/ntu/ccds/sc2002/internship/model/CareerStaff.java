@@ -2,10 +2,10 @@ package edu.ntu.ccds.sc2002.internship.model;
 
 import java.util.ArrayList;
 
-import edu.ntu.ccds.sc2002.internship.util.CareerStaffCSV;
+import edu.ntu.ccds.sc2002.internship.util.CSVUtil;
 
 public class CareerStaff extends User {
-    private static final String STAFF_CSV_PATH = "data/sample_company_representative_list.csv";
+    private static final String STAFF_CSV_PATH = "data/company_representative_list.csv";
 
     private String department;
     private String position;
@@ -13,25 +13,53 @@ public class CareerStaff extends User {
 
     private static ArrayList<CareerStaff> registeredStaff = new ArrayList<>();
 
-    public CareerStaff(String staffID, String name, String email, String password, String position, String department) {
-        super(staffID, name, email, password, UserRole.CAREER_STAFF);
+    public CareerStaff(String staffId, String name, String email, String password, String position, String department) {
+        super(staffId, name, email, password, UserRole.CAREER_STAFF);
         this.position = position;
         this.department = department;
     }
 
-    public String getEmail() { return this.email; }
-    public String getDepartment() { return this.department; }
-    public String getPosition() { return this.position; }
-    public static ArrayList<CareerStaff> getRegisteredStaff() { return registeredStaff;}
-
-    public boolean approveOpportunity(InternshipOpportunity intopp) { return true; }
-    public boolean approveWithdrawal(InternshipApplication intappl) { return true; }
-
-    public boolean authoriseComRepAcc(CompanyRepresentative comrep) {
-        return CareerStaffCSV.updateStatus(STAFF_CSV_PATH, Integer.parseInt(comrep.getUserId()), "SUCCESSFUL");
+    public String getEmail() {
+        return this.email;
     }
 
-    public Report generateReport(Filter f, CareerStaff generatedBy) {
-        return new Report(f, generatedBy);
+    public String getDepartment() {
+        return this.department;
+    }
+
+    public String getPosition() {
+        return this.position;
+    }
+
+    public static ArrayList<CareerStaff> getRegisteredStaff() {
+        return registeredStaff;
+    }
+
+    public boolean approveOpportunity(InternshipOpportunity internshipOpportunity) {
+        return true;
+    }
+
+    public boolean approveWithdrawal(InternshipApplication internshipApplication) {
+        return true;
+    }
+
+    public boolean authoriseComRepAcc(CompanyRepresentative companyRep) {
+        // Update the status of the company rep with the given ID to "SUCCESSFUL"
+        int updatedCount = CSVUtil.updateMatchingRows(
+                STAFF_CSV_PATH,
+                row -> row.length > 0 && row[0].equals(companyRep.getUserId()), // Match by ID in first column
+                row -> {
+                    // Assuming status is in a specific column - adjust index if needed
+                    // Common format: ID, Name, Email, Password, Status
+                    if (row.length > 4) {
+                        row[4] = "SUCCESSFUL"; // Update status column
+                    }
+                    return row;
+                });
+        return updatedCount > 0;
+    }
+
+    public Report generateReport(Filter filter, CareerStaff generatedBy) {
+        return new Report(filter, generatedBy);
     }
 }

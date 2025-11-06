@@ -1,7 +1,16 @@
 package edu.ntu.ccds.sc2002.internship.main;
 
+import java.util.Scanner;
+
 import edu.ntu.ccds.sc2002.internship.controller.AuthController;
+import edu.ntu.ccds.sc2002.internship.controller.CareerStaffController;
+import edu.ntu.ccds.sc2002.internship.controller.CompanyRepController;
+import edu.ntu.ccds.sc2002.internship.controller.MainController;
+import edu.ntu.ccds.sc2002.internship.controller.StudentController;
+import edu.ntu.ccds.sc2002.internship.view.CareerStaffView;
+import edu.ntu.ccds.sc2002.internship.view.CompanyRepView;
 import edu.ntu.ccds.sc2002.internship.view.MainView;
+import edu.ntu.ccds.sc2002.internship.view.StudentView;
 
 /**
  * Main entry point for the Internship Placement Management System.
@@ -23,16 +32,38 @@ public class InternshipSystem {
         String staffFile = "data/staff_list.csv";
         String companyRepFile = "data/company_representative_list.csv";
 
-        // Initialize authentication controller
-        AuthController auth = new AuthController(studentFile, staffFile, companyRepFile);
+        // Shared scanner for all views
+        Scanner scanner = new Scanner(System.in);
 
-        // Initialize main view (presentation layer)
-        // Note: All role-specific controllers are created inside MainView with their
-        // Views
-        // This ensures proper MVC: Each Controller gets a reference to its View
-        MainView view = new MainView(auth);
+        // Initialize authentication controller (Model layer)
+        AuthController authController = new AuthController(studentFile, staffFile, companyRepFile);
 
-        // Start the application
-        view.start();
+        // Initialize all views (View layer)
+        MainView mainView = new MainView(scanner);
+        StudentView studentView = new StudentView(scanner);
+        CompanyRepView companyRepView = new CompanyRepView(scanner);
+        CareerStaffView careerStaffView = new CareerStaffView(scanner);
+
+        // Initialize role-specific controllers (Controller layer)
+        StudentController studentController = new StudentController(studentView);
+        CompanyRepController companyRepController = new CompanyRepController(companyRepView);
+        CareerStaffController careerStaffController = new CareerStaffController(authController, careerStaffView);
+
+        // Initialize main controller (Controller layer)
+        MainController mainController = new MainController(
+                authController,
+                studentController,
+                companyRepController,
+                careerStaffController,
+                mainView);
+
+        // Start the application - main loop
+        while (true) {
+            boolean exit = mainController.handleMainMenu();
+            if (exit) {
+                scanner.close();
+                break;
+            }
+        }
     }
 }

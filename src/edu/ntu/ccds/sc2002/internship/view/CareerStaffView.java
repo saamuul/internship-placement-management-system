@@ -33,18 +33,12 @@ public class CareerStaffView {
         System.out.print("Choose: ");
     }
 
-    /**
-     * Gets menu choice from user.
-     * VIEW LAYER: Handles input.
-     */
+    // Gets menu choice from user.
     public String getMenuChoice() {
         return scanner.nextLine();
     }
 
-    /**
-     * Display pending company representatives.
-     * VIEW LAYER: Displays data passed from Controller.
-     */
+    // Display pending company representatives.
     public void displayPendingCompanyReps(List<CompanyRepresentative> pendingReps) {
         if (pendingReps == null || pendingReps.isEmpty()) {
             System.out.println("\nNo pending company representatives.");
@@ -68,15 +62,15 @@ public class CareerStaffView {
     }
 
     public void showSuccess(String message) {
-        System.out.println("\n✓ SUCCESS: " + message);
+        System.out.println("SUCCESS: " + message);
     }
 
     public void showError(String message) {
-        System.out.println("\n✗ ERROR: " + message);
+        System.out.println("ERROR: " + message);
     }
 
     public void showInvalidChoice() {
-        System.out.println("\n✗ Invalid option. Please try again.");
+        System.out.println("Invalid option. Please try again.");
     }
 
     public void showLogout() {

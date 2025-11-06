@@ -3,6 +3,7 @@ package edu.ntu.ccds.sc2002.internship.controller;
 import java.util.List;
 
 import edu.ntu.ccds.sc2002.internship.model.Internship;
+import edu.ntu.ccds.sc2002.internship.model.InternshipApplication;
 import edu.ntu.ccds.sc2002.internship.model.OperationResult;
 import edu.ntu.ccds.sc2002.internship.model.Student;
 import edu.ntu.ccds.sc2002.internship.model.User;
@@ -48,8 +49,7 @@ public class StudentController {
                 break;
 
             case "3": // View Internship Application(s)
-                // TODO: Implement
-                studentView.showError("Feature not yet implemented.");
+                handleViewInternshipApplications(user);
                 break;
 
             case "4": // Accept Internship
@@ -77,20 +77,14 @@ public class StudentController {
         return false;
     }
 
-    /**
-     * Handles viewing available internships.
-     * CONTROLLER: Gets data from Model, tells View to display.
-     */
+    // Handles viewing available internships.
     private void handleViewInternships(User user) {
         Student student = (Student) user;
         List<Internship> internships = student.viewInternships();
         studentView.displayInternships(internships);
     }
 
-    /**
-     * Handles applying for an internship.
-     * CONTROLLER: Gets input from View, calls Model, displays result via View.
-     */
+    // Handles applying for an internship.
     private void handleApplyForInternship(User user) {
         Student student = (Student) user;
 
@@ -108,10 +102,13 @@ public class StudentController {
         }
     }
 
-    /**
-     * Handles password change.
-     * CONTROLLER: Gets input from View, calls Model, displays result via View.
-     */
+    private void handleViewInternshipApplications(User user) {
+        Student student = (Student) user;
+        List<InternshipApplication> applications = student.getAppliedInternships();
+        studentView.displayInternshipApplications(applications);
+    }
+
+    // Handles password change.
     private void handleChangePassword(User user) {
         // View: Get old password
         String oldPassword = studentView.getOldPasswordInput();
@@ -128,29 +125,5 @@ public class StudentController {
         } else {
             studentView.showError(result.getMessage());
         }
-    }
-
-    /**
-     * Get list of available internships.
-     * CONTROLLER: Calls Model, returns data to View.
-     */
-    public List<Internship> viewInternships(User user) {
-        if (!(user instanceof Student)) {
-            return null;
-        }
-        Student student = (Student) user;
-        return student.viewInternships();
-    }
-
-    /**
-     * Apply for an internship.
-     * CONTROLLER: Calls Model with data from View, returns result to View.
-     */
-    public OperationResult applyForInternship(User user, String internshipID) {
-        if (!(user instanceof Student)) {
-            return OperationResult.failure("Only students can apply for internships.");
-        }
-        Student student = (Student) user;
-        return student.applyForInternship(internshipID);
     }
 }

@@ -1,22 +1,22 @@
 package edu.ntu.ccds.sc2002.internship.model;
 
 public abstract class User {
-    private String userID;
+    private String userId;
     private String name;
     private String email;
     private String password = "password";
     private UserRole role;
 
-    public User(String userID, String name, String email, String password, UserRole role) {
-        this.userID = userID;
+    public User(String userId, String name, String email, String password, UserRole role) {
+        this.userId = userId;
         this.name = name;
         this.email = email;
-        this.password = "password";
+        this.password = password;
         this.role = role;
     }
 
     public String getUserId() {
-        return userID;
+        return userId;
     }
 
     public String getName() {
@@ -35,8 +35,8 @@ public abstract class User {
         return role;
     }
 
-    public boolean login(String inputID, String inputPassword) {
-        return inputID.equals(this.userID) && inputPassword.equals(this.password);
+    public boolean login(String inputId, String inputPassword) {
+        return inputId.equals(this.userId) && inputPassword.equals(this.password);
     }
 
     /**

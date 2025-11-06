@@ -3,7 +3,7 @@ package edu.ntu.ccds.sc2002.internship.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.ntu.ccds.sc2002.internship.util.StudentCSV;
+import edu.ntu.ccds.sc2002.internship.util.CSVUtil;
 
 public class Student extends User {
     private int yearOfStudy;
@@ -11,9 +11,9 @@ public class Student extends User {
     private List<InternshipApplication> appliedInternships;
     private InternshipApplication acceptedInternship;
 
-    public Student(String studentID, String name, String email, String Password, int yearOfStudy, String major,
+    public Student(String studentId, String name, String email, String password, int yearOfStudy, String major,
             List<InternshipApplication> appliedInternships, InternshipApplication acceptedInternship) {
-        super(studentID, name, email, Password, UserRole.STUDENT);
+        super(studentId, name, email, password, UserRole.STUDENT);
         this.yearOfStudy = yearOfStudy;
         this.major = major;
         this.appliedInternships = appliedInternships;
@@ -35,14 +35,14 @@ public class Student extends User {
     public InternshipApplication getAcceptedInternship() {
         return acceptedInternship;
     }
-
+    
     public List<Internship> viewInternships() {
         List<Internship> internships = new ArrayList<>();
-        List<String[]> internOppor = StudentCSV.readCSV("data/Internship_Opportunity_List.csv");
+        List<String[]> internshipOpportunities = CSVUtil.readCSV("data/Internship_Opportunity_List.csv");
 
         // Skip the header row (first row)
         boolean isFirstRow = true;
-        for (String[] row : internOppor) {
+        for (String[] row : internshipOpportunities) {
             if (isFirstRow) {
                 isFirstRow = false;
                 continue; // Skip header
@@ -51,12 +51,12 @@ public class Student extends User {
             if (row.length < 11)
                 continue; // Ensure row has enough columns
 
-            String internshipID = row[0];
+            String internshipId = row[0];
             String companyName = row[6]; // RepName
             String title = row[1];
             Level level = Level.valueOf(row[10].toUpperCase()); // Level column
 
-            Internship internship = new Internship(internshipID, companyName, title, level);
+            Internship internship = new Internship(internshipId, companyName, title, level);
             internships.add(internship);
         }
         return internships;
@@ -67,26 +67,23 @@ public class Student extends User {
      * MODEL LAYER: Contains business logic, validates rules, manipulates data.
      * DOES NOT print - returns OperationResult for View to display.
      */
-    public OperationResult applyForInternship(String internshipID) {
-        // Helper to navigate CSV
-        StudentCSV csvhelper = new StudentCSV();
-
+    public OperationResult applyForInternship(String internshipId) {
         // Short-form for each file (use repository CSV filenames from data folder)
         String opportunityFile = "data/Internship_Opportunity_List.csv";
         String applicationFile = "data/Internship_Applications_List.csv";
 
-        // Find the internship with internshipID from the csv file
-        List<String[]> internOppor = StudentCSV.readCSV(opportunityFile);
+        // Find the internship with internshipId from the csv file
+        List<String[]> internshipOpportunities = CSVUtil.readCSV(opportunityFile);
         String[] target = null;
-        for (String[] row : internOppor) {
-            if (row[0].equalsIgnoreCase(internshipID)) {
+        for (String[] row : internshipOpportunities) {
+            if (row[0].equalsIgnoreCase(internshipId)) {
                 target = row;
                 break;
             }
         }
 
         if (target == null) {
-            return OperationResult.failure("Internship ID: " + internshipID + " not found.");
+            return OperationResult.failure("Internship ID: " + internshipId + " not found.");
         }
 
         String level = target[10].trim();
@@ -98,7 +95,7 @@ public class Student extends User {
         }
 
         // Check that they do not have more than 3 active applications
-        List<String[]> application = StudentCSV.readCSV(applicationFile);
+        List<String[]> application = CSVUtil.readCSV(applicationFile);
         int count = 0;
         for (String[] row : application) {
             if (row[1].equalsIgnoreCase(getUserId())) {
@@ -115,7 +112,7 @@ public class Student extends User {
 
         // Check if they applied for it before and is rejected
         for (String[] row : application) {
-            if (row[1].equalsIgnoreCase(getUserId()) && row[2].equalsIgnoreCase(internshipID)) {
+            if (row[1].equalsIgnoreCase(getUserId()) && row[2].equalsIgnoreCase(internshipId)) {
                 String status = row[3].trim();
                 if (!status.equalsIgnoreCase("Unsuccessful")) {
                     return OperationResult
@@ -125,38 +122,34 @@ public class Student extends User {
         }
 
         // To get the AppID
-        int maxID = 0;
+        int maxId = 0;
         for (String[] row : application) {
             try {
                 int id = Integer.parseInt(row[0].trim());
-                if (id > maxID) {
+                if (id > maxId) {
                     // Find largest current ID
-                    maxID = id;
+                    maxId = id;
                 }
             } catch (NumberFormatException e) {
             }
         }
-        String appID = String.valueOf(maxID + 1);
+        String appId = String.valueOf(maxId + 1);
 
         // Create an application and append it
-        InternshipApplication app = new InternshipApplication(appID, getUserId(), internshipID, "Pending");
-        csvhelper.appendLine(app, applicationFile);
+        InternshipApplication app = new InternshipApplication(appId, getUserId(), internshipId, "Pending");
+        CSVUtil.appendRow(applicationFile, app.toCSVRow());
 
         // Append to the current attribute
         appliedInternships.add(app);
 
-        return OperationResult.success(getName() + " successfully applied for internship ID: " + internshipID);
+        return OperationResult.success(getName() + " successfully applied for internship ID: " + internshipId);
     }
 
-    // public void viewInternshipApplications(){
-    // Fill in later
+    // public void acceptInternship(String applicationId){
+    //     // Fill in later
     // }
 
-    // public void acceptInternship(String applicationID){
-    // Fill in later
-    // }
-
-    // public void withdrawApplication(String applicationID){
-    // Fill in later
+    // public void withdrawApplication(String applicationId){
+    // // Fill in later
     // }
 }

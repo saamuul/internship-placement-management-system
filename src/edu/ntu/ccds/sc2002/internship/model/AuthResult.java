@@ -1,7 +1,9 @@
-package edu.ntu.ccds.sc2002.internship.controller;
+package edu.ntu.ccds.sc2002.internship.model;
 
-import edu.ntu.ccds.sc2002.internship.model.User;
-
+/**
+ * Data Transfer Object representing the result of an authentication attempt.
+ * MODEL LAYER: Represents domain data (authentication outcome).
+ */
 public class AuthResult {
     private boolean success;
     private String message;

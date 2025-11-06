@@ -4,15 +4,16 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import edu.ntu.ccds.sc2002.internship.model.AuthResult;
 import edu.ntu.ccds.sc2002.internship.model.CareerStaff;
 import edu.ntu.ccds.sc2002.internship.model.Company;
 import edu.ntu.ccds.sc2002.internship.model.CompanyRepresentative;
 import edu.ntu.ccds.sc2002.internship.model.InternshipApplication;
+import edu.ntu.ccds.sc2002.internship.model.RegistrationResult;
 import edu.ntu.ccds.sc2002.internship.model.Status;
 import edu.ntu.ccds.sc2002.internship.model.Student;
 import edu.ntu.ccds.sc2002.internship.model.User;
@@ -98,7 +99,7 @@ public class AuthController {
                 // Parse appliedInternships - find all applications for this student
                 List<InternshipApplication> appliedInternships = new ArrayList<>();
                 for (InternshipApplication app : applicationRepo.values()) {
-                    if (app.getStudentID().equals(id)) {
+                    if (app.getStudentId().equals(id)) {
                         appliedInternships.add(app);
                     }
                 }
@@ -203,8 +204,12 @@ public class AuthController {
     // -----------------------------
     public AuthResult login(String userId, String password) {
         User user = userRepo.get(userId);
+
+        // Check if the user exists or if credentials match
         if (user == null || !user.login(userId, password))
             return new AuthResult(false, "Invalid credentials.", null);
+
+        // Check if user is a CompanyRepresentative and if they are approved
         if (user instanceof CompanyRepresentative rep && rep.getStatus() != Status.SUCCESSFUL)
             return new AuthResult(false, "Account pending approval.", null);
         return new AuthResult(true, "Login successful.", user);
@@ -229,7 +234,7 @@ public class AuthController {
     }
 
     // -----------------------------
-    // Administrative Access
+    // Career Staff Access
     // -----------------------------
     public List<CompanyRepresentative> getPendingCompanyReps() {
         List<CompanyRepresentative> reps = new ArrayList<>();
@@ -247,7 +252,4 @@ public class AuthController {
         }
     }
 
-    public Collection<User> getAllUsers() {
-        return userRepo.values();
-    }
 }
