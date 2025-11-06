@@ -28,14 +28,6 @@ public class Student extends User {
         return major;
     }
 
-    public List<InternshipApplication> getAppliedInternships() {
-        return appliedInternships;
-    }
-
-    public InternshipApplication getAcceptedInternship() {
-        return acceptedInternship;
-    }
-
     public List<Internship> viewInternships() {
         List<Internship> internships = new ArrayList<>();
         List<String[]> internshipOpportunities = CSVUtil.readCSV("data/Internship_Opportunity_List.csv");
@@ -62,11 +54,6 @@ public class Student extends User {
         return internships;
     }
 
-    /**
-     * Apply for an internship.
-     * MODEL LAYER: Contains business logic, validates rules, manipulates data.
-     * DOES NOT print - returns OperationResult for View to display.
-     */
     public OperationResult applyForInternship(String internshipId) {
         // Short-form for each file (use repository CSV filenames from data folder)
         String opportunityFile = "data/Internship_Opportunity_List.csv";
@@ -143,6 +130,14 @@ public class Student extends User {
         appliedInternships.add(app);
 
         return OperationResult.success(getName() + " successfully applied for internship ID: " + internshipId);
+    }
+
+    public List<InternshipApplication> getAppliedInternships() {
+        return appliedInternships;
+    }
+
+    public InternshipApplication getAcceptedInternship() {
+        return acceptedInternship;
     }
 
     // public void acceptInternship(String applicationId){

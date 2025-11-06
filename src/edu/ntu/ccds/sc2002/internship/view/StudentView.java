@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Scanner;
 
 import edu.ntu.ccds.sc2002.internship.model.Internship;
-import edu.ntu.ccds.sc2002.internship.model.InternshipApplication;
 import edu.ntu.ccds.sc2002.internship.model.User;
 
 /**
@@ -62,17 +61,34 @@ public class StudentView {
         }
         System.out.println("─────────────────────────────────────────────────────────────────────");
     }
-    
+
     // Prompts for and gets internship ID from user to apply internship.
     public String getInternshipIdInput() {
         System.out.print("Enter Internship ID to apply: ");
         return scanner.nextLine();
     }
 
-    // View Internship Application(s)
-    public void displayInternshipApplications(List<InternshipApplication> applications) {
+    // Display internship applications with full internship details.
+    public void displayApplications(List<String> appIds, List<String> titles,
+            List<String> companies, List<String> levels,
+            List<String> statuses) {
         System.out.println("\n=== Your Internship Applications ===");
 
+        System.out.println("─────────────────────────────────────────────────────────────────────────────────────");
+        System.out.printf("%-8s %-30s %-20s %-10s %-12s%n",
+                "App ID", "Internship Title", "Company Representative", "Level", "Status");
+        System.out.println("─────────────────────────────────────────────────────────────────────────────────────");
+
+        for (int i = 0; i < appIds.size(); i++) {
+            System.out.printf("%-8s %-30s %-20s %-10s %-12s%n",
+                    appIds.get(i),
+                    truncate(titles.get(i), 30),
+                    truncate(companies.get(i), 20),
+                    levels.get(i),
+                    statuses.get(i));
+        }
+
+        System.out.println("─────────────────────────────────────────────────────────────────────────────────────");
     }
 
     // Prompts for and gets old password from user.

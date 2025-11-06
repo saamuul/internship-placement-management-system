@@ -1,5 +1,6 @@
 package edu.ntu.ccds.sc2002.internship.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import edu.ntu.ccds.sc2002.internship.model.Internship;
@@ -102,10 +103,44 @@ public class StudentController {
         }
     }
 
+    // Handles viewing student's internship applications.
     private void handleViewInternshipApplications(User user) {
         Student student = (Student) user;
         List<InternshipApplication> applications = student.getAppliedInternships();
-        studentView.displayInternshipApplications(applications);
+
+        // Check if there are any applications
+        if (applications == null || applications.isEmpty()) {
+            studentView.showError("No internship applications found.");
+            return;
+        }
+
+        // Prepare data: Create lists for parallel display
+        List<String> appIds = new ArrayList<>();
+        List<String> titles = new ArrayList<>();
+        List<String> companies = new ArrayList<>();
+        List<String> levels = new ArrayList<>();
+        List<String> statuses = new ArrayList<>();
+
+        // For each application, get the internship and extract data
+        for (InternshipApplication application : applications) {
+            Internship internship = application.getInternship();
+
+            appIds.add(application.getApplicationID());
+            statuses.add(application.getStatus().toString());
+
+            if (internship != null) {
+                titles.add(internship.getTitle());
+                companies.add(internship.getCompanyName());
+                levels.add(internship.getLevel().toString());
+            } else {
+                titles.add("[Internship Not Found]");
+                companies.add("N/A");
+                levels.add("N/A");
+            }
+        }
+
+        // Pass prepared data to view
+        studentView.displayApplications(appIds, titles, companies, levels, statuses);
     }
 
     // Handles password change.

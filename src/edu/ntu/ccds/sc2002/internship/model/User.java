@@ -46,6 +46,7 @@ public abstract class User {
     public OperationResult changePassword(String oldPassword, String newPassword) {
         if (this.password.equals(oldPassword)) {
             this.password = newPassword;
+            // TODO : update the csv file here for the password change
             return OperationResult.success("Password changed successfully.");
         } else {
             return OperationResult.failure("Failed, wrong old password.");
