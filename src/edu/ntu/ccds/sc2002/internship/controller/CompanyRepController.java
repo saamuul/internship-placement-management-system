@@ -2,48 +2,87 @@ package edu.ntu.ccds.sc2002.internship.controller;
 
 import edu.ntu.ccds.sc2002.internship.model.CompanyRepresentative;
 import edu.ntu.ccds.sc2002.internship.model.User;
+import edu.ntu.ccds.sc2002.internship.view.CompanyRepView;
 
 /**
  * Controller for Company Representative operations.
- * Handles business logic for company rep actions like creating internship
- * opportunities,
- * managing applications, and viewing student applications.
+ * CONTROLLER LAYER: Coordinates between Model and View.
+ * - Handles routing logic
+ * - Coordinates View and Model
+ * - Does NOT print to console (View's responsibility)
+ * - Does NOT contain business logic (Model's responsibility)
  */
 public class CompanyRepController {
+    private final CompanyRepView companyRepView;
 
-    public CompanyRepController() {
-        // Initialize controller
+    public CompanyRepController(CompanyRepView companyRepView) {
+        this.companyRepView = companyRepView;
     }
 
-    public boolean handleMenuChoice(User user, String choice) {
+    /**
+     * Main controller method that handles company rep menu flow.
+     * CONTROLLER: Handles routing, calls Model, tells View what to display.
+     */
+    public boolean handleCompanyRepMenu(User user) {
         if (!(user instanceof CompanyRepresentative)) {
             return false;
         }
 
         CompanyRepresentative rep = (CompanyRepresentative) user;
 
+        // View: Display menu and get choice
+        companyRepView.showDashboard(user);
+        String choice = companyRepView.getMenuChoice();
+
+        // Controller: Route based on choice
         switch (choice) {
-            case "1":
-                // TODO: Create internship opportunity
-                System.out.println("[Controller] Creating internship opportunity...");
-                // createInternshipOpportunity(rep);
+            case "1": // Create Internship Opportunity
+                handleCreateInternshipOpportunity(rep);
                 break;
-            case "2":
-                // TODO: View applications
-                System.out.println("[Controller] Fetching applications...");
-                // viewApplications(rep);
+
+            case "2": // View Applications
+                handleViewApplications(rep);
                 break;
-            case "3":
-                // TODO: Manage opportunities
-                System.out.println("[Controller] Managing opportunities...");
-                // manageOpportunities(rep);
+
+            case "3": // Manage Opportunities
+                handleManageOpportunities(rep);
                 break;
-            case "4":
-                return true; // Logout
+
+            case "4": // Logout
+                companyRepView.showLogout();
+                return true;
+
             default:
-                System.out.println("Invalid option. Please try again.");
+                companyRepView.showInvalidChoice();
         }
 
         return false;
+    }
+
+    /**
+     * Handles creating an internship opportunity.
+     * CONTROLLER: Gets input from View, calls Model, displays result via View.
+     */
+    private void handleCreateInternshipOpportunity(CompanyRepresentative rep) {
+        // TODO: Implement internship opportunity creation
+        companyRepView.showError("Feature not yet implemented.");
+    }
+
+    /**
+     * Handles viewing applications.
+     * CONTROLLER: Gets data from Model, tells View to display.
+     */
+    private void handleViewApplications(CompanyRepresentative rep) {
+        // TODO: Implement view applications
+        companyRepView.showError("Feature not yet implemented.");
+    }
+
+    /**
+     * Handles managing opportunities.
+     * CONTROLLER: Gets input from View, calls Model, displays result via View.
+     */
+    private void handleManageOpportunities(CompanyRepresentative rep) {
+        // TODO: Implement manage opportunities
+        companyRepView.showError("Feature not yet implemented.");
     }
 }

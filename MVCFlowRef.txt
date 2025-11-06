@@ -1,0 +1,72 @@
+# Data Flow Examples
+
+### Example 1: Student Viewing Internships
+
+```
+1. StudentView.showDashboard()           [View displays menu]
+   ↓
+2. StudentView.getMenuChoice()           [View gets user input: "1"]
+   ↓
+3. MainView routes to:
+   StudentController.viewInternships(user)  [Controller receives request]
+   ↓
+4. Controller calls:
+   student.viewInternships()             [Model executes business logic]
+   ↓
+5. Model returns:
+   List<Internship>                      [Model returns data]
+   ↓
+6. Controller returns:
+   List<Internship> to MainView          [Controller passes data]
+   ↓
+7. MainView passes to:
+   StudentView.displayInternships(list)  [View displays data]
+```
+
+View → Controller → Model → Controller → View 
+
+### Example 2: Student Applying for Internship
+
+```
+1. StudentView.getInternshipIdInput()    [View gets input: "INT001"]
+   ↓
+2. MainView calls:
+   StudentController.applyForInternship(user, "INT001")
+   ↓
+3. Controller validates and calls:
+   student.applyForInternship("INT001")  [Model validates + processes]
+   ↓
+4. Model returns:
+   OperationResult(success, "Applied!")  [Model returns result]
+   ↓
+5. Controller returns:
+   OperationResult to MainView           [Controller passes result]
+   ↓
+6. MainView checks result and calls:
+   StudentView.showSuccess("Applied!")   [View displays message]
+```
+
+View → Controller → Model → Controller → View 
+
+### Example 3: Career Staff Viewing Pending Reps
+
+```
+1. CareerStaffView.showDashboard()       [View displays menu]
+   ↓
+2. CareerStaffView.getMenuChoice()       [View gets input: "1"]
+   ↓
+3. MainView calls:
+   CareerStaffController.getPendingCompanyReps()
+   ↓
+4. Controller calls:
+   authController.getPendingCompanyReps()  [Model retrieves data]
+   ↓
+5. Model returns:
+   List<CompanyRepresentative>           [Model returns data]
+   ↓
+6. Controller returns to MainView        [Controller passes data]
+   ↓
+7. MainView passes to:
+   CareerStaffView.displayPendingCompanyReps(list)  [View displays]
+```
+View → Controller → Model → Controller → View 

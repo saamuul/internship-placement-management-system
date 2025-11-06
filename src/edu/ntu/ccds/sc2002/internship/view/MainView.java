@@ -12,9 +12,10 @@ import edu.ntu.ccds.sc2002.internship.model.User;
 
 /**
  * Main View class that orchestrates the CLI interface.
- * This is the entry point for user interaction.
- * Delegates to specific view classes for displaying information
- * and to controllers for business logic.
+ * MAIN VIEW: Entry point for user interaction.
+ * - Handles login/registration
+ * - Routes to appropriate role-specific Views
+ * - Does NOT handle role-specific display logic (delegated to role Views)
  */
 public class MainView {
     private final AuthController authController;
@@ -29,17 +30,18 @@ public class MainView {
 
     private final Scanner sc = new Scanner(System.in);
 
-    public MainView(AuthController auth, StudentController stu, CompanyRepController comp,
-            CareerStaffController staff) {
+    public MainView(AuthController auth) {
         this.authController = auth;
-        this.studentController = stu;
-        this.companyController = comp;
-        this.staffController = staff;
 
-        // Initialize view instances
-        this.studentView = new StudentView();
-        this.companyRepView = new CompanyRepView();
-        this.careerStaffView = new CareerStaffView();
+        // Initialize view instances with shared scanner
+        this.studentView = new StudentView(sc);
+        this.companyRepView = new CompanyRepView(sc);
+        this.careerStaffView = new CareerStaffView(sc);
+
+        // Initialize controllers with their views (MVC pattern)
+        this.studentController = new StudentController(studentView);
+        this.companyController = new CompanyRepController(companyRepView);
+        this.staffController = new CareerStaffController(auth, careerStaffView);
     }
 
     public void start() {
@@ -84,16 +86,13 @@ public class MainView {
     }
 
     /**
-     * Displays student menu and processes choices.
-     * View displays the UI, Controller handles the business logic.
+     * Handles student menu.
+     * MAIN VIEW: Delegates to StudentController which handles all routing logic.
      */
     private void studentMenu(User u) {
         while (true) {
-            studentView.showDashboard(u); // View: Display only
-            String choice = sc.nextLine();
-
-            // Controller: Handle business logic
-            boolean logout = studentController.handleMenuChoice(u, choice);
+            // Controller handles all routing, View interaction, and Model calls
+            boolean logout = studentController.handleStudentMenu(u);
             if (logout) {
                 return;
             }
@@ -101,16 +100,13 @@ public class MainView {
     }
 
     /**
-     * Displays company representative menu and processes choices.
-     * View displays the UI, Controller handles the business logic.
+     * Handles company representative menu.
+     * MAIN VIEW: Delegates to CompanyRepController which handles all routing logic.
      */
     private void companyMenu(User u) {
         while (true) {
-            companyRepView.showDashboard(u); // View: Display only
-            String choice = sc.nextLine();
-
-            // Controller: Handle business logic
-            boolean logout = companyController.handleMenuChoice(u, choice);
+            // Controller handles all routing, View interaction, and Model calls
+            boolean logout = companyController.handleCompanyRepMenu(u);
             if (logout) {
                 return;
             }
@@ -118,16 +114,14 @@ public class MainView {
     }
 
     /**
-     * Displays career staff menu and processes choices.
-     * View displays the UI, Controller handles the business logic.
+     * Handles career staff menu.
+     * MAIN VIEW: Delegates to CareerStaffController which handles all routing
+     * logic.
      */
     private void staffMenu(User u) {
         while (true) {
-            careerStaffView.showDashboard(u); // View: Display only
-            String choice = sc.nextLine();
-
-            // Controller: Handle business logic
-            boolean logout = staffController.handleMenuChoice(u, choice);
+            // Controller handles all routing, View interaction, and Model calls
+            boolean logout = staffController.handleCareerStaffMenu(u);
             if (logout) {
                 return;
             }
@@ -149,7 +143,7 @@ public class MainView {
         System.out.print("Position: ");
         String pos = sc.nextLine();
 
-        RegistrationResult res = authController.registerCompanyRep(name, email, company, dept, pos);
+        RegistrationResult res = authController.registerCompanyRep(email, name, email, company, dept, pos);
         System.out.println(switch (res) {
             case SUCCESS -> "Registration successful. Awaiting approval.";
             case ALREADY_EXISTS -> "Account already exists.";

@@ -12,6 +12,7 @@ import java.util.Map;
 import edu.ntu.ccds.sc2002.internship.model.CareerStaff;
 import edu.ntu.ccds.sc2002.internship.model.Company;
 import edu.ntu.ccds.sc2002.internship.model.CompanyRepresentative;
+import edu.ntu.ccds.sc2002.internship.model.InternshipApplication;
 import edu.ntu.ccds.sc2002.internship.model.Status;
 import edu.ntu.ccds.sc2002.internship.model.Student;
 import edu.ntu.ccds.sc2002.internship.model.User;
@@ -23,6 +24,7 @@ import edu.ntu.ccds.sc2002.internship.model.User;
  */
 public class AuthController {
     private final Map<String, User> userRepo = new HashMap<>();
+    private final Map<String, InternshipApplication> applicationRepo = new HashMap<>();
 
     private final String studentFilePath;
     private final String staffFilePath;
@@ -32,6 +34,7 @@ public class AuthController {
         this.studentFilePath = studentFilePath;
         this.staffFilePath = staffFilePath;
         this.companyRepFilePath = companyRepFilePath;
+        loadApplicationsFromFile(); // Load applications first
         loadStudentsFromFile();
         loadStaffFromFile();
         loadCompanyRepsFromFile();
@@ -40,6 +43,35 @@ public class AuthController {
     // -----------------------------
     // File Initialization
     // -----------------------------
+    private void loadApplicationsFromFile() {
+        try (BufferedReader br = new BufferedReader(new FileReader("data/Internship_Applications_List.csv"))) {
+            String line;
+            boolean isFirstLine = true;
+            while ((line = br.readLine()) != null) {
+                if (isFirstLine) {
+                    isFirstLine = false; // Skip header row
+                    continue;
+                }
+                if (line.isBlank())
+                    continue;
+                String[] parts = line.split(",", -1);
+                if (parts.length < 4)
+                    continue;
+                // CSV format: AppID,StudentID,InternOppID,Status
+                String appId = parts[0].trim();
+                String studentId = parts[1].trim();
+                String internshipId = parts[2].trim();
+                String status = parts[3].trim();
+
+                InternshipApplication app = new InternshipApplication(appId, studentId, internshipId, status);
+                applicationRepo.put(appId, app);
+            }
+            System.out.println("[INFO] Loaded " + applicationRepo.size() + " internship applications from file.");
+        } catch (IOException e) {
+            System.out.println("[WARN] Could not load applications: " + e.getMessage());
+        }
+    }
+
     private void loadStudentsFromFile() {
         try (BufferedReader br = new BufferedReader(new FileReader(studentFilePath))) {
             String line;
@@ -61,11 +93,24 @@ public class AuthController {
                 String pw = parts[2].trim();
                 String major = parts[3].trim();
                 int year = Integer.parseInt(parts[4].trim());
-                // Note: parts[5] is email, parts[6] is appliedInternships, parts[7] is
-                // acceptedInternship
-                // These will be loaded separately if needed
+                String email = parts[5].trim();
 
-                userRepo.put(id, new Student(id, name, pw, year, major));
+                // Parse appliedInternships - find all applications for this student
+                List<InternshipApplication> appliedInternships = new ArrayList<>();
+                for (InternshipApplication app : applicationRepo.values()) {
+                    if (app.getStudentID().equals(id)) {
+                        appliedInternships.add(app);
+                    }
+                }
+
+                // Parse acceptedInternship - find the accepted application (if any)
+                InternshipApplication acceptedInternship = null;
+                if (parts.length > 7 && !parts[7].trim().isEmpty()) {
+                    String acceptedAppId = parts[7].trim();
+                    acceptedInternship = applicationRepo.get(acceptedAppId);
+                }
+
+                userRepo.put(id, new Student(id, name, email, pw, year, major, appliedInternships, acceptedInternship));
             }
             System.out.println("[INFO] Loaded students from file.");
         } catch (IOException e) {
@@ -131,7 +176,8 @@ public class AuthController {
                 // parts[8] contains CreatedOpportunities (semicolon-separated) - not loaded yet
 
                 Company company = new Company(companyName, Integer.parseInt(id));
-                CompanyRepresentative rep = new CompanyRepresentative(email, name, password, company, dept, position);
+                CompanyRepresentative rep = new CompanyRepresentative(id, name, email, password, company, dept,
+                        position);
 
                 // Set status from CSV
                 try {
@@ -173,12 +219,12 @@ public class AuthController {
         return false;
     }
 
-    public RegistrationResult registerCompanyRep(String name, String email, String companyName, String dept,
-            String pos) {
+    public RegistrationResult registerCompanyRep(String id, String name, String email, String companyName,
+            String dept, String pos) {
         if (userRepo.containsKey(email))
             return RegistrationResult.ALREADY_EXISTS;
         Company company = new Company(companyName, userRepo.size() + 1);
-        userRepo.put(email, new CompanyRepresentative(email, name, "password", company, dept, pos));
+        userRepo.put(email, new CompanyRepresentative(id, email, name, "password", company, dept, pos));
         return RegistrationResult.SUCCESS;
     }
 
