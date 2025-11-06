@@ -19,29 +19,12 @@ public class CompanyRepresentative extends User {
         this.status = Status.PENDING;
     }
 
-    public Company getCompany() {
-        return company;
-    }
-
-    public String getDepartment() {
-        return department;
-    }
-
-    public String getPosition() {
-        return position;
-    }
-
-    public Status getStatus() {
-        return status;
-    }
-
-    public void setStatus(Status status) {
-        this.status = status;
-    }
-
-    public ArrayList<InternshipOpportunity> getCreatedInternshipOpportunities() {
-        return createdOpportunities;
-    }
+    public Company getCompany() {return company;}
+    public String getDepartment() {return department;}
+    public String getPosition() {return position;}
+    public Status getStatus() {return status;}
+    public void setStatus(Status status) {this.status = status;}
+    public ArrayList<InternshipOpportunity> getCreatedInternshipOpportunities() { return createdOpportunities;}
 
     public void printInfo() {
         System.out.println("ID: " + getUserId() + ", Name: " + getName() +
@@ -75,7 +58,7 @@ public class CompanyRepresentative extends User {
     }
 
     public boolean reviewApplications(InternshipApplication application, Status status) {
-        application.toggleStatus(status);
+        //application.toggleStatus(status);
         System.out.println("Application Changed!");
         System.out.println("Application ID:" + application.getApplicationID() + ", StudentID: "+ application.getStudentID() + ", Status: " + application.getStatus().toString());
         return true;

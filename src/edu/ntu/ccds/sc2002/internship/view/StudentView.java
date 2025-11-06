@@ -14,7 +14,11 @@ public class StudentView {
         System.out.println("Welcome, " + user.getName());
         System.out.println("1) View Available Internships");
         System.out.println("2) Apply for Internship");
-        System.out.println("3) Logout");
+        System.out.println("3) View Internship Application(s)");
+        System.out.println("4) Accept Internship");
+        System.out.println("5) Withdraw Internship Application(s)");
+        System.out.println("6) Change Password");
+        System.out.println("7) Logout");
         System.out.print("Choose: ");
     }
 

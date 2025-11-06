@@ -19,13 +19,8 @@ public class Student extends User {
                                                      // resets
     }
 
-    public int getYearOfStudy() {
-        return yearOfStudy;
-    }
-
-    public String getMajor() {
-        return major;
-    }
+    public int getYearOfStudy() { return yearOfStudy;}
+    public String getMajor() {return major;}
 
     // public List<Internship> viewInternships(){
     // Fill in later

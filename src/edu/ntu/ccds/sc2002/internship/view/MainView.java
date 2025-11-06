@@ -134,6 +134,8 @@ public class MainView {
         }
     }
 
+    /* For Company Representatives */
+
     private void registerRep() {
         System.out.println("\n-- Company Rep Registration --");
         System.out.print("Name: ");

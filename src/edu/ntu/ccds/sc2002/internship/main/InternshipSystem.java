@@ -20,12 +20,12 @@ import edu.ntu.ccds.sc2002.internship.view.MainView;
  */
 public class InternshipSystem {
     public static void main(String[] args) {
-        // Data file paths
-        String studentFile = "data/sample_student_list.csv";
-        String staffFile = "data/sample_staff_list.csv";
+        String studentFile = "data/student_list.csv";
+        String staffFile = "data/staff_list.csv";
+        String companyRepFile = "data/company_representative_list.csv";
 
         // Initialize controllers (business logic layer)
-        AuthController auth = new AuthController(studentFile, staffFile);
+        AuthController auth = new AuthController(studentFile, staffFile, companyRepFile);
         StudentController stu = new StudentController();
         CompanyRepController comp = new CompanyRepController();
         CareerStaffController staff = new CareerStaffController(auth);
