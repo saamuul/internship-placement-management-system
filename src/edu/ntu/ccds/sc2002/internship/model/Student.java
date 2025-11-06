@@ -35,7 +35,7 @@ public class Student extends User {
     public InternshipApplication getAcceptedInternship() {
         return acceptedInternship;
     }
-    
+
     public List<Internship> viewInternships() {
         List<Internship> internships = new ArrayList<>();
         List<String[]> internshipOpportunities = CSVUtil.readCSV("data/Internship_Opportunity_List.csv");
@@ -136,7 +136,7 @@ public class Student extends User {
         String appId = String.valueOf(maxId + 1);
 
         // Create an application and append it
-        InternshipApplication app = new InternshipApplication(appId, getUserId(), internshipId, "Pending");
+        InternshipApplication app = new InternshipApplication(appId, getUserId(), internshipId, Status.PENDING);
         CSVUtil.appendRow(applicationFile, app.toCSVRow());
 
         // Append to the current attribute
@@ -146,7 +146,7 @@ public class Student extends User {
     }
 
     // public void acceptInternship(String applicationId){
-    //     // Fill in later
+    // // Fill in later
     // }
 
     // public void withdrawApplication(String applicationId){

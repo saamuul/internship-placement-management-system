@@ -46,10 +46,6 @@ public class CompanyRepresentative extends User {
         return createdOpportunities;
     }
 
-    /**
-     * Gets representative information as a formatted string.
-     * MODEL LAYER: Returns data instead of printing.
-     */
     public String getInfo() {
         return "ID: " + getUserId() + ", Name: " + getName() +
                 ", Company: " + company.getName() + ", Department: " + department +
@@ -64,23 +60,6 @@ public class CompanyRepresentative extends User {
         return false;
     }
 
-<<<<<<< HEAD
-    public InternshipOpportunity createInternshipOpportunity(String ID, String title, String
-    description, Level level, String preferredMajor, String applicationOpenDate,
-    String applicationClosingDate, int numOfSlots, boolean visibility) {
-    InternshipOpportunity oppo1 = new InternshipOpportunity(ID, title, description,
-    preferredMajor, applicationOpenDate, applicationClosingDate, this,
-    numOfSlots, visibility, level);
-    createdOpportunities.add(oppo1);
-    String[][] data = {
-    {oppo1.getInternshipID(), oppo1.getTitle(), oppo1.getDescription(), oppo1.getPrefMajor(),
-    oppo1.getOpenDate(), oppo1.getCloseDate(),this.getUserId(),
-    String.valueOf(oppo1.getNumOfSlots()), String.valueOf(oppo1.getVisibility()),
-    oppo1.getLevel().toString()}
-    };
-    CSVLoader.write("data/IntershipOpp_List.csv", data);
-    return oppo1;
-=======
     public InternshipOpportunity createInternshipOpportunity(String title, String description, Level level,
             String preferredMajor, String applicationOpenDate,
             String applicationClosingDate, int numOfSlots, boolean visibility) {
@@ -104,17 +83,12 @@ public class CompanyRepresentative extends User {
 
         CSVUtil.appendRow("data/IntershipOpp_List.csv", row);
         return oppo1;
->>>>>>> 780658416d53fb694c0bc06dfdd5ed3d589ff1af
     }
 
-    /**
-     * Reviews an internship application.
-     * MODEL LAYER: Returns OperationResult instead of printing.
-     */
     public OperationResult reviewApplications(InternshipApplication application, Status status) {
         // application.toggleStatus(status);
-        String message = "Application Changed! Application ID: " + application.getApplicationId() +
-                ", StudentID: " + application.getStudentId() +
+        String message = "Application Changed! Application ID: " + application.getApplicationID() +
+                ", StudentID: " + application.getStudentID() +
                 ", Status: " + application.getStatus().toString();
         return OperationResult.success(message);
     }
@@ -125,28 +99,8 @@ public class CompanyRepresentative extends User {
         return true;
     }
 
-<<<<<<< HEAD
-    public void viewInternshipApplication() {
-    //Fill in later
-        
-    }
-
-    public void viewOpportunityList(){
-        
-=======
-    /**
-     * Gets all internship applications data.
-     * MODEL LAYER: Returns data instead of printing.
-     */
-    public String[][] viewInternshipApplication() {
-<<<<<<< HEAD
+    public List<String[]> viewInternshipApplication() {
         String filePath = "data/Internship_Applications_List.csv";
-        List<String[]> rows = CSVUtil.readCSV(filePath);
-        return rows.toArray(new String[0][]);
-=======
-        String filePath = "../data/Internship_Applications_List.csv";
-        return CSVLoader.read(filePath);
->>>>>>> 780658416d53fb694c0bc06dfdd5ed3d589ff1af
->>>>>>> dee699dada54112ee383fb3ea32be961ca1746a4
+        return CSVUtil.readCSV(filePath);
     }
 }

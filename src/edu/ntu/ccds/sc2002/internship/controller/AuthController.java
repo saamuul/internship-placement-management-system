@@ -62,8 +62,9 @@ public class AuthController {
                 String appId = parts[0].trim();
                 String studentId = parts[1].trim();
                 String internshipId = parts[2].trim();
-                String status = parts[3].trim();
+                String statusStr = parts[3].trim();
 
+                Status status = Status.valueOf(statusStr.toUpperCase());
                 InternshipApplication app = new InternshipApplication(appId, studentId, internshipId, status);
                 applicationRepo.put(appId, app);
             }
@@ -99,7 +100,7 @@ public class AuthController {
                 // Parse appliedInternships - find all applications for this student
                 List<InternshipApplication> appliedInternships = new ArrayList<>();
                 for (InternshipApplication app : applicationRepo.values()) {
-                    if (app.getStudentId().equals(id)) {
+                    if (app.getStudentID().equals(id)) {
                         appliedInternships.add(app);
                     }
                 }
