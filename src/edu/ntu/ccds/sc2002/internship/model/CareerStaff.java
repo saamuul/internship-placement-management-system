@@ -1,8 +1,6 @@
 package edu.ntu.ccds.sc2002.internship.model;
 
-import java.io.File;
 import java.util.ArrayList;
-import java.util.List;
 
 import edu.ntu.ccds.sc2002.internship.util.CareerStaffCSV;
 
@@ -15,11 +13,10 @@ public class CareerStaff extends User {
 
     private static ArrayList<CareerStaff> registeredStaff = new ArrayList<>();
 
-    public CareerStaff(String userID, String name, String password, String position, String department, String email ) {
-        super(userID, name, password, UserRole.CAREER_STAFF);
+    public CareerStaff(String staffID, String name, String email, String password, String position, String department) {
+        super(staffID, name, email, password, UserRole.CAREER_STAFF);
         this.position = position;
         this.department = department;
-        this.email = email;
     }
 
     public String getEmail() { return this.email; }
@@ -32,23 +29,6 @@ public class CareerStaff extends User {
 
     public boolean authoriseComRepAcc(CompanyRepresentative comrep) {
         return CareerStaffCSV.updateStatus(STAFF_CSV_PATH, Integer.parseInt(comrep.getUserId()), "SUCCESSFUL");
-    }
-
-    public void autoRegister(File staffListFile) {
-        List<String[]> rows = CareerStaffCSV.readCSV(staffListFile.getPath());
-        registeredStaff.clear(); // optional: clear previous registrations
-        for (String[] parts : rows) {
-            if (parts.length >= 7) { // CSV has headers + status
-                String userID = parts[0].trim();
-                String name = parts[1].trim();
-                String department = parts[2].trim();
-                String position = parts[3].trim();
-                String email = parts[4].trim();
-
-                CareerStaff staff = new CareerStaff(userID, name, this.getPassword(), position, department, email);
-                registeredStaff.add(staff);
-            }
-        }
     }
 
     public Report generateReport(Filter f, CareerStaff generatedBy) {

@@ -1,17 +1,31 @@
 package edu.ntu.ccds.sc2002.internship.view;
 
+<<<<<<< HEAD
 import edu.ntu.ccds.sc2002.internship.model.Company;
 import edu.ntu.ccds.sc2002.internship.model.CompanyRepresentative;
 import edu.ntu.ccds.sc2002.internship.model.InternshipOpportunity;
+=======
+import java.util.Scanner;
+
+>>>>>>> 780658416d53fb694c0bc06dfdd5ed3d589ff1af
 import edu.ntu.ccds.sc2002.internship.model.User;
 import edu.ntu.ccds.sc2002.internship.util.CSVLoader;
 
 /**
  * View class for Company Representative interface.
- * Responsible ONLY for displaying information to the user.
- * Does NOT contain business logic - that belongs in CompanyRepController.
+ * VIEW LAYER: Responsible ONLY for displaying information and getting user
+ * input.
+ * - Shows menus and data
+ * - Formats output
+ * - Gets user input
+ * DOES NOT contain business logic.
  */
 public class CompanyRepView {
+    private final Scanner scanner;
+
+    public CompanyRepView(Scanner scanner) {
+        this.scanner = scanner;
+    }
 
     public void showDashboard(User user) {
         System.out.println("\n=== Company Representative Dashboard ===");
@@ -23,7 +37,19 @@ public class CompanyRepView {
         System.out.print("Choose: ");
     }
 
+<<<<<<< HEAD
     public static void displayOpportunities(User user) {
+=======
+    /**
+     * Gets menu choice from user.
+     * VIEW LAYER: Handles input.
+     */
+    public String getMenuChoice() {
+        return scanner.nextLine();
+    }
+
+    public void displayOpportunities(/* List<InternshipOpportunity> opportunities */) {
+>>>>>>> 780658416d53fb694c0bc06dfdd5ed3d589ff1af
         System.out.println("\n=== Your Internship Opportunities ===");
         // TODO: Display opportunities list
         CompanyRepresentative cuser = (CompanyRepresentative) user;
@@ -79,11 +105,28 @@ public class CompanyRepView {
         }
     }
 
+<<<<<<< HEAD
     public static void showSuccess(String message) {
         System.out.println("✓ " + message);
     }
 
     public static void showError(String message) {
         System.out.println("✗ " + message);
+=======
+    public void showSuccess(String message) {
+        System.out.println("\n✓ SUCCESS: " + message);
+    }
+
+    public void showError(String message) {
+        System.out.println("\n✗ ERROR: " + message);
+    }
+
+    public void showInvalidChoice() {
+        System.out.println("\n✗ Invalid option. Please try again.");
+    }
+
+    public void showLogout() {
+        System.out.println("Logging out...");
+>>>>>>> 780658416d53fb694c0bc06dfdd5ed3d589ff1af
     }
 }

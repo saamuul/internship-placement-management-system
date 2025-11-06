@@ -1,13 +1,26 @@
 package edu.ntu.ccds.sc2002.internship.view;
 
+import java.util.List;
+import java.util.Scanner;
+
+import edu.ntu.ccds.sc2002.internship.model.Internship;
 import edu.ntu.ccds.sc2002.internship.model.User;
 
 /**
  * View class for Student interface.
- * Responsible ONLY for displaying information to the user.
- * Does NOT contain business logic - that belongs in StudentController.
+ * VIEW LAYER: Responsible ONLY for displaying information and getting user
+ * input.
+ * - Shows menus and data
+ * - Formats output
+ * - Gets user input
+ * DOES NOT contain business logic.
  */
 public class StudentView {
+    private final Scanner scanner;
+
+    public StudentView(Scanner scanner) {
+        this.scanner = scanner;
+    }
 
     public void showDashboard(User user) {
         System.out.println("\n=== Student Dashboard ===");
@@ -22,16 +35,99 @@ public class StudentView {
         System.out.print("Choose: ");
     }
 
-    public void displayInternships(/* List<InternshipOpportunity> internships */) {
+    /**
+     * Gets menu choice from user.
+     * VIEW LAYER: Handles input.
+     */
+    public String getMenuChoice() {
+        return scanner.nextLine();
+    }
+
+    /**
+     * Prompts for and gets internship ID from user.
+     * VIEW LAYER: Handles input with prompt.
+     */
+    public String getInternshipIdInput() {
+        System.out.print("Enter Internship ID to apply: ");
+        return scanner.nextLine();
+    }
+
+    /**
+     * Prompts for and gets old password from user.
+     * VIEW LAYER: Handles input with prompt.
+     */
+    public String getOldPasswordInput() {
+        System.out.print("Enter old password: ");
+        return scanner.nextLine();
+    }
+
+    /**
+     * Prompts for and gets new password from user.
+     * VIEW LAYER: Handles input with prompt.
+     */
+    public String getNewPasswordInput() {
+        System.out.print("Enter new password: ");
+        return scanner.nextLine();
+    }
+
+    /**
+     * Display list of internships in a formatted table.
+     * VIEW LAYER: Only displays data passed from Controller.
+     */
+    public void displayInternships(List<Internship> internships) {
         System.out.println("\n=== Available Internships ===");
-        // TODO: Display internship list
+        if (internships == null || internships.isEmpty()) {
+            System.out.println("No internships available.");
+            return;
+        }
+
+        System.out.println("─────────────────────────────────────────────────────────────────────");
+        System.out.printf("%-5s %-35s %-20s %-10s%n", "ID", "Title", "Company", "Level");
+        System.out.println("─────────────────────────────────────────────────────────────────────");
+
+        for (Internship internship : internships) {
+            System.out.printf("%-5s %-35s %-20s %-10s%n",
+                    internship.getInternshipID(),
+                    truncate(internship.getTitle(), 35),
+                    truncate(internship.getCompanyName(), 20),
+                    internship.getLevel());
+        }
+        System.out.println("─────────────────────────────────────────────────────────────────────");
     }
 
+    private String truncate(String str, int maxLength) {
+        if (str == null)
+            return "";
+        if (str.length() <= maxLength)
+            return str;
+        return str.substring(0, maxLength - 3) + "...";
+    }
+
+    /**
+     * Display success message.
+     */
     public void showSuccess(String message) {
-        System.out.println("✓ " + message);
+        System.out.println("\n✓ SUCCESS: " + message);
     }
 
+    /**
+     * Display error message.
+     */
     public void showError(String message) {
-        System.out.println("✗ " + message);
+        System.out.println("\n✗ ERROR: " + message);
+    }
+
+    /**
+     * Display invalid choice message.
+     */
+    public void showInvalidChoice() {
+        System.out.println("\n✗ Invalid option. Please try again.");
+    }
+
+    /**
+     * Display logout message.
+     */
+    public void showLogout() {
+        System.out.println("Logging out...");
     }
 }
