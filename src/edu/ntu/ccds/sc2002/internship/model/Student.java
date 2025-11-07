@@ -73,6 +73,18 @@ public class Student extends User {
             return OperationResult.failure("Internship ID: " + internshipId + " not found.");
         }
 
+        //Check for visibility of internship 
+        String visibility = target[8].trim();
+        if (!visibility.equalsIgnoreCase("true")) {
+            return OperationResult.failure("Internship ID: " + internshipId + "is not visible or open for applications");
+        }
+
+        //Check that the internship we applying for is for our major
+        String internmajor = target[3].trim();
+        if (!internmajor.equalsIgnoreCase(major)) {
+            return OperationResult.failure("Student Major("+major+") is not eligible for this internship");
+        }
+        
         String level = target[10].trim();
 
         // Ensure Year 1 and 2 can only apply to Basic Internship
