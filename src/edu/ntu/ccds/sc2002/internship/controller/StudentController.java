@@ -54,8 +54,7 @@ public class StudentController {
                 break;
 
             case "4": // Accept Internship
-                // TODO: Implement
-                studentView.showError("Feature not yet implemented.");
+                handleAcceptInternship(user);
                 break;
 
             case "5": // Withdraw Internship Application(s)
@@ -153,6 +152,24 @@ public class StudentController {
 
         // Model: Change password
         OperationResult result = user.changePassword(oldPassword, newPassword);
+
+        // View: Display result
+        if (result.isSuccess()) {
+            studentView.showSuccess(result.getMessage());
+        } else {
+            studentView.showError(result.getMessage());
+        }
+    }
+
+    // Handles accepting an internship placement.
+    private void handleAcceptInternship(User user) {
+        Student student = (Student) user;
+
+        // View: Get input
+        String applicationId = studentView.getApplicationIdInput();
+
+        // Model: Process acceptance
+        OperationResult result = student.acceptInternship(applicationId);
 
         // View: Display result
         if (result.isSuccess()) {

@@ -138,6 +138,29 @@ public class CSVUtil {
         return updateCount;
     }
 
+    /**
+     * Remove rows based on a condition
+     * Useful for deleting matching rows from the CSV file
+     */
+    public static int removeMatchingRows(String filePath, RowMatcher matcher) {
+        List<String[]> rows = readCSV(filePath);
+        
+        //Skip if file is empty
+        if (rows.isEmpty()) return 0;
+
+        int originalSize = rows.size();
+        // Only keep rows that does not match the condition
+        rows.removeIf(matcher::matches);
+
+        // Write back only if anything changed
+        if (rows.size() < originalSize) {
+            writeAllRows(filePath, rows);
+        }
+
+        return originalSize - rows.size(); // return number of rows removed
+    }
+
+
     // Functional interface for matching rows.
     public interface RowMatcher {
         boolean matches(String[] row);

@@ -84,7 +84,7 @@ public class Student extends User {
         if (!internmajor.equalsIgnoreCase(major)) {
             return OperationResult.failure("Student Major("+major+") is not eligible for this internship");
         }
-        
+
         String level = target[10].trim();
 
         // Ensure Year 1 and 2 can only apply to Basic Internship
@@ -152,11 +152,57 @@ public class Student extends User {
         return acceptedInternship;
     }
 
-    // public void acceptInternship(String applicationId){
-    // // Fill in later
-    // }
+    public OperationResult acceptInternship(String applicationId){
+        InternshipApplication targetApp = null;
 
-    // public void withdrawApplication(String applicationId){
-    // // Fill in later
-    // }
+        //Find the student application
+        for (InternshipApplication app: appliedInternships) {
+            if (app.getStudentID().equalsIgnoreCase(getUserId()) && app.getApplicationID().equalsIgnoreCase(applicationId)) {
+                targetApp = app;
+                break;
+            }
+        }
+
+        if (targetApp == null) {
+            return OperationResult.failure("Student have not applied with application ID: " + applicationId);
+        }
+
+        //Only accept application if the application was successful
+        if (targetApp.getStatus() != Status.SUCCESSFUL) {
+            return OperationResult.failure("Only applications with status 'Successful' can be accepted.");
+        }
+
+        // Check that this student has not already accepted another internship
+        if (acceptedInternship != null) {
+            return OperationResult.failure("Student have already accepted an internship placement.");
+        }
+    
+        //If all condition needed is fulfilled, record internship acceptance
+        acceptedInternship = targetApp;
+
+        //Remove all other applications by this student excluding the accepted one (Updates the file as well)
+        CSVUtil.removeMatchingRows("data/Internship_Applications_List.csv", row -> !row[0].equalsIgnoreCase("ApplicationID") && row[1].equalsIgnoreCase(getUserId()) && !row[0].equalsIgnoreCase(applicationId));
+
+
+
+        //Mark the internship opportunity that we accepted as FILLED (assumes only 1 placement)
+        List<String[]> opportunities = CSVUtil.readCSV("data/Internship_Opportunity_List.csv");
+        for (int i = 0; i < opportunities.size(); i++) {
+            String[] newRow = opportunities.get(i);
+            //Check that row is not header and that we are looking at the internship we accepted
+            if (newRow.length > 0 && newRow[0].equalsIgnoreCase(targetApp.getInternshipID())) {
+                //Set status to FILLED
+                newRow[9] = Status.FILLED.toString();
+                //Update that row in csv file to reflect changes
+                CSVUtil.updateRow("data/Internship_Opportunity_List.csv",i, newRow);
+                break;
+            }
+        }
+
+        return OperationResult.success("Internship accepted. Other applications have been withdrawn and removed.");
+    }
+
+    public void withdrawApplication(String applicationId){
+    // Fill in later
+    }
 }
