@@ -66,7 +66,7 @@ public class CompanyRepresentative extends User {
 
         InternshipOpportunity oppo1 = new InternshipOpportunity(title, description,
                 preferredMajor, applicationOpenDate, applicationClosingDate, this,
-                numOfSlots, visibility, level);
+                numOfSlots, visibility, status, level);
         createdOpportunities.add(oppo1);
 
         String[] row = {

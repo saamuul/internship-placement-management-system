@@ -14,7 +14,7 @@ public class InternshipOpportunity {
     private Level level;
 
     public InternshipOpportunity(String title, String description, String major, String startDate, String endDate,
-        CompanyRepresentative rep, int slots, boolean visible, Level level) {
+        CompanyRepresentative rep, int slots, boolean visible, Status status, Level level) {
         this.title = title;
         this.description = description;
         this.prefMajor = major;
@@ -28,6 +28,7 @@ public class InternshipOpportunity {
     }
 
     public void setVisibility(boolean set) { this.visibility = set; }
+    public void setInternshipID(String id) { this.internshipID = id; }
     public String getInternshipID() { return this.internshipID; }
     public CompanyRepresentative getRep() { return this.rep; }
     public Level getLevel() { return this.level; }

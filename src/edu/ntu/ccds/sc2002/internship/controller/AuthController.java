@@ -213,25 +213,35 @@ public class AuthController {
                 if (line.isBlank()) continue;
 
                 String[] parts = line.split(",", -1);
-                if (parts.length < 9) continue; 
+                if (parts.length < 11) continue; // Need all 11 columns
 
-                String title = parts[0].trim();
-                String description = parts[1].trim();
-                String prefMajor = parts[2].trim();
-                String openDate = parts[3].trim();
-                String closeDate = parts[4].trim();
-                String repId = parts[5].trim();
-                int numSlots = Integer.parseInt(parts[6].trim());
-                boolean visible = Boolean.parseBoolean(parts[7].trim());
-                Level level = Level.valueOf(parts[8].trim().toUpperCase());
+                String internshipId = parts[0].trim();
+                String title = parts[1].trim();
+                String description = parts[2].trim();
+                String prefMajor = parts[3].trim();
+                String openDate = parts[4].trim();
+                String closeDate = parts[5].trim();
+                String repName = parts[6].trim(); // This is the representative's NAME, not ID
+                int numSlots = Integer.parseInt(parts[7].trim());
+                boolean visible = Boolean.parseBoolean(parts[8].trim());
+                Status status = Status.valueOf(parts[9].trim().toUpperCase());
+                Level level = Level.valueOf(parts[10].trim().toUpperCase());
 
-                // Lookup the CompanyRepresentative
-                User repUser = userRepo.get(repId);
-                CompanyRepresentative rep = (repUser instanceof CompanyRepresentative) ? (CompanyRepresentative) repUser : null;
+                // Try to find the CompanyRepresentative by name
+                CompanyRepresentative rep = null;
+                for (User user : userRepo.values()) {
+                    if (user instanceof CompanyRepresentative && user.getName().equalsIgnoreCase(repName)) {
+                        rep = (CompanyRepresentative) user;
+                        break;
+                    }
+                }
 
                 InternshipOpportunity opp = new InternshipOpportunity(title, description, prefMajor,
                                                                     openDate, closeDate,
-                                                                    rep, numSlots, visible, level);
+                                                                    rep, numSlots, visible, status, level);
+                opp.setInternshipID(internshipId); // Set the ID from CSV
+                // Store with internshipId as key
+                opportunityRepo.put(internshipId, opp);
                 opportunityRepo.put(title, opp); 
             }
             System.out.println("[INFO] Loaded " + opportunityRepo.size() + " internship opportunities from file.");
