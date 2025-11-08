@@ -14,9 +14,9 @@ import edu.ntu.ccds.sc2002.internship.model.Company;
 import edu.ntu.ccds.sc2002.internship.model.CompanyRepresentative;
 import edu.ntu.ccds.sc2002.internship.model.InternshipApplication;
 import edu.ntu.ccds.sc2002.internship.model.InternshipOpportunity;
+import edu.ntu.ccds.sc2002.internship.model.Level;
 import edu.ntu.ccds.sc2002.internship.model.RegistrationResult;
 import edu.ntu.ccds.sc2002.internship.model.Status;
-import edu.ntu.ccds.sc2002.internship.model.Level;
 import edu.ntu.ccds.sc2002.internship.model.Student;
 import edu.ntu.ccds.sc2002.internship.model.User;
 
@@ -209,11 +209,16 @@ public class AuthController {
             String line;
             boolean isFirstLine = true;
             while ((line = br.readLine()) != null) {
-                if (isFirstLine) { isFirstLine = false; continue; } // skip header
-                if (line.isBlank()) continue;
+                if (isFirstLine) {
+                    isFirstLine = false;
+                    continue;
+                } // skip header
+                if (line.isBlank())
+                    continue;
 
                 String[] parts = line.split(",", -1);
-                if (parts.length < 11) continue; // Need all 11 columns
+                if (parts.length < 11)
+                    continue; // Need all 11 columns
 
                 String internshipId = parts[0].trim();
                 String title = parts[1].trim();
@@ -237,12 +242,12 @@ public class AuthController {
                 }
 
                 InternshipOpportunity opp = new InternshipOpportunity(title, description, prefMajor,
-                                                                    openDate, closeDate,
-                                                                    rep, numSlots, visible, status, level);
+                        openDate, closeDate,
+                        rep, numSlots, visible, status, level);
                 opp.setInternshipID(internshipId); // Set the ID from CSV
                 // Store with internshipId as key
                 opportunityRepo.put(internshipId, opp);
-                opportunityRepo.put(title, opp); 
+                opportunityRepo.put(title, opp);
             }
             System.out.println("[INFO] Loaded " + opportunityRepo.size() + " internship opportunities from file.");
         } catch (IOException e) {

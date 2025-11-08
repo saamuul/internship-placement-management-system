@@ -48,18 +48,18 @@ public class StudentView {
             return;
         }
 
-        System.out.println("─────────────────────────────────────────────────────────────────────");
-        System.out.printf("%-5s %-35s %-20s %-10s%n", "ID", "Title", "Company", "Level");
-        System.out.println("─────────────────────────────────────────────────────────────────────");
+        System.out.println("──────────────────────────────────────────────────────────────────────────────────────────");
+        System.out.printf("%-5s %-35s %-30s %-10s%n", "ID", "Title", "Company Representative", "Level");
+        System.out.println("──────────────────────────────────────────────────────────────────────────────────────────");
 
         for (Internship internship : internships) {
-            System.out.printf("%-5s %-35s %-20s %-10s%n",
+            System.out.printf("%-5s %-35s %-30s %-10s%n",
                     internship.getInternshipId(),
                     truncate(internship.getTitle(), 35),
-                    truncate(internship.getCompanyName(), 20),
+                    truncate(internship.getCompanyName(), 30),
                     internship.getLevel());
         }
-        System.out.println("─────────────────────────────────────────────────────────────────────");
+        System.out.println("──────────────────────────────────────────────────────────────────────────────────────────");
     }
 
     // Prompts for and gets internship ID from user to apply internship.
@@ -74,21 +74,21 @@ public class StudentView {
             List<String> statuses) {
         System.out.println("\n=== Your Internship Applications ===");
 
-        System.out.println("─────────────────────────────────────────────────────────────────────────────────────");
-        System.out.printf("%-8s %-30s %-20s %-10s %-12s%n",
+        System.out.println("────────────────────────────────────────────────────────────────────────────────────────────");
+        System.out.printf("%-8s %-30s %-25s %-10s %-12s%n",
                 "App ID", "Internship Title", "Company Representative", "Level", "Status");
-        System.out.println("─────────────────────────────────────────────────────────────────────────────────────");
+        System.out.println("────────────────────────────────────────────────────────────────────────────────────────────");
 
         for (int i = 0; i < appIds.size(); i++) {
-            System.out.printf("%-8s %-30s %-20s %-10s %-12s%n",
+            System.out.printf("%-8s %-30s %-25s %-10s %-12s%n",
                     appIds.get(i),
                     truncate(titles.get(i), 30),
-                    truncate(companies.get(i), 20),
+                    truncate(companies.get(i), 25),
                     levels.get(i),
                     statuses.get(i));
         }
 
-        System.out.println("─────────────────────────────────────────────────────────────────────────────────────");
+        System.out.println("────────────────────────────────────────────────────────────────────────────────────────────");
     }
 
     // Gets application ID from user to accept internship.
