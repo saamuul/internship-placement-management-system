@@ -141,25 +141,6 @@ public class StudentController {
         studentView.displayApplications(appIds, titles, companies, levels, statuses);
     }
 
-    // Handles password change.
-    private void handleChangePassword(User user) {
-        // View: Get old password
-        String oldPassword = studentView.getOldPasswordInput();
-
-        // View: Get new password
-        String newPassword = studentView.getNewPasswordInput();
-
-        // Model: Change password
-        OperationResult result = user.changePassword(oldPassword, newPassword);
-
-        // View: Display result
-        if (result.isSuccess()) {
-            studentView.showSuccess(result.getMessage());
-        } else {
-            studentView.showError(result.getMessage());
-        }
-    }
-
     // Handles accepting an internship placement.
     private void handleAcceptInternship(User user) {
         Student student = (Student) user;
@@ -177,17 +158,37 @@ public class StudentController {
             studentView.showError(result.getMessage());
         }
     }
-
+    
+    // Handles withdrawing an internship application.
     private void handleWithdrawApplication(User user) {
         Student student = (Student) user;
 
-        //View: Get input
+        // View: Get input
         String applicationId = studentView.getApplicationIdInputForWithdrawal();
 
-        //Model: Process withdrawal
+        // Model: Process withdrawal
         OperationResult result = student.withdrawApplication(applicationId);
 
-        //View: Display result
+        // View: Display result
+        if (result.isSuccess()) {
+            studentView.showSuccess(result.getMessage());
+        } else {
+            studentView.showError(result.getMessage());
+        }
+    }
+
+    // Handles password change.
+    private void handleChangePassword(User user) {
+        // View: Get old password
+        String oldPassword = studentView.getOldPasswordInput();
+
+        // View: Get new password
+        String newPassword = studentView.getNewPasswordInput();
+
+        // Model: Change password
+        OperationResult result = user.changePassword(oldPassword, newPassword);
+
+        // View: Display result
         if (result.isSuccess()) {
             studentView.showSuccess(result.getMessage());
         } else {
