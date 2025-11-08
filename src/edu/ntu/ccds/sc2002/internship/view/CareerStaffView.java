@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Scanner;
 
 import edu.ntu.ccds.sc2002.internship.model.CompanyRepresentative;
+import edu.ntu.ccds.sc2002.internship.model.InternshipOpportunity;
+import edu.ntu.ccds.sc2002.internship.model.InternshipApplication;
 import edu.ntu.ccds.sc2002.internship.model.User;
 
 /**
@@ -51,14 +53,30 @@ public class CareerStaffView {
         }
     }
 
-    public void displayAllOpportunities(/* List<InternshipOpportunity> opportunities */) {
+    public void displayAllOpportunities(List<InternshipOpportunity> opportunities) {
         System.out.println("\n=== All Internship Opportunities ===");
-        // TODO: Display all opportunities
+        for (InternshipOpportunity opp : opportunities) { 
+            System.out.printf("%s %s%s", "Title:", opp.getTitle(), "\n");
+            System.out.printf("%s %s%s", "Description:", opp.getDescription(), "\n");
+            System.out.printf("%s %s%s", "Preferred Major:", opp.getPrefMajor(), "\n");
+            System.out.printf("%s %s%s", "Open Date:", opp.getOpenDate(), "\n");
+            System.out.printf("%s %s%s", "Close Date:", opp.getCloseDate(), "\n");
+            System.out.printf("%s %s%s", "Representative:", opp.getRep().getName(), "\n");
+            System.out.printf("%s %d%s", "Number of Slots:", opp.getNumOfSlots(), "\n");
+            System.out.printf("%s %s%s", "Level:", opp.getLevel().toString(), "\n");
+            System.out.printf("%s %s%s", "Visibility:", opp.getVisibility(), "\n");
+            System.out.printf("%s %s%s", "Status:", opp.getStatus().toString(), "\n");
+        }
     }
 
-    public void displayAllApplications(/* List<InternshipApplication> applications */) {
-        System.out.println("\n=== All Applications ===");
-        // TODO: Display all applications
+    public void displayAllApplications(List<InternshipApplication> applications) {
+        System.out.println("\n=== All Internship Opportunities ===");
+        for (InternshipApplication app : applications) { 
+            System.out.printf("%s %s%s", "Application ID:", app.getApplicationID(), "\n");
+            System.out.printf("%s %s%s", "Student ID:", app.getStudentID(), "\n");
+            System.out.printf("%s %s%s", "Internship ID:", app.getInternshipID(), "\n");
+            System.out.printf("%s %s%s", "Status:", app.getStatus().toString(), "\n");
+        }
     }
 
     public void showSuccess(String message) {
