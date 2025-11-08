@@ -14,7 +14,7 @@ public class InternshipOpportunity {
     private Level level;
 
     public InternshipOpportunity(String title, String description, String major, String startDate, String endDate,
-            CompanyRepresentative rep, int slots, boolean visible, Level level) {
+        CompanyRepresentative rep, int slots, boolean visible, Level level) {
         this.title = title;
         this.description = description;
         this.prefMajor = major;

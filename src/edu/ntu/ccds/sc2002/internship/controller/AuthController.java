@@ -13,8 +13,10 @@ import edu.ntu.ccds.sc2002.internship.model.CareerStaff;
 import edu.ntu.ccds.sc2002.internship.model.Company;
 import edu.ntu.ccds.sc2002.internship.model.CompanyRepresentative;
 import edu.ntu.ccds.sc2002.internship.model.InternshipApplication;
+import edu.ntu.ccds.sc2002.internship.model.InternshipOpportunity;
 import edu.ntu.ccds.sc2002.internship.model.RegistrationResult;
 import edu.ntu.ccds.sc2002.internship.model.Status;
+import edu.ntu.ccds.sc2002.internship.model.Level;
 import edu.ntu.ccds.sc2002.internship.model.Student;
 import edu.ntu.ccds.sc2002.internship.model.User;
 
@@ -26,6 +28,7 @@ import edu.ntu.ccds.sc2002.internship.model.User;
 public class AuthController {
     private final Map<String, User> userRepo = new HashMap<>();
     private final Map<String, InternshipApplication> applicationRepo = new HashMap<>();
+    private final Map<String, InternshipOpportunity> opportunityRepo = new HashMap<>();
 
     private final String studentFilePath;
     private final String staffFilePath;
@@ -39,6 +42,7 @@ public class AuthController {
         loadStudentsFromFile();
         loadStaffFromFile();
         loadCompanyRepsFromFile();
+        loadOpportunitiesFromFile();
     }
 
     // -----------------------------
@@ -200,6 +204,42 @@ public class AuthController {
         }
     }
 
+    private void loadOpportunitiesFromFile() {
+        try (BufferedReader br = new BufferedReader(new FileReader("data/Internship_Opportunity_List.csv"))) {
+            String line;
+            boolean isFirstLine = true;
+            while ((line = br.readLine()) != null) {
+                if (isFirstLine) { isFirstLine = false; continue; } // skip header
+                if (line.isBlank()) continue;
+
+                String[] parts = line.split(",", -1);
+                if (parts.length < 9) continue; 
+
+                String title = parts[0].trim();
+                String description = parts[1].trim();
+                String prefMajor = parts[2].trim();
+                String openDate = parts[3].trim();
+                String closeDate = parts[4].trim();
+                String repId = parts[5].trim();
+                int numSlots = Integer.parseInt(parts[6].trim());
+                boolean visible = Boolean.parseBoolean(parts[7].trim());
+                Level level = Level.valueOf(parts[8].trim().toUpperCase());
+
+                // Lookup the CompanyRepresentative
+                User repUser = userRepo.get(repId);
+                CompanyRepresentative rep = (repUser instanceof CompanyRepresentative) ? (CompanyRepresentative) repUser : null;
+
+                InternshipOpportunity opp = new InternshipOpportunity(title, description, prefMajor,
+                                                                    openDate, closeDate,
+                                                                    rep, numSlots, visible, level);
+                opportunityRepo.put(title, opp); 
+            }
+            System.out.println("[INFO] Loaded " + opportunityRepo.size() + " internship opportunities from file.");
+        } catch (IOException e) {
+            System.out.println("[WARN] Could not load internship opportunities: " + e.getMessage());
+        }
+    }
+
     // -----------------------------
     // Authentication & Registration
     // -----------------------------
@@ -253,4 +293,11 @@ public class AuthController {
         }
     }
 
+    public List<InternshipOpportunity> getAllOpportunities() {
+        return new ArrayList<>(opportunityRepo.values());
+    }
+
+    public List<InternshipApplication> getAllApplications() {
+        return new ArrayList<>(applicationRepo.values());
+    }
 }
