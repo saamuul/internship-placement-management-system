@@ -58,8 +58,7 @@ public class StudentController {
                 break;
 
             case "5": // Withdraw Internship Application(s)
-                // TODO: Implement
-                studentView.showError("Feature not yet implemented.");
+                handleWithdrawApplication(user);
                 break;
 
             case "6": // Change Password
@@ -172,6 +171,23 @@ public class StudentController {
         OperationResult result = student.acceptInternship(applicationId);
 
         // View: Display result
+        if (result.isSuccess()) {
+            studentView.showSuccess(result.getMessage());
+        } else {
+            studentView.showError(result.getMessage());
+        }
+    }
+
+    private void handleWithdrawApplication(User user) {
+        Student student = (Student) user;
+
+        //View: Get input
+        String applicationId = studentView.getApplicationIdInputForWithdrawal();
+
+        //Model: Process withdrawal
+        OperationResult result = student.withdrawApplication(applicationId);
+
+        //View: Display result
         if (result.isSuccess()) {
             studentView.showSuccess(result.getMessage());
         } else {

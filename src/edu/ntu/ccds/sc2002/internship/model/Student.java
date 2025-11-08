@@ -183,26 +183,42 @@ public class Student extends User {
         //Remove all other applications by this student excluding the accepted one (Updates the file as well)
         CSVUtil.removeMatchingRows("data/Internship_Applications_List.csv", row -> !row[0].equalsIgnoreCase("ApplicationID") && row[1].equalsIgnoreCase(getUserId()) && !row[0].equalsIgnoreCase(applicationId));
 
+        return OperationResult.success("Internship accepted. Other applications have been withdrawn and removed.");
+    }
 
-
-        //Mark the internship opportunity that we accepted as FILLED (assumes only 1 placement)
-        List<String[]> opportunities = CSVUtil.readCSV("data/Internship_Opportunity_List.csv");
-        for (int i = 0; i < opportunities.size(); i++) {
-            String[] newRow = opportunities.get(i);
-            //Check that row is not header and that we are looking at the internship we accepted
-            if (newRow.length > 0 && newRow[0].equalsIgnoreCase(targetApp.getInternshipID())) {
-                //Set status to FILLED
-                newRow[9] = Status.FILLED.toString();
-                //Update that row in csv file to reflect changes
-                CSVUtil.updateRow("data/Internship_Opportunity_List.csv",i, newRow);
+    public OperationResult withdrawApplication(String applicationId) {
+        //Find the internship application in the appliedinternship attribute with the application ID
+        InternshipApplication targetApp = null;
+        for (InternshipApplication app : appliedInternships) {
+            //Ensures the application id and the studentID matches
+            if (app.getApplicationID().equalsIgnoreCase(applicationId) && app.getStudentID().equalsIgnoreCase(getUserId())) {
+                targetApp = app;
                 break;
             }
         }
 
-        return OperationResult.success("Internship accepted. Other applications have been withdrawn and removed.");
-    }
+        //If cannot find
+        if (targetApp == null) {
+            return OperationResult.failure("No application found with ID: " + applicationId + " for this student");
+        }
 
-    public void withdrawApplication(String applicationId){
-    // Fill in later
+        //Check that this withdrawal request is not done for an UNSUCCESSFUL status application
+        if (targetApp.getStatus() == Status.UNSUCCESSFUL) {
+            return OperationResult.failure("This application is already " + targetApp.getStatus() + ". Student cannot withdraw.");
+        }
+
+        //Check that a withdrawal request has not been sent before for this application
+        List<String[]> requestRows = CSVUtil.readCSV("data/Internship_Withdrawal_Request_List.csv");
+        for (String[] row: requestRows) {
+            if ("AppID".equalsIgnoreCase(row[0]) && row[0].equalsIgnoreCase(applicationId) && row[1].equalsIgnoreCase(getUserId())) {
+                return OperationResult.failure("A withdrawal request is already pending for this application.");
+            }
+        }
+
+        //Append a new request row onto the withdrawal request list
+        String [] newRow = {applicationId, getUserId(), targetApp.getInternshipID(), "PENDING"};
+        CSVUtil.appendRow("data/Internship_Withdrawal_Request_List.csv", newRow);
+
+        return OperationResult.success("Withdrawal request submitted for Application " + applicationId + ". Awaiting Approval.");
     }
 }

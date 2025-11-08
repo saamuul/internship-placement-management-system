@@ -93,10 +93,16 @@ public class StudentView {
 
     // Gets application ID from user to accept internship.
     public String getApplicationIdInput() {
-        System.out.print("Enter Application ID to apply: ");
+        System.out.print("Enter Application ID to accept: ");
         return scanner.nextLine();
     }
 
+    // Gets application ID from user to withdraw application.
+    public String getApplicationIdInputForWithdrawal() {
+        System.out.print("Enter Application ID for withdrawal: ");
+        return scanner.nextLine();
+    }
+    
     // Prompts for and gets old password from user.
     public String getOldPasswordInput() {
         System.out.print("Enter old password: ");
