@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import edu.ntu.ccds.sc2002.internship.util.CSVUtil;
 
 public class CareerStaff extends User {
-    private static final String STAFF_CSV_PATH = "data/company_representative_list.csv";
+    private static final String REPRESENTATIVE_CSV_PATH = "data/company_representative_list.csv";
+    private static final String WITHDRAWAL_CSV_PATH = "data/Internship_Withdrawal_Request_List.csv";
+    private static final String OPPORTUNITY_CSV_PATH = "data/Internship_Opportunity_List.csv";
 
     private String department;
     private String position;
@@ -36,23 +38,38 @@ public class CareerStaff extends User {
     }
 
     public boolean approveOpportunity(InternshipOpportunity internshipOpportunity) {
-        return true;
+        int updatedCount = CSVUtil.updateMatchingRows(
+                OPPORTUNITY_CSV_PATH,
+                row -> row.length > 0 && row[0].equals(internshipOpportunity.getInternshipID()),
+                row -> {
+                    if (row.length > 9) {
+                        row[9] = "SUCCESSFUL"; // Correct column: Status
+                    }
+                    return row;
+                });
+        return updatedCount > 0;
     }
 
     public boolean approveWithdrawal(InternshipApplication internshipApplication) {
-        return true;
+        int updatedCount = CSVUtil.updateMatchingRows(
+                WITHDRAWAL_CSV_PATH,
+                row -> row.length > 0 && row[0].equals(internshipApplication.getApplicationID()),
+                row -> {
+                    if (row.length > 3) {
+                        row[3] = "SUCCESSFUL"; // Correct column: Status
+                    }
+                    return row;
+                });
+        return updatedCount > 0;
     }
 
     public boolean authoriseComRepAcc(CompanyRepresentative companyRep) {
-        // Update the status of the company rep with the given ID to "SUCCESSFUL"
         int updatedCount = CSVUtil.updateMatchingRows(
-                STAFF_CSV_PATH,
-                row -> row.length > 0 && row[0].equals(companyRep.getUserId()), // Match by ID in first column
+                REPRESENTATIVE_CSV_PATH,
+                row -> row.length > 0 && row[0].equals(companyRep.getUserId()), // Match by ID
                 row -> {
-                    // Assuming status is in a specific column - adjust index if needed
-                    // Common format: ID, Name, Email, Password, Status
-                    if (row.length > 4) {
-                        row[4] = "SUCCESSFUL"; // Update status column
+                    if (row.length > 7) {
+                        row[7] = "SUCCESSFUL"; // Correct column: Status
                     }
                     return row;
                 });

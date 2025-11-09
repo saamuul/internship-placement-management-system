@@ -79,4 +79,5 @@ public class InternshipOpportunity {
         return this.visibility;
     }
 
+    
 }
