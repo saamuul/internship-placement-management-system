@@ -30,8 +30,11 @@ public class CareerStaffView {
         System.out.println("1) View Pending Company Representatives");
         System.out.println("2) Approve Company Representative");
         System.out.println("3) View All Internship Opportunities");
-        System.out.println("4) View Applications");
-        System.out.println("5) Logout");
+	    System.out.println("4) Approve Internship Opportunity");
+        System.out.println("5) View Applications");
+	    System.out.println("6) View Withdrawal Requests");
+	    System.out.println("7) Approve Withdrawal Request");
+        System.out.println("8) Logout");
         System.out.print("Choose: ");
     }
 
@@ -49,6 +52,21 @@ public class CareerStaffView {
             for (CompanyRepresentative rep : pendingReps) {
                 System.out.println("ID: " + rep.getUserId() + " | Name: " + rep.getName() +
                         " | Company: " + rep.getCompany().getName());
+            }
+        }
+    }
+
+    public void displayPendingInternshipOpportunities(List<InternshipOpportunity> pendingOpps) {
+        if (pendingOpps == null || pendingOpps.isEmpty()) {
+            System.out.println("\nNo pending internship opportunities.");
+        } else {
+            System.out.println("\n=== Pending Internship Opportunities ===");
+            for (InternshipOpportunity opp : pendingOpps) {
+                System.out.println("ID: " + opp.getInternshipID() + " | Title: " + opp.getTitle() +
+                        " | Description: " + opp.getDescription() + " | Major: " + opp.getPrefMajor() +
+                        " | Open Date: " + opp.getOpenDate() + "Close Date: " + opp.getCloseDate() +
+                        " | Representative: " + opp.getRep() + " | Slots: " + opp.getNumOfSlots() +
+                        " | Level: " + opp.getLevel());
             }
         }
     }

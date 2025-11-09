@@ -293,19 +293,35 @@ public class AuthController {
     // Career Staff Access
     // -----------------------------
     public List<CompanyRepresentative> getPendingCompanyReps() {
+        loadCompanyRepsFromFile();
         List<CompanyRepresentative> reps = new ArrayList<>();
         for (User u : userRepo.values()) {
             if (u instanceof CompanyRepresentative rep && rep.getStatus() != Status.SUCCESSFUL)
                 reps.add(rep);
         }
         return reps;
+    }   
+
+    public List<InternshipOpportunity> getPendingOpportunities() {
+        loadOpportunitiesFromFile();
+        List<InternshipOpportunity> opportunities = new ArrayList<>();
+        for (InternshipOpportunity opp : opportunityRepo.values()) {
+            if (opp.getStatus() != Status.SUCCESSFUL) {
+                opportunities.add(opp);
+            }
+        }
+        return opportunities;
     }
 
-    public void approveCompanyRep(String email) {
-        User u = userRepo.get(email);
-        if (u instanceof CompanyRepresentative rep) {
-            rep.setStatus(Status.SUCCESSFUL);
+    public List<InternshipApplication> getPendingWithdrawals() {
+        loadApplicationsFromFile();
+        List<InternshipApplication> withdrawals = new ArrayList<>();
+        for (InternshipApplication app : applicationRepo.values()) {
+            if (app.getStatus() != Status.SUCCESSFUL) {
+                withdrawals.add(app);
+            }
         }
+        return withdrawals;
     }
 
     public List<InternshipOpportunity> getAllOpportunities() {
