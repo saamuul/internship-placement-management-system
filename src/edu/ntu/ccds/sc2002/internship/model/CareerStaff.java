@@ -8,6 +8,7 @@ public class CareerStaff extends User {
     private static final String REPRESENTATIVE_CSV_PATH = "data/company_representative_list.csv";
     private static final String WITHDRAWAL_CSV_PATH = "data/Internship_Withdrawal_Request_List.csv";
     private static final String OPPORTUNITY_CSV_PATH = "data/Internship_Opportunity_List.csv";
+    private static final String STAFF_CSV_PATH = "data/staff_lisst.csv";
 
     private String department;
     private String position;

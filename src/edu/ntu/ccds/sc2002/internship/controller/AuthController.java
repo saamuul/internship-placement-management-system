@@ -171,7 +171,7 @@ public class AuthController {
                     continue;
                 // CSV format:
                 // CompanyRepID,Name,Password,CompanyName,Department,Position,Email,Status,CreatedOpportunities
-                String id = parts[0].trim();
+                String id = parts[0];
                 String name = parts[1].trim();
                 String password = parts[2].trim();
                 String companyName = parts[3].trim();
@@ -180,7 +180,7 @@ public class AuthController {
                 String email = parts[6].trim();
                 String statusStr = parts[7].trim();
                 // parts[8] contains CreatedOpportunities (semicolon-separated) - not loaded yet
-
+                
                 Company company = new Company(companyName, Integer.parseInt(id));
                 CompanyRepresentative rep = new CompanyRepresentative(id, name, email, password, company, dept,
                         position);
@@ -241,11 +241,11 @@ public class AuthController {
                     }
                 }
 
-                InternshipOpportunity opp = new InternshipOpportunity(title, description, prefMajor,
+                InternshipOpportunity opp = new InternshipOpportunity(internshipId, title, description, prefMajor,
                         openDate, closeDate,
-                        rep, numSlots, visible, status, level);
+                        rep, numSlots, level);
                 opp.setInternshipID(internshipId); // Set the ID from CSV
-                // Store with internshipId as key
+                //Store with internshipId as key;
                 opportunityRepo.put(internshipId, opp);
                 opportunityRepo.put(title, opp);
             }
@@ -260,11 +260,11 @@ public class AuthController {
     // -----------------------------
     public AuthResult login(String userId, String password) {
         User user = userRepo.get(userId);
-
+        
         // Check if the user exists or if credentials match
         if (user == null || !user.login(userId, password))
             return new AuthResult(false, "Invalid credentials.", null);
-
+        
         // Check if user is a CompanyRepresentative and if they are approved
         if (user instanceof CompanyRepresentative rep && rep.getStatus() != Status.SUCCESSFUL)
             return new AuthResult(false, "Account pending approval.", null);

@@ -1,5 +1,5 @@
 CompanyRepID,Name,Password,CompanyName,Department,Position,Email,Status,CreatedOpportunities
-1,Emily Tan,password,TechNova Solutions,SUCCESSFUL,Account Manager,emily.tan@technova.com,SUCCESSFUL,
+1,Emily Tan,password,TechNova Solutions,Sales,Account Manager,emilytan@technova.com,SUCCESSFUL,
 2,Daniel Lee,password,GreenWave Industries,Marketing,Marketing Executive,daniel.lee@greenwave.com,SUCCESSFUL,
 3,Sarah Lim,password,BlueStar Logistics,Operations,Operations Coordinator,sarah.lim@bluestarlog.com,PENDING,
 4,Marcus Ong,password,HelioTech Labs,Engineering,Project Engineer,marcus.ong@heliotech.com,PENDING,

@@ -161,6 +161,18 @@ public class CSVUtil {
     }
 
 
+    public static int countDataRows(String filePath) {
+    List<String[]> rows = readCSV(filePath);
+
+    // Subtract 1 to exclude the header row, if it exists
+    if (rows.size() > 0) {
+        return rows.size() - 1;
+    } else {
+        return 0;
+    }
+    }
+
+
     // Functional interface for matching rows.
     public interface RowMatcher {
         boolean matches(String[] row);

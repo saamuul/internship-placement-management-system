@@ -36,7 +36,9 @@ public abstract class User {
     }
 
     public boolean login(String inputId, String inputPassword) {
-        return inputId.equals(this.userId) && inputPassword.equals(this.password);
+        // Allow login with either userId or email
+        boolean idMatch = inputId.equals(this.userId) || inputId.equalsIgnoreCase(this.email);
+        return idMatch && inputPassword.equals(this.password);
     }
 
     /**

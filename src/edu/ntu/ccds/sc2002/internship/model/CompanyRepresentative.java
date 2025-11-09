@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.ntu.ccds.sc2002.internship.util.CSVUtil;
+import edu.ntu.ccds.sc2002.internship.model.OperationResult;
 
 public class CompanyRepresentative extends User {
     private Company company;
@@ -52,38 +53,41 @@ public class CompanyRepresentative extends User {
                 ", Position: " + position + ", Status: " + status;
     }
 
-    public boolean login(String inputId, String inputPassword) {
-        if (status == Status.SUCCESSFUL) {
-            return inputId.equals(this.getUserId()) &&
-                    inputPassword.equals(this.getPassword());
-        }
-        return false;
-    }
-
-    public InternshipOpportunity createInternshipOpportunity(String title, String description, Level level,
+    public OperationResult createInternshipOpportunity(String title, String description, Level level,
             String preferredMajor, String applicationOpenDate,
-            String applicationClosingDate, int numOfSlots, boolean visibility) {
+            String applicationClosingDate, int numOfSlots) {
 
-        InternshipOpportunity oppo1 = new InternshipOpportunity(title, description,
-                preferredMajor, applicationOpenDate, applicationClosingDate, this,
-                numOfSlots, visibility, status, level);
-        createdOpportunities.add(oppo1);
+            int count = CSVUtil.countDataRows("data/Intership_Opportunity_List.csv");
+            int newID = count + 1;
+            String sID = String.valueOf(newID);
 
-        String[] row = {
+            InternshipOpportunity oppo1 = new InternshipOpportunity(sID, title, description,
+                    preferredMajor, applicationOpenDate, applicationClosingDate, this,
+                    numOfSlots, level);
+            createdOpportunities.add(oppo1);
+
+            
+
+            
+            String[] row = {
+                sID,
                 oppo1.getTitle(),
                 oppo1.getDescription(),
                 oppo1.getPrefMajor(),
                 oppo1.getOpenDate(),
                 oppo1.getCloseDate(),
-                this.getUserId(),
+                this.getName(),
                 String.valueOf(oppo1.getNumOfSlots()),
-                String.valueOf(oppo1.getVisibility()),
                 oppo1.getLevel().toString()
-        };
+            };
 
-        CSVUtil.appendRow("data/IntershipOpp_List.csv", row);
-        return oppo1;
-    }
+            if(row == null){
+                return OperationResult.failure("Internship Opportunity creation failure");
+            }
+
+            CSVUtil.appendRow("data/Intership_Opportunity_List.csv", row);
+            return OperationResult.success("Successfully created Intership Opportunity: " + oppo1.getTitle());
+        }
 
     public OperationResult reviewApplications(InternshipApplication application, Status status) {
         // application.toggleStatus(status);
@@ -91,7 +95,7 @@ public class CompanyRepresentative extends User {
                 ", StudentID: " + application.getStudentID() +
                 ", Status: " + application.getStatus().toString();
         return OperationResult.success(message);
-    }
+        }
 
     public boolean toggleVisibility(InternshipOpportunity internOpportunity,
             boolean value) {
@@ -99,8 +103,35 @@ public class CompanyRepresentative extends User {
         return true;
     }
 
-    public List<String[]> viewInternshipApplication() {
+    public List<InternshipApplication> getFilteredInternshipApplication() {
         String filePath = "data/Internship_Applications_List.csv";
-        return CSVUtil.readCSV(filePath);
+        List<String[]> data = CSVUtil.readCSV(filePath);
+        List<InternshipApplication> result = new ArrayList<>();
+
+        String[] header = data.get(0);
+        int oppIdCol = -1;
+        for (int i = 0; i < header.length; i++) {
+            if (header[i].equalsIgnoreCase("InternOppID")) {
+                oppIdCol = i;
+                break;
+            }
+        }
+
+        for (int i = 1; i < data.size(); i++) {
+            String[] row = data.get(i);
+            String internshipID = row[oppIdCol];
+
+            // Check if this ID is in the rep's list
+            boolean matches = this.getCreatedInternshipOpportunities()
+                            .stream()
+                            .anyMatch(o -> o.getInternshipID().equals(internshipID));
+
+
+            if (matches) {
+                InternshipApplication newdata = new InternshipApplication(row[0], row[1], row[2], Status.valueOf(row[3]));
+                result.add(newdata);
+            }
+        }
+        return result;
     }
 }

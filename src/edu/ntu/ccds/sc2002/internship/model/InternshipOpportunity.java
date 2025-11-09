@@ -13,8 +13,9 @@ public class InternshipOpportunity {
     private Status status;
     private Level level;
 
-    public InternshipOpportunity(String title, String description, String major, String startDate, String endDate,
-            CompanyRepresentative rep, int slots, boolean visible, Status status, Level level) {
+    public InternshipOpportunity(String ID ,String title, String description, String major, String startDate, String endDate,
+        CompanyRepresentative rep, int slots, Level level) {
+        this.internshipID = ID;
         this.title = title;
         this.description = description;
         this.prefMajor = major;
@@ -22,7 +23,7 @@ public class InternshipOpportunity {
         this.closeDate = endDate;
         this.rep = rep;
         this.numOfSlots = slots;
-        this.visibility = visible;
+        this.visibility = true;
         this.status = Status.PENDING;
         this.level = level;
     }
@@ -33,7 +34,7 @@ public class InternshipOpportunity {
 
     public void setInternshipID(String id) {
         this.internshipID = id;
-    }
+     }
 
     public String getInternshipID() {
         return this.internshipID;

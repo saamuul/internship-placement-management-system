@@ -2,6 +2,10 @@ package edu.ntu.ccds.sc2002.internship.controller;
 
 import edu.ntu.ccds.sc2002.internship.model.User;
 import edu.ntu.ccds.sc2002.internship.view.CompanyRepView;
+import edu.ntu.ccds.sc2002.internship.model.Level;
+import edu.ntu.ccds.sc2002.internship.model.CompanyRepresentative;
+import edu.ntu.ccds.sc2002.internship.model.OperationResult;
+import edu.ntu.ccds.sc2002.internship.util.InternshipInputData;
 
 /**
  * Controller for Company Representative operations.
@@ -24,10 +28,10 @@ public class CompanyRepController {
 
         switch (choice) {
             case "1":
-                view.showSuccess("Feature coming soon");
+                handleCreateInternOpp(user);
                 break;
             case "2":
-                view.showSuccess("Feature coming soon");
+                handleViewApplications(user);
                 break;
             case "3":
                 view.showSuccess("Feature coming soon");
@@ -40,6 +44,33 @@ public class CompanyRepController {
         }
         return false;
     }
+
+
+    public void handleCreateInternOpp(User user){
+        InternshipInputData input = view.createOpportunityInput();
+        CompanyRepresentative companyRepModel = (CompanyRepresentative) user;
+
+        Level levelnum = Level.valueOf(input.level.toUpperCase());
+
+        companyRepModel.createInternshipOpportunity(
+            input.title,
+            input.description,
+            levelnum,
+            input.prefMajor,
+            input.openDate,
+            input.closeDate,
+            input.numOfSlots
+        );
+
+        System.out.println("Internship opportunity created successfully!");
+    }
+
+    public void handleViewApplications(User user){
+        CompanyRepresentative cuser = (CompanyRepresentative) user;
+        view.displayApplications(cuser.getFilteredInternshipApplication());
+        return;
+    }
+    
     
 
 }
