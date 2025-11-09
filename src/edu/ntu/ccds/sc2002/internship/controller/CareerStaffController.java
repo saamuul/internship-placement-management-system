@@ -57,11 +57,15 @@ public class CareerStaffController {
                 handleViewAllOpportunities(staff);
                 break;
 
-            case "4": // View Applications
+            case "4": 
+                handleApproveOpportunity(staff);
+                break;
+
+            case "5":
                 handleViewAllApplications(staff);
                 break;
 
-            case "5": // Logout
+            case "8": // Logout
                 careerStaffView.showLogout();
                 return true;
 
@@ -100,7 +104,6 @@ public class CareerStaffController {
         System.out.print("Enter the ID of the Company Representative to approve: ");
         Scanner scRepId = new Scanner(System.in);
         String repId = scRepId.nextLine();
-        scRepId.close();
         
         // 3. Find the rep by ID
         CompanyRepresentative selectedRep = pendingReps.stream()
@@ -135,6 +138,43 @@ public class CareerStaffController {
             return;
         }
         careerStaffView.displayAllOpportunities(opportunities);
+    }
+
+    private void handleApproveOpportunity(CareerStaff staff) {
+        // Implementation for approving internship opportunity
+        List<InternshipOpportunity> pendingOpps = authController.getPendingOpportunities();
+        
+        if (pendingOpps.isEmpty()) {
+            careerStaffView.showError("No pending internship opportunities.");
+            return;
+        }
+        
+        careerStaffView.displayPendingInternshipOpportunities(pendingOpps);
+        
+        // 2. Ask user for the ID of the rep to approve
+        System.out.print("Enter the ID of the internship opportunity to approve: ");
+        Scanner scOppId = new Scanner(System.in);
+        String oppId = scOppId.nextLine();
+        
+        // 3. Find the rep by ID
+        InternshipOpportunity selectedOpp = pendingOpps.stream()
+                .filter(opp -> opp.getInternshipID().equals(oppId))
+                .findFirst()
+                .orElse(null);
+        
+        if (selectedOpp == null) {
+            careerStaffView.showError("Internship Opportunity not found.");
+            return;
+        }
+        
+        // 4. Call model to approve
+        boolean success = staff.approveOpportunity(selectedOpp);
+        
+        if (success) {
+            careerStaffView.showSuccess("Internship Opportunity approved successfully!");
+        } else {
+            careerStaffView.showError("Failed to approve the Internship Opportunity.");
+        } 
     }
 
     /**

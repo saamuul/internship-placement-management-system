@@ -56,6 +56,21 @@ public class CareerStaffView {
         }
     }
 
+    public void displayPendingInternshipOpportunities(List<InternshipOpportunity> pendingOpps) {
+        if (pendingOpps == null || pendingOpps.isEmpty()) {
+            System.out.println("\nNo pending internship opportunities.");
+        } else {
+            System.out.println("\n=== Pending Internship Opportunities ===");
+            for (InternshipOpportunity opp : pendingOpps) {
+                System.out.println("ID: " + opp.getInternshipID() + " | Title: " + opp.getTitle() +
+                        " | Description: " + opp.getDescription() + " | Major: " + opp.getPrefMajor() +
+                        " | Open Date: " + opp.getOpenDate() + "Close Date: " + opp.getCloseDate() +
+                        " | Representative: " + opp.getRep() + " | Slots: " + opp.getNumOfSlots() +
+                        " | Level: " + opp.getLevel());
+            }
+        }
+    }
+
     public void displayAllOpportunities(List<InternshipOpportunity> opportunities) {
         System.out.println("\n=== All Internship Opportunities ===");
         for (InternshipOpportunity opp : opportunities) { 
