@@ -1,6 +1,7 @@
 package edu.ntu.ccds.sc2002.internship.model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import edu.ntu.ccds.sc2002.internship.util.CSVUtil;
 
@@ -80,4 +81,23 @@ public class CareerStaff extends User {
     public Report generateReport(Filter filter, CareerStaff generatedBy) {
         return new Report(filter, generatedBy);
     }
+
+    // Override the method at User.java to save new password into the career staff csv file
+    protected boolean savePasswordChange() {
+        List<String[]> rows = CSVUtil.readCSV("data/staff_list.csv");
+
+        // Start from 1 to skip header row
+        for (int i = 1; i < rows.size(); i++) {
+            String[] row = rows.get(i);
+
+            // Ensure correct career staff to update the password
+            if (row[0].equals(getUserId())) {
+                row[2] = getPassword();
+                return CSVUtil.updateRow("data/staff_list.csv", i, row);
+            }
+        }
+
+        return false; // Career Staff not found
+    }
+
 }

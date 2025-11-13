@@ -134,4 +134,23 @@ public class CompanyRepresentative extends User {
         }
         return result;
     }
+
+    // Override the method at User.java to save new password into the company rep csv file
+    protected boolean savePasswordChange() {
+        List<String[]> rows = CSVUtil.readCSV("data/company_representative_list.csv");
+
+        // Start from 1 to skip header row
+        for (int i = 1; i < rows.size(); i++) {
+            String[] row = rows.get(i);
+
+            // Ensure correct company rep to update the password
+            if (row[0].equals(getUserId())) {
+                row[2] = getPassword();
+                return CSVUtil.updateRow("data/company_representative_list.csv", i, row);
+            }
+        }
+
+        return false; // Company Rep not found
+    }
+
 }
