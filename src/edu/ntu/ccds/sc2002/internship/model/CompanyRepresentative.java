@@ -57,7 +57,7 @@ public class CompanyRepresentative extends User {
             String preferredMajor, String applicationOpenDate,
             String applicationClosingDate, int numOfSlots) {
 
-            int count = CSVUtil.countDataRows("data/Intership_Opportunity_List.csv");
+            int count = CSVUtil.countDataRows("data/Internship_Opportunity_List.csv");
             int newID = count + 1;
             String sID = String.valueOf(newID);
 
@@ -85,7 +85,7 @@ public class CompanyRepresentative extends User {
                 return OperationResult.failure("Internship Opportunity creation failure");
             }
 
-            CSVUtil.appendRow("data/Intership_Opportunity_List.csv", row);
+            CSVUtil.appendRow("data/Internship_Opportunity_List.csv", row);
             return OperationResult.success("Successfully created Intership Opportunity: " + oppo1.getTitle());
         }
 
@@ -137,7 +137,7 @@ public class CompanyRepresentative extends User {
 
     // Override the method at User.java to save new password into the company rep csv file
     protected boolean savePasswordChange() {
-        List<String[]> rows = CSVUtil.readCSV("data/company_representative_list.csv");
+        List<String[]> rows = CSVUtil.readCSV("data/Company_Representative_List.csv");
 
         // Start from 1 to skip header row
         for (int i = 1; i < rows.size(); i++) {
@@ -146,7 +146,7 @@ public class CompanyRepresentative extends User {
             // Ensure correct company rep to update the password
             if (row[0].equals(getUserId())) {
                 row[2] = getPassword();
-                return CSVUtil.updateRow("data/company_representative_list.csv", i, row);
+                return CSVUtil.updateRow("data/Company_Representative_List.csv", i, row);
             }
         }
 

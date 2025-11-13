@@ -32,8 +32,9 @@ public class CompanyRepView {
         System.out.println("Welcome, " + user.getName());
         System.out.println("1) Create Internship Opportunity");
         System.out.println("2) View Applications");
-        System.out.println("3) Manage Opportunities");
-        System.out.println("4) Logout");
+        System.out.println("3) View Created Opportunities");
+        System.out.println("4) Manage Opportunities");
+        System.out.println("5) Logout");
         System.out.print("Choose: ");
     }
 
@@ -134,6 +135,7 @@ public class CompanyRepView {
             }
         }*/
     }
+    // public void di
 
     public void displayApplications(List<InternshipApplication> applications) {
         System.out.println("\n=== Applications ===");

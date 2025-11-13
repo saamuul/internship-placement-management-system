@@ -101,11 +101,15 @@ public class AuthController {
                 int year = Integer.parseInt(parts[4].trim());
                 String email = parts[5].trim();
 
-                // Parse appliedInternships - find all applications for this student
+                // Parse appliedInternships from CSV column 6 (semicolon-separated app IDs)
                 List<InternshipApplication> appliedInternships = new ArrayList<>();
-                for (InternshipApplication app : applicationRepo.values()) {
-                    if (app.getStudentID().equals(id)) {
-                        appliedInternships.add(app);
+                if (parts.length > 6 && !parts[6].trim().isEmpty()) {
+                    String[] appIds = parts[6].trim().split(";");
+                    for (String appId : appIds) {
+                        InternshipApplication app = applicationRepo.get(appId.trim());
+                        if (app != null) {
+                            appliedInternships.add(app);
+                        }
                     }
                 }
 
@@ -180,7 +184,7 @@ public class AuthController {
                 String email = parts[6].trim();
                 String statusStr = parts[7].trim();
                 // parts[8] contains CreatedOpportunities (semicolon-separated) - not loaded yet
-                
+
                 Company company = new Company(companyName, Integer.parseInt(id));
                 CompanyRepresentative rep = new CompanyRepresentative(id, name, email, password, company, dept,
                         position);
@@ -245,7 +249,7 @@ public class AuthController {
                         openDate, closeDate,
                         rep, numSlots, level);
                 opp.setInternshipID(internshipId); // Set the ID from CSV
-                //Store with internshipId as key;
+                // Store with internshipId as key;
                 opportunityRepo.put(internshipId, opp);
                 opportunityRepo.put(title, opp);
             }
@@ -260,11 +264,11 @@ public class AuthController {
     // -----------------------------
     public AuthResult login(String userId, String password) {
         User user = userRepo.get(userId);
-        
+
         // Check if the user exists or if credentials match
         if (user == null || !user.login(userId, password))
             return new AuthResult(false, "Invalid credentials.", null);
-        
+
         // Check if user is a CompanyRepresentative and if they are approved
         if (user instanceof CompanyRepresentative rep && rep.getStatus() != Status.SUCCESSFUL)
             return new AuthResult(false, "Account pending approval.", null);
@@ -300,7 +304,7 @@ public class AuthController {
                 reps.add(rep);
         }
         return reps;
-    }   
+    }
 
     public List<InternshipOpportunity> getPendingOpportunities() {
         loadOpportunitiesFromFile();

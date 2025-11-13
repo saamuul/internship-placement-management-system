@@ -28,9 +28,9 @@ import edu.ntu.ccds.sc2002.internship.view.StudentView;
  */
 public class InternshipSystem {
     public static void main(String[] args) {
-        String studentFile = "data/student_list.csv";
-        String staffFile = "data/staff_list.csv";
-        String companyRepFile = "data/company_representative_list.csv";
+        String studentFile = "data/Student_List.csv";
+        String staffFile = "data/Staff_List.csv";
+        String companyRepFile = "data/Company_Representative_List.csv";
 
         // Shared scanner for all views
         Scanner scanner = new Scanner(System.in);

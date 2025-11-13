@@ -34,9 +34,12 @@ public class CompanyRepController {
                 handleViewApplications(user);
                 break;
             case "3":
-                view.showSuccess("Feature coming soon");
+                handleViewOpportunities(user);
                 break;
             case "4":
+                handleViewApplications(user);
+                break;
+            case "5":
                 view.showLogout();
                 return true;
             default:
@@ -71,6 +74,15 @@ public class CompanyRepController {
         return;
     }
     
-    
+    public void handleViewOpportunities(User user){
+        CompanyRepresentative cuser = (CompanyRepresentative) user;
+        view.displayOpportunities(cuser.getCreatedInternshipOpportunities());
+        return;
+    }
 
+    public void handleManageOpportunities(User user){
+        CompanyRepresentative cuser = (CompanyRepresentative) user;
+        handleViewOpportunities(user);
+        
+    }
 }

@@ -44,13 +44,15 @@ public class StudentView {
     public void displayInternships(List<Internship> internships) {
         System.out.println("\n=== Available Internships ===");
         if (internships == null || internships.isEmpty()) {
-            System.out.println("No internships available.");
+            System.out.println("No internships available for your profile (major, year of study, and visibility).");
             return;
         }
 
-        System.out.println("──────────────────────────────────────────────────────────────────────────────────────────");
+        System.out
+                .println("──────────────────────────────────────────────────────────────────────────────────────────");
         System.out.printf("%-5s %-35s %-30s %-10s%n", "ID", "Title", "Company Representative", "Level");
-        System.out.println("──────────────────────────────────────────────────────────────────────────────────────────");
+        System.out
+                .println("──────────────────────────────────────────────────────────────────────────────────────────");
 
         for (Internship internship : internships) {
             System.out.printf("%-5s %-35s %-30s %-10s%n",
@@ -59,7 +61,8 @@ public class StudentView {
                     truncate(internship.getCompanyName(), 30),
                     internship.getLevel());
         }
-        System.out.println("──────────────────────────────────────────────────────────────────────────────────────────");
+        System.out
+                .println("──────────────────────────────────────────────────────────────────────────────────────────");
     }
 
     // Prompts for and gets internship ID from user to apply internship.
@@ -74,10 +77,12 @@ public class StudentView {
             List<String> statuses) {
         System.out.println("\n=== Your Internship Applications ===");
 
-        System.out.println("────────────────────────────────────────────────────────────────────────────────────────────");
+        System.out.println(
+                "────────────────────────────────────────────────────────────────────────────────────────────");
         System.out.printf("%-8s %-30s %-25s %-10s %-12s%n",
                 "App ID", "Internship Title", "Company Representative", "Level", "Status");
-        System.out.println("────────────────────────────────────────────────────────────────────────────────────────────");
+        System.out.println(
+                "────────────────────────────────────────────────────────────────────────────────────────────");
 
         for (int i = 0; i < appIds.size(); i++) {
             System.out.printf("%-8s %-30s %-25s %-10s %-12s%n",
@@ -88,7 +93,8 @@ public class StudentView {
                     statuses.get(i));
         }
 
-        System.out.println("────────────────────────────────────────────────────────────────────────────────────────────");
+        System.out.println(
+                "────────────────────────────────────────────────────────────────────────────────────────────");
     }
 
     // Gets application ID from user to accept internship.
@@ -102,7 +108,7 @@ public class StudentView {
         System.out.print("Enter Application ID for withdrawal: ");
         return scanner.nextLine();
     }
-    
+
     // Prompts for and gets old password from user.
     public String getOldPasswordInput() {
         System.out.print("Enter old password: ");

@@ -1,4 +1,5 @@
 package edu.ntu.ccds.sc2002.internship.util;
+
 public class InternshipInputData {
     public String title;
     public String description;

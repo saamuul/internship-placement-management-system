@@ -6,10 +6,10 @@ import java.util.List;
 import edu.ntu.ccds.sc2002.internship.util.CSVUtil;
 
 public class CareerStaff extends User {
-    private static final String REPRESENTATIVE_CSV_PATH = "data/company_representative_list.csv";
+    private static final String REPRESENTATIVE_CSV_PATH = "data/Company_Representative_List.csv";
     private static final String WITHDRAWAL_CSV_PATH = "data/Internship_Withdrawal_Request_List.csv";
     private static final String OPPORTUNITY_CSV_PATH = "data/Internship_Opportunity_List.csv";
-    private static final String STAFF_CSV_PATH = "data/staff_list.csv";
+    private static final String STAFF_CSV_PATH = "data/Staff_List.csv";
 
     private String department;
     private String position;
@@ -84,7 +84,7 @@ public class CareerStaff extends User {
 
     // Override the method at User.java to save new password into the career staff csv file
     protected boolean savePasswordChange() {
-        List<String[]> rows = CSVUtil.readCSV("data/staff_list.csv");
+        List<String[]> rows = CSVUtil.readCSV("data/Staff_List.csv");
 
         // Start from 1 to skip header row
         for (int i = 1; i < rows.size(); i++) {
@@ -93,7 +93,7 @@ public class CareerStaff extends User {
             // Ensure correct career staff to update the password
             if (row[0].equals(getUserId())) {
                 row[2] = getPassword();
-                return CSVUtil.updateRow("data/staff_list.csv", i, row);
+                return CSVUtil.updateRow("data/Staff_List.csv", i, row);
             }
         }
 
