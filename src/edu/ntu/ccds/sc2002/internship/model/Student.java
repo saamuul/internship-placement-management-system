@@ -257,4 +257,23 @@ public class Student extends User {
         return OperationResult
                 .success("Withdrawal request submitted for Application " + applicationId + ". Awaiting Approval.");
     }
+
+    // Override the method at User.java to save new password into the studentlist csv file
+    protected boolean savePasswordChange() {
+        List<String[]> rows = CSVUtil.readCSV("data/Student_List.csv");
+
+        // Start from 1 to skip header row
+        for (int i = 1; i < rows.size(); i++) {
+            String[] row = rows.get(i);
+
+            // Ensure correct student to update the password
+            if (row[0].equals(getUserId())) {
+                row[2] = getPassword(); // Updates password column
+                return CSVUtil.updateRow("data/Student_List.csv", i, row); //Save it back to the csv file
+            }
+        }
+
+        // No student of that userid is found
+        return false;
+    }
 }
