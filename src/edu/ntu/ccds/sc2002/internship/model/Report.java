@@ -1,4 +1,5 @@
 package edu.ntu.ccds.sc2002.internship.model;
+import edu.ntu.ccds.sc2002.internship.controller.AuthController;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ public class Report {
     private CareerStaff generatedBy;
     private Filter filterCriteria;
     private List<InternshipOpportunity> internshipList;
+    private AuthController authController;
 
     public Report(Filter filterCriteria, CareerStaff generatedBy) {
         this.reportId = UUID.randomUUID().toString();
@@ -21,8 +23,7 @@ public class Report {
     }
 
     private List<InternshipOpportunity> fetchInternshipsBasedOnFilter(Filter filter) {
-        // TODO: Replace with actual data source or repository
-        List<InternshipOpportunity> allInternships = new ArrayList<>(); // placeholder - repository not yet implemented
+        List<InternshipOpportunity> allInternships = authController.getAllOpportunities(); 
         List<InternshipOpportunity> filtered = new ArrayList<>();
 
         for (InternshipOpportunity opp : allInternships) {
