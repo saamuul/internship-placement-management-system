@@ -142,6 +142,31 @@ public class Student extends User {
         // Append to the current attribute
         appliedInternships.add(app);
 
+        // Read through the student list csv
+        List<String[]> studentRows = CSVUtil.readCSV("data/student_list.csv");
+
+        // Loop to find the student's row index
+        for (int i = 1; i < studentRows.size(); i++) {   // start at 1 to skip header row
+            String[] row = studentRows.get(i);
+
+            // Check that it is at the row of the correct student
+            if (row[0].equalsIgnoreCase(getUserId())) {
+
+                // Update the AppliedInternships column
+                String existing = row[6].trim();
+                if (existing.isEmpty()) {
+                    row[6] = appId;
+                } else {
+                    row[6] = existing + ";" + appId;
+                }
+
+                // Update this row back to the student_list csv file
+                CSVUtil.updateRow("data/student_list.csv", i, row);
+
+                break;
+            }
+        }
+
         return OperationResult.success(getName() + " successfully applied for internship ID: " + internshipId);
     }
 
