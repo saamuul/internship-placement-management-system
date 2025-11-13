@@ -42,16 +42,29 @@ public abstract class User {
     }
 
     /**
-     * Changes the user's password.
+     * Template method: Changes the user's password.
+     * Subclasses will update their respective csv file through savePasswordChange() 
      * MODEL LAYER: Returns success/failure instead of printing.
      */
     public OperationResult changePassword(String oldPassword, String newPassword) {
         if (this.password.equals(oldPassword)) {
             this.password = newPassword;
-            // TODO : update the csv file here for the password change
+            
+            boolean savedToFile = savePasswordChange();
+            if (!savedToFile) {
+                return OperationResult.failure("User record not found. Password update failed.");
+            }
             return OperationResult.success("Password changed successfully.");
         } else {
             return OperationResult.failure("Failed, wrong old password.");
         }
     }
+
+    /**  
+     * Each user type should override this function to update to their respective CSV file
+     * Protected as this is a internal step, not meant for outer use.
+     * Should update their respective csv file
+     * Return False if user not found
+    */
+    protected abstract boolean savePasswordChange();
 }
