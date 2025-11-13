@@ -84,7 +84,7 @@ public class CareerStaff extends User {
 
     // Override the method at User.java to save new password into the career staff csv file
     protected boolean savePasswordChange() {
-        List<String[]> rows = CSVUtil.readCSV("data/Staff_List.csv");
+        List<String[]> rows = CSVUtil.readCSV(STAFF_CSV_PATH);
 
         // Start from 1 to skip header row
         for (int i = 1; i < rows.size(); i++) {
@@ -93,7 +93,7 @@ public class CareerStaff extends User {
             // Ensure correct career staff to update the password
             if (row[0].equals(getUserId())) {
                 row[2] = getPassword();
-                return CSVUtil.updateRow("data/Staff_List.csv", i, row);
+                return CSVUtil.updateRow(STAFF_CSV_PATH, i, row);
             }
         }
 

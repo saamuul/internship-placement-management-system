@@ -41,7 +41,8 @@ public class Report {
             if (opp.getVisibility() != filter.isVisibility()) {
                 matches = false;
             }
-            if (filter.getRepresentative() != null && opp.getRep() != filter.getRepresentative()) {
+            if (filter.getRepName() != null
+                    && !filter.getRepName().equalsIgnoreCase(opp.getRep().toString())) {
                 matches = false;
             }
             if (filter.getNumOfSlots() > 0 && opp.getNumOfSlots() != filter.getNumOfSlots()) {
@@ -78,7 +79,7 @@ public class Report {
         sb.append("Application Open Date: ").append(valueOrNA(filterCriteria.getApplicationOpenDate())).append("\n");
         sb.append("Application Close Date: ").append(valueOrNA(filterCriteria.getApplicationCloseDate())).append("\n");
         sb.append("Company Representative: ")
-                .append(filterCriteria.getRepresentative() != null ? filterCriteria.getRepresentative().getName()
+                .append(filterCriteria.getRepName() != null ? filterCriteria.getRepName()
                         : "N/A")
                 .append("\n");
         sb.append("Number of Slots: ").append(valueOrNA(filterCriteria.getNumOfSlots())).append("\n");

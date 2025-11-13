@@ -5,18 +5,18 @@ public class Filter {
     private String preferredMajor;
     private String applicationOpenDate;
     private String applicationCloseDate;
-    private CompanyRepresentative representative;
+    private String repName;
     private int numOfSlots;
     private Status status;
     private boolean visibility;
 
     public Filter(Level level, String preferredMajor, String applicationOpenDate, String applicationCloseDate,
-            CompanyRepresentative representative, int numOfSlots, Status status, boolean visibility) {
+            String repName, int numOfSlots, Status status, boolean visibility) {
         this.level = level;
         this.preferredMajor = preferredMajor;
         this.applicationOpenDate = applicationOpenDate;
         this.applicationCloseDate = applicationCloseDate;
-        this.representative = representative;
+        this.repName = repName;
         this.numOfSlots = numOfSlots;
         this.status = status;
         this.visibility = visibility;
@@ -38,8 +38,8 @@ public class Filter {
         return applicationCloseDate;
     }
 
-    public CompanyRepresentative getRepresentative() {
-        return representative;
+    public String getRepName() {
+        return repName;
     }
 
     public int getNumOfSlots() {

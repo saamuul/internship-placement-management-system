@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.ntu.ccds.sc2002.internship.util.CSVUtil;
-import edu.ntu.ccds.sc2002.internship.model.OperationResult;
 
 public class CompanyRepresentative extends User {
     private Company company;
@@ -22,7 +21,7 @@ public class CompanyRepresentative extends User {
         this.position = position;
         this.status = Status.PENDING;
     }
-
+    
     public Company getCompany() {
         return company;
     }
@@ -80,10 +79,6 @@ public class CompanyRepresentative extends User {
                 String.valueOf(oppo1.getNumOfSlots()),
                 oppo1.getLevel().toString()
             };
-
-            if(row == null){
-                return OperationResult.failure("Internship Opportunity creation failure");
-            }
 
             CSVUtil.appendRow("data/Internship_Opportunity_List.csv", row);
             return OperationResult.success("Successfully created Intership Opportunity: " + oppo1.getTitle());

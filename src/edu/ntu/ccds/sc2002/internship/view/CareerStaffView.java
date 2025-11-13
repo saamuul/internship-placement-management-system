@@ -7,6 +7,7 @@ import edu.ntu.ccds.sc2002.internship.model.CompanyRepresentative;
 import edu.ntu.ccds.sc2002.internship.model.InternshipOpportunity;
 import edu.ntu.ccds.sc2002.internship.model.InternshipApplication;
 import edu.ntu.ccds.sc2002.internship.model.User;
+import edu.ntu.ccds.sc2002.internship.model.Report;
 
 /**
  * View class for Career Staff interface.
@@ -34,7 +35,8 @@ public class CareerStaffView {
         System.out.println("5) View Applications");
 	    System.out.println("6) View Withdrawal Requests");
 	    System.out.println("7) Approve Withdrawal Request");
-        System.out.println("8) Logout");
+        System.out.println("9) Create Filter and Generate Report");
+        System.out.println("9) Logout");
         System.out.print("Choose: ");
     }
 
@@ -95,6 +97,23 @@ public class CareerStaffView {
             System.out.printf("%s %s%s", "Internship ID:", app.getInternshipID(), "\n");
             System.out.printf("%s %s%s", "Status:", app.getStatus().toString(), "\n");
         }
+    }
+
+    public void displayPendingWithdrawalRequests(List<InternshipApplication> withdrawalRequests) {
+        if (withdrawalRequests == null || withdrawalRequests.isEmpty()) {
+            System.out.println("\nNo pending withdrawal requests.");
+        } else {
+            System.out.println("\n=== Pending Withdrawal Requests ===");
+            for (InternshipApplication app : withdrawalRequests) {
+                System.out.println("Application ID: " + app.getApplicationID() +
+                        " | Student ID: " + app.getStudentID() +
+                        " | Internship ID: " + app.getInternshipID());
+            }
+        }
+    }
+
+    public void showReport(Report r) {
+        System.out.print(r.generateReport());
     }
 
     public void showSuccess(String message) {
