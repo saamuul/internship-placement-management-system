@@ -3,15 +3,9 @@ package edu.ntu.ccds.sc2002.internship.view;
 import java.util.List;
 import java.util.Scanner;
 
-import javax.net.ssl.SSLEngineResult.Status;
-
-import edu.ntu.ccds.sc2002.internship.model.Company;
-import edu.ntu.ccds.sc2002.internship.model.CompanyRepresentative;
 import edu.ntu.ccds.sc2002.internship.model.User;
-import edu.ntu.ccds.sc2002.internship.util.CSVUtil;
 import edu.ntu.ccds.sc2002.internship.model.InternshipApplication;
 import edu.ntu.ccds.sc2002.internship.model.InternshipOpportunity;
-import edu.ntu.ccds.sc2002.internship.model.Level;
 import edu.ntu.ccds.sc2002.internship.util.InternshipInputData;
 import edu.ntu.ccds.sc2002.internship.util.ToggleVisHelper;
 /**
@@ -143,8 +137,9 @@ public class CompanyRepView {
                     truncate(String.valueOf(opportunity.getStatus()), 30),
                     opportunity.getLevel());
         }
+
         // Read opportunities from CSV and filter by company
-        /*List<String[]> rows = CSVUtil.readCSV("data/IntershipOpp_List.csv");
+        /*List<String[]> rows = CSVUtil.readCSV("data/InternshipOpp_List.csv");
         for (int i = 1; i < rows.size(); i++) { // Skip header
             String[] row = rows.get(i);
             if (row.length >= 7 && row[6].equals(company.getName())) { // Assuming company name is at index 6
@@ -152,7 +147,6 @@ public class CompanyRepView {
             }
         }*/
     }
-    // public void di
 
     public void displayApplications(List<InternshipApplication> applications) {
         System.out.println("\n=== Applications ===");
@@ -166,6 +160,7 @@ public class CompanyRepView {
                     truncate(application.getInternshipID(), 30),
                     application.getStatus());
         }
+
         /*CompanyRepresentative cuser = (CompanyRepresentative) user;
         String filePath = "data/Internship_Applications_List.csv";
         List<String[]> data = CSVUtil.readCSV(filePath);

@@ -4,10 +4,10 @@ import java.util.List;
 import java.util.Scanner;
 
 import edu.ntu.ccds.sc2002.internship.model.CompanyRepresentative;
-import edu.ntu.ccds.sc2002.internship.model.InternshipOpportunity;
 import edu.ntu.ccds.sc2002.internship.model.InternshipApplication;
-import edu.ntu.ccds.sc2002.internship.model.User;
+import edu.ntu.ccds.sc2002.internship.model.InternshipOpportunity;
 import edu.ntu.ccds.sc2002.internship.model.Report;
+import edu.ntu.ccds.sc2002.internship.model.User;
 
 /**
  * View class for Career Staff interface.
@@ -31,11 +31,11 @@ public class CareerStaffView {
         System.out.println("1) View Pending Company Representatives");
         System.out.println("2) Approve Company Representative");
         System.out.println("3) View All Internship Opportunities");
-	    System.out.println("4) Approve Internship Opportunity");
+        System.out.println("4) Approve Internship Opportunity");
         System.out.println("5) View Applications");
-	    System.out.println("6) View Withdrawal Requests");
-	    System.out.println("7) Approve Withdrawal Request");
-        System.out.println("9) Create Filter and Generate Report");
+        System.out.println("6) View Withdrawal Requests");
+        System.out.println("7) Approve Withdrawal Request");
+        System.out.println("8) Create Filter and Generate Report");
         System.out.println("9) Logout");
         System.out.print("Choose: ");
     }
@@ -75,7 +75,7 @@ public class CareerStaffView {
 
     public void displayAllOpportunities(List<InternshipOpportunity> opportunities) {
         System.out.println("\n=== All Internship Opportunities ===");
-        for (InternshipOpportunity opp : opportunities) { 
+        for (InternshipOpportunity opp : opportunities) {
             System.out.printf("%s %s%s", "Title:", opp.getTitle(), "\n");
             System.out.printf("%s %s%s", "Description:", opp.getDescription(), "\n");
             System.out.printf("%s %s%s", "Preferred Major:", opp.getPrefMajor(), "\n");
@@ -91,7 +91,7 @@ public class CareerStaffView {
 
     public void displayAllApplications(List<InternshipApplication> applications) {
         System.out.println("\n=== All Internship Opportunities ===");
-        for (InternshipApplication app : applications) { 
+        for (InternshipApplication app : applications) {
             System.out.printf("%s %s%s", "Application ID:", app.getApplicationID(), "\n");
             System.out.printf("%s %s%s", "Student ID:", app.getStudentID(), "\n");
             System.out.printf("%s %s%s", "Internship ID:", app.getInternshipID(), "\n");
@@ -130,5 +130,20 @@ public class CareerStaffView {
 
     public void showLogout() {
         System.out.println("Logging out...");
+    }
+
+    public String getInput(String prompt) {
+        System.out.print(prompt);
+        return scanner.nextLine();
+    }
+
+    public int getIntInput(String prompt) {
+        System.out.print(prompt);
+        return Integer.parseInt(scanner.nextLine().trim());
+    }
+
+    public boolean getBooleanInput(String prompt) {
+        System.out.print(prompt);
+        return Boolean.parseBoolean(scanner.nextLine().trim());
     }
 }

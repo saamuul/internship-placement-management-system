@@ -13,9 +13,10 @@ public class InternshipOpportunity {
     private Status status;
     private Level level;
 
-    public InternshipOpportunity(String ID ,String title, String description, String major, String startDate, String endDate,
-        CompanyRepresentative rep, int slots, Level level) {
-        this.internshipID = ID;
+    public InternshipOpportunity(String id, String title, String description, String major, String startDate,
+            String endDate,
+            CompanyRepresentative rep, int slots, Level level) {
+        this.internshipID = id;
         this.title = title;
         this.description = description;
         this.prefMajor = major;
@@ -34,11 +35,11 @@ public class InternshipOpportunity {
 
     public void setInternshipID(String id) {
         this.internshipID = id;
-     }
+    }
 
-    public void setStatus(String stat){
-        Status statnum = Status.valueOf(stat.trim().toUpperCase());
-        this.status = statnum;
+    public void setStatus(String stat) {
+        Status statNum = Status.valueOf(stat.trim().toUpperCase());
+        this.status = statNum;
     }
 
     public String getInternshipID() {
@@ -85,5 +86,4 @@ public class InternshipOpportunity {
         return this.visibility;
     }
 
-    
 }

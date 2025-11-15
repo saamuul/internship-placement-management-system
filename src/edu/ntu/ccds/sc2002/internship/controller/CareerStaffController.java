@@ -129,6 +129,7 @@ public class CareerStaffController {
         
         if (selectedRep == null) {
             careerStaffView.showError("Company Representative not found.");
+            scRepId.close();
             return;
         }
         
@@ -140,6 +141,7 @@ public class CareerStaffController {
         } else {
             careerStaffView.showError("Failed to approve the Company Representative.");
         }
+        scRepId.close();
     }
 
 
@@ -180,6 +182,7 @@ public class CareerStaffController {
         
         if (selectedOpp == null) {
             careerStaffView.showError("Internship Opportunity not found.");
+            scOppId.close();
             return;
         }
         
@@ -191,6 +194,7 @@ public class CareerStaffController {
         } else {
             careerStaffView.showError("Failed to approve the Internship Opportunity.");
         } 
+        scOppId.close();
     }
 
     /**
@@ -239,6 +243,7 @@ public class CareerStaffController {
         
         if (selectedApp == null) {
             careerStaffView.showError("Internship Application not found.");
+            scAppId.close();
             return;
         }
         
@@ -250,6 +255,7 @@ public class CareerStaffController {
         } else {
             careerStaffView.showError("Failed to approve the Internship Application withdrawal.");
         } 
+        scAppId.close();
     }
 
     private void handleGenerateReport(CareerStaff staff) {
@@ -285,6 +291,8 @@ public class CareerStaffController {
         Filter f = new Filter(level, prefMajor, applOpenDate, applCloseDate, repName, numOfSlots, status, visibility);
         Report r = new Report(f, staff);
         careerStaffView.showReport(r);
+
+        sc.close();
     }
 
     /**

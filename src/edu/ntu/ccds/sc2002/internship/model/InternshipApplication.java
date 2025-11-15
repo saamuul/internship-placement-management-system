@@ -6,28 +6,28 @@ import edu.ntu.ccds.sc2002.internship.util.CSVUtil;
 
 public class InternshipApplication {
 
-    private String applicationID;
-    private String studentID;
-    private String internshipID;
+    private String applicationId;
+    private String studentId;
+    private String internshipId;
     private Status status;
 
-    public InternshipApplication(String applicationID, String studentID, String internshipID, Status status) {
-        this.applicationID = applicationID;
-        this.studentID = studentID;
-        this.internshipID = internshipID;
+    public InternshipApplication(String applicationId, String studentId, String internshipId, Status status) {
+        this.applicationId = applicationId;
+        this.studentId = studentId;
+        this.internshipId = internshipId;
         this.status = status;
     }
 
     public String getApplicationID() {
-        return applicationID;
+        return applicationId;
     }
 
     public String getStudentID() {
-        return studentID;
+        return studentId;
     }
 
     public String getInternshipID() {
-        return internshipID;
+        return internshipId;
     }
 
     public Status getStatus() {
@@ -57,7 +57,7 @@ public class InternshipApplication {
             String id = row[0];
 
             // If this is the internship we're looking for
-            if (id.equals(this.internshipID)) {
+            if (id.equals(this.internshipId)) {
                 String companyName = row[6]; // RepName column
                 String title = row[1];
                 Level level = Level.valueOf(row[10].toUpperCase());
@@ -71,7 +71,7 @@ public class InternshipApplication {
 
     // Return a CSV row representation compatible with CSVUtil.appendRow
     public String[] toCSVRow() {
-        return new String[] { applicationID, studentID, internshipID, status.toString() };
+        return new String[] { applicationId, studentId, internshipId, status.toString() };
     }
 
     @Override

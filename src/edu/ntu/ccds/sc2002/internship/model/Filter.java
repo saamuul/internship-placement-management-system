@@ -1,29 +1,29 @@
 package edu.ntu.ccds.sc2002.internship.model;
 
 public class Filter {
-    private Level level;
+    private Level levelFilter;
     private String preferredMajor;
     private String applicationOpenDate;
     private String applicationCloseDate;
     private String repName;
     private int numOfSlots;
-    private Status status;
+    private Status statusFilter;
     private boolean visibility;
 
-    public Filter(Level level, String preferredMajor, String applicationOpenDate, String applicationCloseDate,
-            String repName, int numOfSlots, Status status, boolean visibility) {
-        this.level = level;
+    public Filter(Level levelFilter, String preferredMajor, String applicationOpenDate, String applicationCloseDate,
+            String repName, int numOfSlots, Status statusFilter, boolean visibility) {
+        this.levelFilter = levelFilter;
         this.preferredMajor = preferredMajor;
         this.applicationOpenDate = applicationOpenDate;
         this.applicationCloseDate = applicationCloseDate;
         this.repName = repName;
         this.numOfSlots = numOfSlots;
-        this.status = status;
+        this.statusFilter = statusFilter;
         this.visibility = visibility;
     }
 
     public Level getLevel() {
-        return level;
+        return levelFilter;
     }
 
     public String getPreferredMajor() {
@@ -47,7 +47,7 @@ public class Filter {
     }
 
     public Status getStatus() {
-        return status;
+        return statusFilter;
     }
 
     public boolean isVisibility() {
