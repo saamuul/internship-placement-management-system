@@ -1,11 +1,17 @@
 package edu.ntu.ccds.sc2002.internship.controller;
-
+import java.util.ArrayList;
+import java.util.List;
 import edu.ntu.ccds.sc2002.internship.model.User;
 import edu.ntu.ccds.sc2002.internship.view.CompanyRepView;
 import edu.ntu.ccds.sc2002.internship.model.Level;
 import edu.ntu.ccds.sc2002.internship.model.CompanyRepresentative;
+import edu.ntu.ccds.sc2002.internship.model.Internship;
 import edu.ntu.ccds.sc2002.internship.model.OperationResult;
+import edu.ntu.ccds.sc2002.internship.model.Status;
+import edu.ntu.ccds.sc2002.internship.util.CSVUtil;
 import edu.ntu.ccds.sc2002.internship.util.InternshipInputData;
+import edu.ntu.ccds.sc2002.internship.model.InternshipApplication;
+import edu.ntu.ccds.sc2002.internship.util.ToggleVisHelper;
 
 /**
  * Controller for Company Representative operations.
@@ -37,9 +43,12 @@ public class CompanyRepController {
                 handleViewOpportunities(user);
                 break;
             case "4":
-                handleViewApplications(user);
+                handleReviewApplications(user);
                 break;
             case "5":
+                handleManageOpportunities(user);
+                break;
+            case "6":
                 view.showLogout();
                 return true;
             default:
@@ -55,7 +64,7 @@ public class CompanyRepController {
 
         Level levelnum = Level.valueOf(input.level.toUpperCase());
 
-        companyRepModel.createInternshipOpportunity(
+        OperationResult result = companyRepModel.createInternshipOpportunity(
             input.title,
             input.description,
             levelnum,
@@ -65,7 +74,13 @@ public class CompanyRepController {
             input.numOfSlots
         );
 
-        System.out.println("Internship opportunity created successfully!");
+        if (result.isSuccess()) {
+            view.showSuccess(result.getMessage());
+        } else {
+            view.showError(result.getMessage());
+        }
+        return;
+            
     }
 
     public void handleViewApplications(User user){
@@ -83,6 +98,40 @@ public class CompanyRepController {
     public void handleManageOpportunities(User user){
         CompanyRepresentative cuser = (CompanyRepresentative) user;
         handleViewOpportunities(user);
+        ToggleVisHelper input = view.viewToggleVisibility();
+        OperationResult result = cuser.toggleVisibilityforrep(input.id, input.state);
+        if (result.isSuccess()) {
+            view.showSuccess(result.getMessage());
+        } else {
+            view.showError(result.getMessage());
+        }
+        return;
         
+    }
+
+    public void handleReviewApplications(User user){
+        OperationResult result = OperationResult.failure("No pending applications at the moment.");
+        CompanyRepresentative cuser = (CompanyRepresentative) user;
+        List<InternshipApplication> resultList = cuser.getPendingInternshipApplications();
+        if (resultList == null || resultList.isEmpty()){
+            view.showError(result.getMessage());
+            return;
+        }
+        view.displayApplications(resultList);
+        String choice = view.inputApplicationID();
+        Status status = Status.valueOf(view.inputStatus());
+        
+        for (InternshipApplication row : resultList){
+            if ((row.getStatus() == Status.PENDING) && (row.getApplicationID().equals(choice))){
+                result = cuser.reviewApplications(row, status);
+            }
+        }
+
+        if (result.isSuccess()) {
+            view.showSuccess(result.getMessage());
+        } else {
+            view.showError(result.getMessage());
+        }
+        return;
     }
 }

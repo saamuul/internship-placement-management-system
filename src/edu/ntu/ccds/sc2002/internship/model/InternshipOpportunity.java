@@ -36,6 +36,11 @@ public class InternshipOpportunity {
         this.internshipID = id;
      }
 
+    public void setStatus(String stat){
+        Status statnum = Status.valueOf(stat.trim().toUpperCase());
+        this.status = statnum;
+    }
+
     public String getInternshipID() {
         return this.internshipID;
     }

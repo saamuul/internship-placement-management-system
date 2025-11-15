@@ -3,6 +3,8 @@ package edu.ntu.ccds.sc2002.internship.view;
 import java.util.List;
 import java.util.Scanner;
 
+import javax.net.ssl.SSLEngineResult.Status;
+
 import edu.ntu.ccds.sc2002.internship.model.Company;
 import edu.ntu.ccds.sc2002.internship.model.CompanyRepresentative;
 import edu.ntu.ccds.sc2002.internship.model.User;
@@ -11,6 +13,7 @@ import edu.ntu.ccds.sc2002.internship.model.InternshipApplication;
 import edu.ntu.ccds.sc2002.internship.model.InternshipOpportunity;
 import edu.ntu.ccds.sc2002.internship.model.Level;
 import edu.ntu.ccds.sc2002.internship.util.InternshipInputData;
+import edu.ntu.ccds.sc2002.internship.util.ToggleVisHelper;
 /**
  * View class for Company Representative interface.
  * VIEW LAYER: Responsible ONLY for displaying information and getting user
@@ -33,9 +36,10 @@ public class CompanyRepView {
         System.out.println("1) Create Internship Opportunity");
         System.out.println("2) View Applications");
         System.out.println("3) View Created Opportunities");
-        System.out.println("4) Manage Opportunities");
-        System.out.println("5) Logout");
-        System.out.print("Choose: ");
+        System.out.println("4) Review Applications");
+        System.out.println("5) Toggle internship visibility");
+        System.out.println("6) Logout");
+        System.out.print("Choose: ");  
     }
 
     /**
@@ -49,7 +53,14 @@ public class CompanyRepView {
         System.out.println("Enter Internship Opportunity ID: ");
         return scanner.nextLine();
     }
-
+    public String inputApplicationID(){
+        System.out.println("Enter Internship Application ID: ");
+        return scanner.nextLine();
+    }
+    public String inputStatus(){{
+        System.out.println("Enter Status: ");
+        return scanner.nextLine().trim().toUpperCase();
+    }}
     public String inputTitle(){
         System.out.println("Enter Title: ");
         return scanner.nextLine();
@@ -85,6 +96,11 @@ public class CompanyRepView {
         return scanner.nextLine();
     }
 
+    public Boolean inputBoolean(){
+        System.out.print("Toggle visibility (true/false): ");
+        return scanner.nextBoolean();
+    }
+
     public InternshipInputData createOpportunityInput(){
         InternshipInputData data = new InternshipInputData();
 
@@ -111,11 +127,11 @@ public class CompanyRepView {
 
     public void displayOpportunities(List<InternshipOpportunity> opportunities) {
         System.out.println("\n=== Your Created Internship Opportunities ===");
-        System.out.println("──────────────────────────────────────────────────────────────────────────────────────────");
-        System.out.printf("%-5s %-35s %-30s %-30s %-30s %-30s %-30s %-30s %-10s%n", "ID", "Title", "Description", "Preferred Major", "Open Date", "Closing Date", "Number of Slots", "Visibility" , "Level");
-        System.out.println("──────────────────────────────────────────────────────────────────────────────────────────");
+        System.out.println("──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────");
+        System.out.printf("%-5s %-35s %-30s %-30s %-30s %-30s %-30s %-30s %-30s %-10s%n", "ID", "Title", "Description", "Preferred Major", "Open Date", "Closing Date", "Number of Slots", "Visibility" ,"Status",  "Level");
+        System.out.println("──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────");
         for (InternshipOpportunity opportunity : opportunities){
-            System.out.printf("%-5s %-35s %-30s %-10s%n",
+            System.out.printf("%-5s %-35s %-30s %-30s %-30s %-30s %-30s %-30s %-30s %-10s%n",
                     opportunity.getInternshipID(),
                     truncate(opportunity.getTitle(), 35),
                     truncate(opportunity.getDescription(), 30),
@@ -123,6 +139,7 @@ public class CompanyRepView {
                     truncate(opportunity.getOpenDate(), 30),
                     truncate(opportunity.getCloseDate(), 30),
                     truncate(String.valueOf(opportunity.getNumOfSlots() + ""), 30),
+                    truncate(String.valueOf(opportunity.getVisibility()), 30),
                     truncate(String.valueOf(opportunity.getStatus()), 30),
                     opportunity.getLevel());
         }
@@ -189,6 +206,18 @@ public class CompanyRepView {
             }
         }*/
     }
+
+    public ToggleVisHelper viewToggleVisibility(){
+        ToggleVisHelper result = new ToggleVisHelper();
+        //System.out.println("Select which ID to toggle: ");
+        result.id = inputOpportunityID();
+
+        System.out.println("Set visibility to (true/false): ");
+        result.state = scanner.nextLine();
+        //scanner.nextLine(); // Consume newline
+        return result;
+    }
+
 
     public void showSuccess(String message) {
         System.out.println("SUCCESS: " + message);
