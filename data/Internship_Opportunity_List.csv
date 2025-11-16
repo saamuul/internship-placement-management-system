@@ -1,16 +1,32 @@
 ID,Title,Description,Major,OpenDate,CloseDate,RepName,Slots,Visibility,Status,Level
-1,Software Development Intern,Develop and test web applications using modern frameworks,Computer Science,2025-01-15,2025-03-31,Emily Tan,5,true,SUCCESSFUL,BASIC
-2,Data Analytics Intern,Analyze business data and create insightful reports,Data Science & AI,2025-02-01,2025-04-15,Daniel Lee,3,true,SUCCESSFUL,BASIC
-3,AI Research Intern,Research and implement machine learning algorithms,Data Science & AI,2025-01-20,2025-03-20,Daniel Lee,2,true,SUCCESSFUL,INTERMEDIATE
-4,Hardware Engineering Intern,Design and test electronic circuits and embedded systems,Computer Engineering,2025-02-10,2025-04-30,Marcus Ong,4,true,PENDING,INTERMEDIATE
-5,Mobile App Developer Intern,Build iOS and Android applications,Computer Science,2025-01-25,2025-03-25,Emily Tan,3,true,SUCCESSFUL,INTERMEDIATE
-6,Cloud Infrastructure Intern,Manage cloud services and infrastructure automation,Computer Science,2025-02-05,2025-04-20,Brandon Yap,4,true,SUCCESSFUL,INTERMEDIATE
-7,Media Production Intern,Create multimedia content for marketing campaigns,Information Engineering & Media,2025-01-30,2025-04-10,Rachel Ng,5,true,SUCCESSFUL,BASIC
-8,Advanced Data Science Intern,Build complex machine learning models and analytics,Data Science & AI,2025-02-15,2025-05-01,Daniel Lee,2,true,SUCCESSFUL,ADVANCED
-9,IoT Systems Intern,Develop Internet of Things solutions and protocols,Computer Engineering,2025-01-18,2025-03-28,Marcus Ong,3,true,PENDING,ADVANCED
-10,Full Stack Development Intern,End-to-end web development with modern tech stack,Computer Science,2025-02-20,2025-04-25,Brandon Yap,4,true,SUCCESSFUL,ADVANCED
-11,Embedded Systems Intern,Program micro controllers and embedded devices,Computer Engineering,2025-02-08,2025-04-15,Marcus Ong,4,true,PENDING,ADVANCED
-12,AI Systems Intern,Develop artificial intelligence applications and models,Computer Science,2025-01-22,2025-04-05,Brandon Yap,2,true,SUCCESSFUL,ADVANCED
-13,Test1,this is just testing ,shit science,2025-11-15,2025-11-15,Emily Tan,8,false,PENDING,BASIC
-14,test2,test2,shitscience2,2020-11-20,2020-11-20,Emily Tan,4,false,PENDING,INTERMEDIATE
-15,test3,test33,math,2020-10-20,2020-10-20,Emily Tan,2,true,PENDING,ADVANCED
+1,Test Internship 4,This is test 4,Data Science & AI,2025-12-01,2025-12-31,Daniel Lee,5,true,SUCCESSFUL,BASIC
+2,Software Development Intern,Develop web applications using modern frameworks,Computer Science,2025-11-18,2025-12-25,Emily Tan,1,false,SUCCESSFUL,BASIC
+3,Data Analytics Intern,Analyze large datasets and create visualizations,Data Science & AI,2025-11-20,2025-12-28,Daniel Lee,4,true,SUCCESSFUL,BASIC
+4,Network Engineer Intern,Configure and maintain network infrastructure,Computer Engineering,2025-11-19,2025-12-30,Sarah Lim,2,true,SUCCESSFUL,INTERMEDIATE
+5,AI Research Intern,Research machine learning algorithms and neural networks,Data Science & AI,2025-11-21,2026-01-05,Marcus Ong,3,true,SUCCESSFUL,ADVANCED
+6,Mobile App Developer,Build iOS and Android applications,Computer Science,2025-11-18,2025-12-27,Emily Tan,5,true,SUCCESSFUL,INTERMEDIATE
+7,Cloud Solutions Intern,Work with AWS and Azure cloud platforms,Computer Engineering,2025-11-22,2025-12-29,Rachel Ng,3,true,SUCCESSFUL,INTERMEDIATE
+8,Cybersecurity Analyst Intern,Monitor security systems and respond to threats,Computer Science,2025-11-20,2026-01-10,Brandon Yap,2,true,SUCCESSFUL,ADVANCED
+9,UI/UX Design Intern,Design user interfaces for web and mobile apps,Information Engineering & Media,2025-11-19,2025-12-26,Cheryl Goh,4,true,SUCCESSFUL,BASIC
+10,Database Administrator Intern,Manage SQL and NoSQL databases,Computer Engineering,2025-11-23,2025-12-31,Alice Smith,3,true,SUCCESSFUL,INTERMEDIATE
+11,Backend Developer Intern,Build REST APIs and microservices,Computer Science,2025-11-18,2025-12-24,Emily Tan,4,true,SUCCESSFUL,INTERMEDIATE
+12,Machine Learning Engineer,Develop ML models for production systems,Data Science & AI,2025-11-21,2026-01-08,Marcus Ong,2,true,SUCCESSFUL,ADVANCED
+13,DevOps Engineer Intern,Automate deployment pipelines and infrastructure,Computer Engineering,2025-11-20,2025-12-30,Brandon Yap,3,true,SUCCESSFUL,INTERMEDIATE
+14,Frontend Developer Intern,Create responsive web interfaces with React,Computer Science,2025-11-19,2025-12-28,Daniel Lee,5,false,SUCCESSFUL,BASIC
+15,Video Production Intern,Edit and produce multimedia content,Information Engineering & Media,2025-11-22,2025-12-27,Cheryl Goh,3,true,SUCCESSFUL,BASIC
+16,Systems Integration Intern,Integrate enterprise software systems,Computer Engineering,2025-11-18,2026-01-05,Sarah Lim,2,true,SUCCESSFUL,INTERMEDIATE
+17,Quality Assurance Intern,Test software and report bugs,Computer Science,2025-11-23,2025-12-29,Alice Smith,3,true,SUCCESSFUL,BASIC
+18,Blockchain Developer Intern,Develop smart contracts and DApps,Computer Science,2025-11-20,2026-01-12,Marcus Ong,2,true,SUCCESSFUL,ADVANCED
+19,IoT Solutions Intern,Build Internet of Things applications,Computer Engineering,2025-11-21,2025-12-31,Brandon Yap,3,true,SUCCESSFUL,INTERMEDIATE
+20,Business Intelligence Intern,Create dashboards and reports from data,Data Science & AI,2025-11-19,2025-12-26,Daniel Lee,4,true,SUCCESSFUL,BASIC
+21,Digital Marketing Analyst,Analyze marketing data and campaign performance,Information Engineering & Media,2025-11-18,2025-12-30,Rachel Ng,5,true,SUCCESSFUL,BASIC
+22,Full Stack Developer Intern,Work on both frontend and backend development,Computer Science,2025-11-22,2026-01-06,Emily Tan,3,true,SUCCESSFUL,INTERMEDIATE
+23,Computer Vision Intern,Develop image recognition and processing systems,Data Science & AI,2025-11-20,2026-01-10,Marcus Ong,2,true,SUCCESSFUL,ADVANCED
+24,IT Support Intern,Provide technical support to end users,Computer Engineering,2025-11-19,2025-12-28,Cheryl Goh,4,true,SUCCESSFUL,BASIC
+25,Game Development Intern,Create games using Unity or Unreal Engine,Computer Science,2025-11-23,2025-12-31,Brandon Yap,3,true,SUCCESSFUL,INTERMEDIATE
+26,Content Management Intern,Manage and optimize website content,Information Engineering & Media,2025-11-18,2025-12-27,Sarah Lim,5,true,SUCCESSFUL,BASIC
+27,Robotics Engineer Intern,Program and test robotic systems,Computer Engineering,2025-11-21,2026-01-08,Marcus Ong,2,true,SUCCESSFUL,ADVANCED
+28,SEO Specialist Intern,Optimize websites for search engines,Information Engineering & Media,2025-11-20,2025-12-29,Rachel Ng,4,true,SUCCESSFUL,BASIC
+29,Enterprise Software Intern,Develop enterprise resource planning systems,Computer Science,2025-11-22,2026-01-05,Alice Smith,3,true,SUCCESSFUL,INTERMEDIATE
+30,Natural Language Processing Intern,Build NLP models for text analysis,Data Science & AI,2025-11-19,2026-01-12,Marcus Ong,2,true,SUCCESSFUL,ADVANCED
+31,Hardware Testing Intern,Test and validate computer hardware components,Computer Engineering,2025-11-18,2025-12-30,Brandon Yap,4,true,PENDING,BASIC

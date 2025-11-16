@@ -1,5 +1,4 @@
 package edu.ntu.ccds.sc2002.internship.model;
-import edu.ntu.ccds.sc2002.internship.controller.AuthController;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -12,51 +11,56 @@ public class Report {
     private CareerStaff generatedBy;
     private Filter filterCriteria;
     private List<InternshipOpportunity> internshipList;
-    private AuthController authController;
+    private List<InternshipOpportunity> internshipListFiltered;
 
-    public Report(Filter filterCriteria, CareerStaff generatedBy) {
+    public Report(Filter filterCriteria, CareerStaff generatedBy, List<InternshipOpportunity> internshipList) {
         this.reportId = UUID.randomUUID().toString();
         this.generatedDate = LocalDateTime.now();
         this.filterCriteria = filterCriteria;
         this.generatedBy = generatedBy;
-        this.internshipList = fetchInternshipsBasedOnFilter(filterCriteria);
+        this.internshipList = internshipList;
+        this.internshipListFiltered = fetchInternshipsBasedOnFilter(filterCriteria);
     }
 
     private List<InternshipOpportunity> fetchInternshipsBasedOnFilter(Filter filter) {
-        List<InternshipOpportunity> allInternships = authController.getAllOpportunities(); 
+        List<InternshipOpportunity> all = this.internshipList;
         List<InternshipOpportunity> filtered = new ArrayList<>();
 
-        for (InternshipOpportunity opp : allInternships) {
+        for (InternshipOpportunity opp : all) {
             boolean matches = true;
 
-            if (filter.getLevel() != null && opp.getLevel() != filter.getLevel()) {
-                matches = false;
-            }
-            if (filter.getPreferredMajor() != null
-                    && !filter.getPreferredMajor().equalsIgnoreCase(opp.getPrefMajor())) {
-                matches = false;
-            }
-            if (filter.getStatus() != null && opp.getStatus() != filter.getStatus()) {
-                matches = false;
-            }
-            if (opp.getVisibility() != filter.isVisibility()) {
-                matches = false;
-            }
-            if (filter.getRepName() != null
-                    && !filter.getRepName().equalsIgnoreCase(opp.getRep().toString())) {
-                matches = false;
-            }
-            if (filter.getNumOfSlots() > 0 && opp.getNumOfSlots() != filter.getNumOfSlots()) {
+            if (filter.getLevel() != null &&
+                    opp.getLevel() != filter.getLevel()) {
                 matches = false;
             }
 
-            // Optional: filter by dates if needed (dates are strings in "yyyy-MM-dd"
-            // format)
-            // You could convert to LocalDate for comparison here
+            if (filter.getPreferredMajor() != null &&
+                    !filter.getPreferredMajor().equalsIgnoreCase(opp.getPrefMajor())) {
+                matches = false;
+            }
 
-            if (matches) {
+            if (filter.getStatus() != null &&
+                    opp.getStatus() != filter.getStatus()) {
+                matches = false;
+            }
+
+            if (filter.isVisibility() != null &&
+                    opp.getVisibility() != filter.isVisibility()) {
+                matches = false;
+            }
+
+            if (filter.getRepName() != null &&
+                    !filter.getRepName().equalsIgnoreCase(opp.getRep().getName())) {
+                matches = false;
+            }
+
+            if (filter.getClosingDate() != null &&
+                    !filter.getClosingDate().equalsIgnoreCase(opp.getCloseDate())) {
+                matches = false;
+            }
+
+            if (matches)
                 filtered.add(opp);
-            }
         }
 
         return filtered;
@@ -77,24 +81,21 @@ public class Report {
         sb.append("\n----- Filter Criteria -----\n");
         sb.append("Internship Level: ").append(valueOrNA(filterCriteria.getLevel())).append("\n");
         sb.append("Preferred Major: ").append(valueOrNA(filterCriteria.getPreferredMajor())).append("\n");
-        sb.append("Application Open Date: ").append(valueOrNA(filterCriteria.getApplicationOpenDate())).append("\n");
-        sb.append("Application Close Date: ").append(valueOrNA(filterCriteria.getApplicationCloseDate())).append("\n");
         sb.append("Company Representative: ")
                 .append(filterCriteria.getRepName() != null ? filterCriteria.getRepName()
                         : "N/A")
                 .append("\n");
-        sb.append("Number of Slots: ").append(valueOrNA(filterCriteria.getNumOfSlots())).append("\n");
         sb.append("Internship Status: ").append(valueOrNA(filterCriteria.getStatus())).append("\n");
+        sb.append("Closing Date: ").append(valueOrNA(filterCriteria.getClosingDate())).append("\n");
         sb.append("Visibility: ").append(filterCriteria.isVisibility()).append("\n");
 
         sb.append("\n----- Internship Opportunities -----\n");
         if (internshipList == null || internshipList.isEmpty()) {
             sb.append("No internship opportunities found for the selected criteria.\n");
         } else {
-            for (InternshipOpportunity opp : internshipList) {
+            for (InternshipOpportunity opp : internshipListFiltered) {
                 sb.append("Title: ").append(valueOrNA(opp.getTitle())).append("\n");
-                sb.append("Company: ").append(valueOrNA(opp.getRep() != null ? opp.getRep().getCompany() : null))
-                        .append("\n");
+                sb.append("Representative: ").append(valueOrNA(opp.getRep().getName())).append("\n");
                 sb.append("Level: ").append(valueOrNA(opp.getLevel())).append("\n");
                 sb.append("Preferred Major: ").append(valueOrNA(opp.getPrefMajor())).append("\n");
                 sb.append("Application Dates: ").append(valueOrNA(opp.getOpenDate()))

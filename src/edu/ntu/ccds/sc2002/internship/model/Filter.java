@@ -1,25 +1,29 @@
 package edu.ntu.ccds.sc2002.internship.model;
 
+import edu.ntu.ccds.sc2002.internship.enums.Level;
+import edu.ntu.ccds.sc2002.internship.enums.Status;
+
 public class Filter {
     private Level levelFilter;
     private String preferredMajor;
-    private String applicationOpenDate;
-    private String applicationCloseDate;
     private String repName;
-    private int numOfSlots;
     private Status statusFilter;
-    private boolean visibility;
+    private Boolean visibility;
+    private String closingDate; // Filter by closing date
 
-    public Filter(Level levelFilter, String preferredMajor, String applicationOpenDate, String applicationCloseDate,
-            String repName, int numOfSlots, Status statusFilter, boolean visibility) {
+    public Filter(Level levelFilter, String preferredMajor, String repName, Status statusFilter, Boolean visibility,
+            String closingDate) {
         this.levelFilter = levelFilter;
         this.preferredMajor = preferredMajor;
-        this.applicationOpenDate = applicationOpenDate;
-        this.applicationCloseDate = applicationCloseDate;
         this.repName = repName;
-        this.numOfSlots = numOfSlots;
         this.statusFilter = statusFilter;
         this.visibility = visibility;
+        this.closingDate = closingDate;
+    }
+
+    // Backward compatibility constructor
+    public Filter(Level levelFilter, String preferredMajor, String repName, Status statusFilter, Boolean visibility) {
+        this(levelFilter, preferredMajor, repName, statusFilter, visibility, null);
     }
 
     public Level getLevel() {
@@ -30,27 +34,19 @@ public class Filter {
         return preferredMajor;
     }
 
-    public String getApplicationOpenDate() {
-        return applicationOpenDate;
-    }
-
-    public String getApplicationCloseDate() {
-        return applicationCloseDate;
-    }
-
     public String getRepName() {
         return repName;
-    }
-
-    public int getNumOfSlots() {
-        return numOfSlots;
     }
 
     public Status getStatus() {
         return statusFilter;
     }
 
-    public boolean isVisibility() {
+    public Boolean isVisibility() {
         return visibility;
+    }
+
+    public String getClosingDate() {
+        return closingDate;
     }
 }

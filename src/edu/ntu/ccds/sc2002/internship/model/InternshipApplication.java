@@ -3,6 +3,9 @@ package edu.ntu.ccds.sc2002.internship.model;
 import java.util.List;
 
 import edu.ntu.ccds.sc2002.internship.util.CSVUtil;
+import edu.ntu.ccds.sc2002.internship.config.DataConfig;
+import edu.ntu.ccds.sc2002.internship.enums.Status;
+import edu.ntu.ccds.sc2002.internship.enums.Level;
 
 public class InternshipApplication {
 
@@ -44,7 +47,7 @@ public class InternshipApplication {
 
     // Gets the Internship object associated with this application.
     public Internship getInternship() {
-        List<String[]> internshipData = CSVUtil.readCSV("data/Internship_Opportunity_List.csv");
+        List<String[]> internshipData = CSVUtil.readCSV(DataConfig.OPPORTUNITY_CSV_PATH);
 
         // Skip header row and find matching internship
         for (int i = 1; i < internshipData.size(); i++) {

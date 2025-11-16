@@ -1,5 +1,8 @@
 package edu.ntu.ccds.sc2002.internship.model;
 
+import edu.ntu.ccds.sc2002.internship.enums.Level;
+import edu.ntu.ccds.sc2002.internship.enums.Status;
+
 public class InternshipOpportunity {
     private String internshipID;
     private String title;
@@ -27,6 +30,10 @@ public class InternshipOpportunity {
         this.visibility = true;
         this.status = Status.PENDING;
         this.level = level;
+    }
+
+    public void updateNumOfSlots(int count) {
+        this.numOfSlots = count;
     }
 
     public void setVisibility(boolean set) {

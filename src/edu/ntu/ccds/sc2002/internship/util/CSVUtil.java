@@ -55,11 +55,30 @@ public class CSVUtil {
                 Files.createDirectories(path.getParent());
             }
 
+            // Check if file exists and is not empty
+            boolean fileExists = Files.exists(path);
+            boolean needsNewline = false;
+
+            if (fileExists && Files.size(path) > 0) {
+                // Check if the file ends with a newline
+                try (BufferedReader br = Files.newBufferedReader(path)) {
+                    String lastLine = null;
+                    String line;
+                    while ((line = br.readLine()) != null) {
+                        lastLine = line;
+                    }
+                    // If there was content, we need a newline before appending
+                    needsNewline = (lastLine != null);
+                }
+            }
+
             // Append the row
             try (BufferedWriter bw = Files.newBufferedWriter(path,
                     StandardOpenOption.CREATE, StandardOpenOption.APPEND)) {
+                if (needsNewline) {
+                    bw.newLine();
+                }
                 bw.write(String.join(",", row));
-                bw.newLine();
             }
             return true;
 
@@ -144,9 +163,10 @@ public class CSVUtil {
      */
     public static int removeMatchingRows(String filePath, RowMatcher matcher) {
         List<String[]> rows = readCSV(filePath);
-        
-        //Skip if file is empty
-        if (rows.isEmpty()) return 0;
+
+        // Skip if file is empty
+        if (rows.isEmpty())
+            return 0;
 
         int originalSize = rows.size();
         // Only keep rows that does not match the condition
@@ -160,18 +180,16 @@ public class CSVUtil {
         return originalSize - rows.size(); // return number of rows removed
     }
 
-
     public static int countDataRows(String filePath) {
-    List<String[]> rows = readCSV(filePath);
+        List<String[]> rows = readCSV(filePath);
 
-    // Subtract 1 to exclude the header row, if it exists
-    if (rows.size() > 0) {
-        return rows.size() - 1;
-    } else {
-        return 0;
+        // Subtract 1 to exclude the header row, if it exists
+        if (rows.size() > 0) {
+            return rows.size() - 1;
+        } else {
+            return 0;
+        }
     }
-    }
-
 
     // Functional interface for matching rows.
     public interface RowMatcher {

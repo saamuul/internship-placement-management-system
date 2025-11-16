@@ -7,6 +7,21 @@ import edu.ntu.ccds.sc2002.internship.controller.CareerStaffController;
 import edu.ntu.ccds.sc2002.internship.controller.CompanyRepController;
 import edu.ntu.ccds.sc2002.internship.controller.MainController;
 import edu.ntu.ccds.sc2002.internship.controller.StudentController;
+import edu.ntu.ccds.sc2002.internship.repository.impl.ApplicationRepository;
+import edu.ntu.ccds.sc2002.internship.repository.impl.InternshipRepository;
+import edu.ntu.ccds.sc2002.internship.repository.impl.UserRepository;
+import edu.ntu.ccds.sc2002.internship.repository.impl.WithdrawalRepository;
+import edu.ntu.ccds.sc2002.internship.repository.interfaces.IApplicationRepository;
+import edu.ntu.ccds.sc2002.internship.repository.interfaces.IInternshipRepository;
+import edu.ntu.ccds.sc2002.internship.repository.interfaces.IUserRepository;
+import edu.ntu.ccds.sc2002.internship.repository.interfaces.IWithdrawalRepository;
+import edu.ntu.ccds.sc2002.internship.service.impl.CareerStaffService;
+import edu.ntu.ccds.sc2002.internship.service.impl.CompanyRepService;
+import edu.ntu.ccds.sc2002.internship.service.impl.StudentService;
+import edu.ntu.ccds.sc2002.internship.service.interfaces.ICareerStaffService;
+import edu.ntu.ccds.sc2002.internship.service.interfaces.ICompanyRepService;
+import edu.ntu.ccds.sc2002.internship.service.interfaces.IStudentService;
+import edu.ntu.ccds.sc2002.internship.util.InputValidation;
 import edu.ntu.ccds.sc2002.internship.view.CareerStaffView;
 import edu.ntu.ccds.sc2002.internship.view.CompanyRepView;
 import edu.ntu.ccds.sc2002.internship.view.MainView;
@@ -15,28 +30,55 @@ import edu.ntu.ccds.sc2002.internship.view.StudentView;
 /**
  * Main entry point for the Internship Placement Management System.
  * 
- * Architecture (MVC Pattern):
- * - Model (model/) - Data entities and business logic (User, Internship,
- * Application, etc.)
+ * Architecture (MVC Pattern with Dependency Injection):
+ * - Model (model/) - Data entities (User, Internship, Application, etc.)
  * - View (view/) - User interface and display (StudentView, MainView, etc.)
- * - Controller (controller/) - Coordination between Model and View
- * (StudentController, etc.)
- * - Utility (util/) - Helper classes for file I/O, validation, date handling
- * - Main (main/) - Application entry point
+ * - Controller (controller/) - Coordination between View and Service
+ * - Service (service/) - Business logic layer
+ * - Repository (repository/) - Data access layer
+ * - Utility (util/) - Helper classes for file I/O, validation
+ * - Main (main/) - Application entry point with DI setup
  * - Data (data/) - CSV files for data storage
  * - Docs (docs/) - Project documentation, diagrams, and reports
  */
 public class InternshipSystem {
     public static void main(String[] args) {
-        String studentFile = "data/Student_List.csv";
-        String staffFile = "data/Staff_List.csv";
-        String companyRepFile = "data/Company_Representative_List.csv";
-
         // Shared scanner for all views
         Scanner scanner = new Scanner(System.in);
 
-        // Initialize authentication controller (Model layer)
-        AuthController authController = new AuthController(studentFile, staffFile, companyRepFile);
+        // Initialize repositories (Data Access Layer)
+        IUserRepository userRepository = new UserRepository();
+        IInternshipRepository internshipRepository = new InternshipRepository();
+        IApplicationRepository applicationRepository = new ApplicationRepository();
+        IWithdrawalRepository withdrawalRepository = new WithdrawalRepository();
+
+        // Cleanup: Delete expired internship opportunities (past closing date)
+        int deletedCount = internshipRepository.deleteExpiredOpportunities();
+        if (deletedCount > 0) {
+            System.out.println("Removed " + deletedCount +
+                    " expired internship opportunity(s) past their closing date.");
+        }
+
+        // Initialize services (Business Logic Layer)
+        IStudentService studentService = new StudentService(
+                userRepository,
+                internshipRepository,
+                applicationRepository,
+                withdrawalRepository);
+
+        ICompanyRepService companyRepService = new CompanyRepService(
+                userRepository,
+                internshipRepository,
+                applicationRepository);
+
+        ICareerStaffService careerStaffService = new CareerStaffService(
+                userRepository,
+                internshipRepository,
+                applicationRepository,
+                withdrawalRepository);
+
+        // Initialize authentication controller with DI (now follows SOLID principles)
+        AuthController authController = new AuthController(userRepository);
 
         // Initialize all views (View layer)
         MainView mainView = new MainView(scanner);
@@ -44,10 +86,16 @@ public class InternshipSystem {
         CompanyRepView companyRepView = new CompanyRepView(scanner);
         CareerStaffView careerStaffView = new CareerStaffView(scanner);
 
-        // Initialize role-specific controllers (Controller layer)
-        StudentController studentController = new StudentController(studentView);
-        CompanyRepController companyRepController = new CompanyRepController(companyRepView);
-        CareerStaffController careerStaffController = new CareerStaffController(authController, careerStaffView);
+        // Initialize role-specific controllers (Controller layer) with DI
+        InputValidation inputValidation = new InputValidation();
+        StudentController studentController = new StudentController(studentView, studentService);
+        CompanyRepController companyRepController = new CompanyRepController(
+                companyRepView,
+                companyRepService,
+                inputValidation);
+        CareerStaffController careerStaffController = new CareerStaffController(
+                careerStaffView,
+                careerStaffService);
 
         // Initialize main controller (Controller layer)
         MainController mainController = new MainController(

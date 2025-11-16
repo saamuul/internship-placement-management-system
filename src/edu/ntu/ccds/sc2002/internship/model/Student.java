@@ -1,9 +1,10 @@
 package edu.ntu.ccds.sc2002.internship.model;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import edu.ntu.ccds.sc2002.internship.util.CSVUtil;
+import edu.ntu.ccds.sc2002.internship.config.DataConfig;
+import edu.ntu.ccds.sc2002.internship.enums.UserRole;
 
 public class Student extends User {
     private int yearOfStudy;
@@ -28,280 +29,19 @@ public class Student extends User {
         return major;
     }
 
-    public List<Internship> viewInternships() {
-        List<Internship> internships = new ArrayList<>();
-        List<String[]> internshipOpportunities = CSVUtil.readCSV("data/Internship_Opportunity_List.csv");
-
-        // Skip the header row (first row)
-        boolean isFirstRow = true;
-        for (String[] row : internshipOpportunities) {
-            if (isFirstRow) {
-                isFirstRow = false;
-                continue; // Skip header
-            }
-
-            if (row.length < 11)
-                continue; // Ensure row has enough columns
-
-            // CSV format:
-            // ID,Title,Description,Major,Opendate,CloseDate,RepName,Slots,Visibility,Status,Level
-            String internshipId = row[0];
-            String title = row[1];
-            String internshipMajor = row[3]; // Major column
-            String companyName = row[6]; // RepName
-            String visibility = row[8]; // Visibility column
-            String levelStr = row[10]; // Level column
-
-            // Filter 1: Check visibility is "true"
-            if (!visibility.trim().equalsIgnoreCase("true")) {
-                continue;
-            }
-
-            // Filter 2: Check if major matches
-            if (!internshipMajor.trim().equalsIgnoreCase(this.major)) {
-                continue;
-            }
-
-            // Filter 3: Check if student's year matches the level requirement
-            Level level = Level.valueOf(levelStr.toUpperCase());
-            // Year 1-2 students can only see BASIC internships
-            if (yearOfStudy <= 2 && level != Level.BASIC) {
-                continue;
-            }
-            // Year 3-4 students can see all BASIC, INTERMEDIATE and ADVANCED internships
-
-            Internship internship = new Internship(internshipId, companyName, title, level);
-            internships.add(internship);
-        }
-        return internships;
-    }
-
-    public OperationResult applyForInternship(String internshipId) {
-        // Short-form for each file (use repository CSV filenames from data folder)
-        String opportunityFile = "data/Internship_Opportunity_List.csv";
-        String applicationFile = "data/Internship_Applications_List.csv";
-
-        // Find the internship with internshipId from the csv file
-        List<String[]> internshipOpportunities = CSVUtil.readCSV(opportunityFile);
-        String[] target = null;
-        for (String[] row : internshipOpportunities) {
-            if (row[0].equalsIgnoreCase(internshipId)) {
-                target = row;
-                break;
-            }
-        }
-
-        if (target == null) {
-            return OperationResult.failure("Internship ID: " + internshipId + " not found.");
-        }
-
-        // Check for visibility of internship
-        String visibility = target[8].trim();
-        if (!visibility.equalsIgnoreCase("true")) {
-            return OperationResult
-                    .failure("Internship ID: " + internshipId + "is not visible or open for applications");
-        }
-
-        // Check that the internship we applying for is for our major
-        String internMajor = target[3].trim();
-        if (!internMajor.equalsIgnoreCase(major)) {
-            return OperationResult.failure("Student Major(" + major + ") is not eligible for this internship");
-        }
-
-        String level = target[10].trim();
-
-        // Ensure Year 1 and 2 can only apply to Basic Internship
-        if (yearOfStudy <= 2 && !level.equalsIgnoreCase("Basic")) {
-            return OperationResult
-                    .failure("Year " + yearOfStudy + " students can only apply for Basic-level internships.");
-        }
-
-        // Check that they do not have more than 3 active applications
-        List<String[]> application = CSVUtil.readCSV(applicationFile);
-        int count = 0;
-        for (String[] row : application) {
-            if (row[1].equalsIgnoreCase(getUserId())) {
-                String status = row[3].trim();
-                if (status.equalsIgnoreCase("Pending") || status.equalsIgnoreCase("Successful")) {
-                    count++;
-                }
-            }
-        }
-
-        if (count >= 3) {
-            return OperationResult.failure("You already have 3 active internship applications.");
-        }
-
-        // Check if they applied for it before and is rejected
-        for (String[] row : application) {
-            if (row[1].equalsIgnoreCase(getUserId()) && row[2].equalsIgnoreCase(internshipId)) {
-                String status = row[3].trim();
-                if (!status.equalsIgnoreCase("Unsuccessful")) {
-                    return OperationResult
-                            .failure("You have already applied for this internship (Status: " + status + ").");
-                }
-            }
-        }
-
-        // To get the AppID
-        int maxId = 0;
-        for (String[] row : application) {
-            try {
-                int id = Integer.parseInt(row[0].trim());
-                if (id > maxId) {
-                    // Find largest current ID
-                    maxId = id;
-                }
-            } catch (NumberFormatException e) {
-            }
-        }
-        String appId = String.valueOf(maxId + 1);
-
-        // Create an application and append it
-        InternshipApplication app = new InternshipApplication(appId, getUserId(), internshipId, Status.PENDING);
-        CSVUtil.appendRow(applicationFile, app.toCSVRow());
-
-        // Append to the current attribute
-        appliedInternships.add(app);
-
-        // Read through the student list csv
-        List<String[]> studentRows = CSVUtil.readCSV("data/Student_List.csv");
-
-        // Loop to find the student's row index
-        for (int i = 1; i < studentRows.size(); i++) { // start at 1 to skip header row
-            String[] row = studentRows.get(i);
-
-            // Check that it is at the row of the correct student
-            if (row[0].equalsIgnoreCase(getUserId())) {
-
-                // Update the AppliedInternships column
-                String existing = row[6].trim();
-                if (existing.isEmpty()) {
-                    row[6] = appId;
-                } else {
-                    row[6] = existing + ";" + appId;
-                }
-
-                // Update this row back to the student_list csv file
-                CSVUtil.updateRow("data/Student_List.csv", i, row);
-
-                break;
-            }
-        }
-        return OperationResult.success(getName() + " successfully applied for internship ID: " + internshipId);
-    }
-
     public List<InternshipApplication> getAppliedInternships() {
         return appliedInternships;
-    }
-
-    public OperationResult acceptInternship(String applicationId) {
-        InternshipApplication targetApp = null;
-
-        // Find the student application
-        for (InternshipApplication app : appliedInternships) {
-            if (app.getStudentID().equalsIgnoreCase(getUserId())
-                    && app.getApplicationID().equalsIgnoreCase(applicationId)) {
-                targetApp = app;
-                break;
-            }
-        }
-
-        if (targetApp == null) {
-            return OperationResult.failure("Student have not applied with application ID: " + applicationId);
-        }
-
-        // Only accept application if the application was successful
-        if (targetApp.getStatus() != Status.SUCCESSFUL) {
-            return OperationResult.failure("Only applications with status 'Successful' can be accepted.");
-        }
-
-        // Check that this student has not already accepted another internship
-        if (acceptedInternship != null) {
-            return OperationResult.failure("Student have already accepted an internship placement.");
-        }
-
-        // If all condition needed is fulfilled, record internship acceptance
-        acceptedInternship = targetApp;
-
-        // Remove all other applications by this student excluding the accepted one
-        // (Updates the file as well)
-        CSVUtil.removeMatchingRows("data/Internship_Applications_List.csv",
-                row -> !row[0].equalsIgnoreCase("ApplicationID") && row[1].equalsIgnoreCase(getUserId())
-                        && !row[0].equalsIgnoreCase(applicationId));
-
-        // Read through the student list csv
-        List<String[]> studentRows = CSVUtil.readCSV("data/Student_List.csv");
-
-        // Loop to find the student's row index
-        for (int i = 1; i < studentRows.size(); i++) { // start at 1 to skip header row
-            String[] row = studentRows.get(i);
-
-            // Check that it is at the row of the correct student
-            if (row[0].equalsIgnoreCase(getUserId())) {
-
-                // Update the Accepted Internship column
-                row[7] = applicationId;
-
-                // Update this row back to the student_list csv file
-                CSVUtil.updateRow("data/Student_List.csv", i, row);
-
-                break;
-            }
-        }
-        return OperationResult.success("Internship accepted. Other applications have been withdrawn and removed.");
     }
 
     public InternshipApplication getAcceptedInternship() {
         return acceptedInternship;
     }
 
-    public OperationResult withdrawApplication(String applicationId) {
-        // Find the internship application in the appliedinternship attribute with the
-        // application ID
-        InternshipApplication targetApp = null;
-        for (InternshipApplication app : appliedInternships) {
-            // Ensures the application id and the studentID matches
-            if (app.getApplicationID().equalsIgnoreCase(applicationId)
-                    && app.getStudentID().equalsIgnoreCase(getUserId())) {
-                targetApp = app;
-                break;
-            }
-        }
-
-        // If cannot find
-        if (targetApp == null) {
-            return OperationResult.failure("No application found with ID: " + applicationId + " for this student");
-        }
-
-        // Check that this withdrawal request is not done for an UNSUCCESSFUL status
-        // application
-        if (targetApp.getStatus() == Status.UNSUCCESSFUL) {
-            return OperationResult
-                    .failure("This application is already " + targetApp.getStatus() + ". Student cannot withdraw.");
-        }
-
-        // Check that a withdrawal request has not been sent before for this application
-        List<String[]> requestRows = CSVUtil.readCSV("data/Internship_Withdrawal_Request_List.csv");
-        for (String[] row : requestRows) {
-            if (!row[0].equalsIgnoreCase("AppID") && row[0].equalsIgnoreCase(applicationId)
-                    && row[1].equalsIgnoreCase(getUserId())) {
-                return OperationResult.failure("A withdrawal request is already pending for this application.");
-            }
-        }
-
-        // Append a new request row onto the withdrawal request list
-        String[] newRow = { applicationId, getUserId(), targetApp.getInternshipID(), "PENDING" };
-        CSVUtil.appendRow("data/Internship_Withdrawal_Request_List.csv", newRow);
-
-        return OperationResult
-                .success("Withdrawal request submitted for Application " + applicationId + ". Awaiting Approval.");
-    }
-
-    // Override the method at User.java to save new password into the studentlist
+    // Override the method at User.java to save new password into the student list
     // csv file
+    @Override
     protected boolean savePasswordChange() {
-        List<String[]> rows = CSVUtil.readCSV("data/Student_List.csv");
+        List<String[]> rows = CSVUtil.readCSV(DataConfig.STUDENT_CSV_PATH);
 
         // Start from 1 to skip header row
         for (int i = 1; i < rows.size(); i++) {
@@ -310,7 +50,7 @@ public class Student extends User {
             // Ensure correct student to update the password
             if (row[0].equals(getUserId())) {
                 row[2] = getPassword(); // Updates password column
-                return CSVUtil.updateRow("data/Student_List.csv", i, row); // Save it back to the csv file
+                return CSVUtil.updateRow(DataConfig.STUDENT_CSV_PATH, i, row); // Save it back to the csv file
             }
         }
 

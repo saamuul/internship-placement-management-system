@@ -77,7 +77,7 @@ public class MainView {
 
     // Display success message.
     public void showSuccess(String message) {
-        System.out.println("✓ SUCCESS: " + message);
+        System.out.println("SUCCESS: " + message);
     }
 
     // Display error message.

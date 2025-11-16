@@ -1,7 +1,7 @@
 package edu.ntu.ccds.sc2002.internship.controller;
 
-import edu.ntu.ccds.sc2002.internship.model.AuthResult;
-import edu.ntu.ccds.sc2002.internship.model.RegistrationResult;
+import edu.ntu.ccds.sc2002.internship.dto.AuthResult;
+import edu.ntu.ccds.sc2002.internship.enums.RegistrationResult;
 import edu.ntu.ccds.sc2002.internship.model.User;
 import edu.ntu.ccds.sc2002.internship.view.MainView;
 

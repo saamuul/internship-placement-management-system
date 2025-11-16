@@ -1,9 +1,8 @@
-package edu.ntu.ccds.sc2002.internship.model;
+package edu.ntu.ccds.sc2002.internship.dto;
 
 /**
- * Represents the result of an operation (success/failure with message).
- * Used by Model layer to return results without printing.
- * Follows MVC: Model returns data, View displays it.
+ * Data Transfer Object representing the result of an operation.
+ * DTO LAYER: Transfers operation outcome data (success/failure with message).
  */
 public class OperationResult {
     private final boolean success;

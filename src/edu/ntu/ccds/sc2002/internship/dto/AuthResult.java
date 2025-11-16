@@ -1,8 +1,10 @@
-package edu.ntu.ccds.sc2002.internship.model;
+package edu.ntu.ccds.sc2002.internship.dto;
+
+import edu.ntu.ccds.sc2002.internship.model.User;
 
 /**
  * Data Transfer Object representing the result of an authentication attempt.
- * MODEL LAYER: Represents domain data (authentication outcome).
+ * DTO LAYER: Transfers authentication outcome data between layers.
  */
 public class AuthResult {
     private boolean success;

@@ -3,7 +3,11 @@ package edu.ntu.ccds.sc2002.internship.view;
 import java.util.List;
 import java.util.Scanner;
 
+import edu.ntu.ccds.sc2002.internship.enums.Level;
+import edu.ntu.ccds.sc2002.internship.enums.Status;
+import edu.ntu.ccds.sc2002.internship.model.Filter;
 import edu.ntu.ccds.sc2002.internship.model.Internship;
+import edu.ntu.ccds.sc2002.internship.model.InternshipApplication;
 import edu.ntu.ccds.sc2002.internship.model.User;
 
 /**
@@ -26,12 +30,15 @@ public class StudentView {
         System.out.println("\n=== Student Dashboard ===");
         System.out.println("Welcome, " + user.getName());
         System.out.println("1) View Available Internships");
-        System.out.println("2) Apply for Internship");
-        System.out.println("3) View Internship Application(s)");
-        System.out.println("4) Accept Internship");
-        System.out.println("5) Withdraw Internship Application(s)");
-        System.out.println("6) Change Password");
-        System.out.println("7) Logout");
+        System.out.println("2) Filter Internships");
+        System.out.println("3) Clear Filters");
+        System.out.println("4) Apply for Internship");
+        System.out.println("5) View Internship Application(s)");
+        System.out.println("6) View Accepted Internship");
+        System.out.println("7) Accept Internship");
+        System.out.println("8) Withdraw Internship Application(s)");
+        System.out.println("9) Change Password");
+        System.out.println("10) Logout");
         System.out.print("Choose: ");
     }
 
@@ -49,20 +56,28 @@ public class StudentView {
         }
 
         System.out
-                .println("──────────────────────────────────────────────────────────────────────────────────────────");
-        System.out.printf("%-5s %-35s %-30s %-10s%n", "ID", "Title", "Company Representative", "Level");
+                .println(
+                        "────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────");
+        System.out.printf("%-5s %-30s %-15s %-35s %-12s %-12s %-6s %-10s%n",
+                "ID", "Title", "Company", "Description", "Open Date", "Close Date", "Slots", "Level");
         System.out
-                .println("──────────────────────────────────────────────────────────────────────────────────────────");
+                .println(
+                        "────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────");
 
         for (Internship internship : internships) {
-            System.out.printf("%-5s %-35s %-30s %-10s%n",
+            System.out.printf("%-5s %-30s %-15s %-35s %-12s %-12s %-6d %-10s%n",
                     internship.getInternshipId(),
-                    truncate(internship.getTitle(), 35),
-                    truncate(internship.getCompanyName(), 30),
+                    truncate(internship.getTitle(), 30),
+                    truncate(internship.getCompanyRep(), 25),
+                    truncate(internship.getDescription(), 35),
+                    internship.getOpenDate(),
+                    internship.getCloseDate(),
+                    internship.getSlots(),
                     internship.getLevel());
         }
         System.out
-                .println("──────────────────────────────────────────────────────────────────────────────────────────");
+                .println(
+                        "────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────");
     }
 
     // Prompts for and gets internship ID from user to apply internship.
@@ -97,6 +112,33 @@ public class StudentView {
                 "────────────────────────────────────────────────────────────────────────────────────────────");
     }
 
+    // Display accepted internship details.
+    public void displayAcceptedInternship(InternshipApplication application) {
+        System.out.println("\n=== Your Accepted Internship ===");
+
+        if (application == null) {
+            System.out.println("You have not accepted any internship yet.");
+            return;
+        }
+
+        Internship internship = application.getInternship();
+
+        System.out.println("────────────────────────────────────────────────────────────────");
+        System.out.println("Application ID: " + application.getApplicationID());
+        System.out.println("Status: " + application.getStatus());
+
+        if (internship != null) {
+            System.out.println("Internship ID: " + internship.getInternshipId());
+            System.out.println("Title: " + internship.getTitle());
+            System.out.println("Company Representative: " + internship.getCompanyRep());
+            System.out.println("Level: " + internship.getLevel());
+        } else {
+            System.out.println("Internship details not found.");
+        }
+
+        System.out.println("────────────────────────────────────────────────────────────────");
+    }
+
     // Gets application ID from user to accept internship.
     public String getApplicationIdInput() {
         System.out.print("Enter Application ID to accept: ");
@@ -118,6 +160,82 @@ public class StudentView {
     // Prompts for and gets new password from user.
     public String getNewPasswordInput() {
         System.out.print("Enter new password: ");
+        return scanner.nextLine();
+    }
+
+    // Get filter parameters from user for internship opportunities
+    public Filter getFilterInput() {
+        System.out.println("\n=== Filter Internships ===");
+        System.out.println("Select filters to apply (type numbers separated by commas):");
+        System.out.println("1) Enter Level (BASIC/INTERMEDIATE/ADVANCED)");
+        System.out.println("2) Preferred Major");
+        System.out.println("3) Company Representative Name");
+        System.out.println("4) Status");
+        System.out.println("5) Closing Date (YYYY-MM-DD)");
+        System.out.println("Or press ENTER for no filters.");
+
+        System.out.print("Your choice: ");
+        String input = scanner.nextLine().trim();
+
+        Level level = null;
+        String prefMajor = null;
+        String repName = null;
+        Status status = null;
+        Boolean visibility = null;
+        String closingDate = null;
+
+        if (!input.isEmpty()) {
+            String[] choices = input.split(",");
+
+            for (String choice : choices) {
+                switch (choice.trim()) {
+                    case "1":
+                        System.out.print("Enter Level (BASIC/INTERMEDIATE/ADVANCED): ");
+                        String levelStr = scanner.nextLine().trim().toUpperCase();
+                        try {
+                            level = Level.valueOf(levelStr);
+                        } catch (IllegalArgumentException e) {
+                            System.out.println("Invalid level, skipping...");
+                        }
+                        break;
+
+                    case "2":
+                        System.out.print("Enter Preferred Major: ");
+                        prefMajor = scanner.nextLine().trim();
+                        break;
+
+                    case "3":
+                        System.out.print("Enter Company Representative Name: ");
+                        repName = scanner.nextLine().trim();
+                        break;
+
+                    case "4":
+                        System.out.print("Enter Status (PENDING/ACCEPTED/REJECTED/FILLED/WITHDRAWN): ");
+                        String statusStr = scanner.nextLine().trim().toUpperCase();
+                        try {
+                            status = Status.valueOf(statusStr);
+                        } catch (IllegalArgumentException e) {
+                            System.out.println("Invalid status, skipping...");
+                        }
+                        break;
+
+                    case "5":
+                        System.out.print("Enter Closing Date (YYYY-MM-DD): ");
+                        closingDate = scanner.nextLine().trim();
+                        break;
+
+                    default:
+                        System.out.println("Invalid filter option '" + choice + "'. Please enter numbers 1-5 only.");
+                }
+            }
+        }
+
+        return new Filter(level, prefMajor, repName, status, visibility, closingDate);
+    }
+
+    // Prompts for and gets password confirmation from user.
+    public String getConfirmPasswordInput() {
+        System.out.print("Confirm new password: ");
         return scanner.nextLine();
     }
 
