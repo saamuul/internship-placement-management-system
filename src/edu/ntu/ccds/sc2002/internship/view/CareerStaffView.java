@@ -6,8 +6,11 @@ import java.util.Scanner;
 import edu.ntu.ccds.sc2002.internship.model.CompanyRepresentative;
 import edu.ntu.ccds.sc2002.internship.model.InternshipApplication;
 import edu.ntu.ccds.sc2002.internship.model.InternshipOpportunity;
+import edu.ntu.ccds.sc2002.internship.model.Level;
 import edu.ntu.ccds.sc2002.internship.model.Report;
+import edu.ntu.ccds.sc2002.internship.model.Status;
 import edu.ntu.ccds.sc2002.internship.model.User;
+import edu.ntu.ccds.sc2002.internship.model.Filter;
 
 /**
  * View class for Career Staff interface.
@@ -45,15 +48,72 @@ public class CareerStaffView {
         return scanner.nextLine();
     }
 
+    // Gets company representative ID.
+    public String getInRepId() {
+        System.out.println("Enter Company Representative ID to approve: ");
+        return scanner.nextLine();
+    }
+
+    // Gets internship opportunity ID.
+    public String getInCarOppId() {
+        System.out.print("Enter the ID of the internship opportunity to approve: ");
+        return scanner.nextLine();
+    }
+
+    // Gets the application ID to approve withdrawal of.
+    public String getInAppWithId() {
+        System.out.print("Enter the ID of the internship application to approve withdrawal: ");
+        return scanner.nextLine();
+    }
+
+    // Return the Filter parameters to generate report.
+    public Filter getInFilterReport() {
+        System.out.print("Enter the Level (BASIC/INTERMEDIATE/ADVANCED): ");
+        String levelStr = scanner.nextLine().trim().toUpperCase();
+
+        System.out.print("Enter the Preferred Major: ");
+        String prefMajor = scanner.nextLine().trim();
+
+        System.out.print("Enter the Application Open Date (e.g., 2025-01-15): ");
+        String applOpenDate = scanner.nextLine().trim();
+
+        System.out.print("Enter the Application Close Date (e.g., 2025-03-31): ");
+        String applCloseDate = scanner.nextLine().trim();
+
+        System.out.print("Enter the Representative Name: ");
+        String repName = scanner.nextLine().trim();
+
+        System.out.print("Enter the Number of Slots: ");
+        int numOfSlots = Integer.parseInt(scanner.nextLine().trim());
+
+        System.out.print("Enter the Status (PENDING/SUCCESSFUL/UNSUCCESSFUL/FILLED): ");
+        String statusStr = scanner.nextLine().trim().toUpperCase();
+
+        System.out.print("Enter the Visibility (True/False): ");
+        boolean visibility = Boolean.parseBoolean(scanner.nextLine().trim());
+
+        Level level = Level.valueOf(levelStr);
+        Status status = Status.valueOf(statusStr);
+
+        Filter f = new Filter(level, prefMajor, applOpenDate, applCloseDate, repName, numOfSlots, status, visibility);
+        return f;
+    }
+
     // Display pending company representatives.
     public void displayPendingCompanyReps(List<CompanyRepresentative> pendingReps) {
         if (pendingReps == null || pendingReps.isEmpty()) {
             System.out.println("\nNo pending company representatives.");
         } else {
             System.out.println("\n=== Pending Company Representatives ===");
+
+            System.out.printf("%-5s %-25s %-30s%n",
+                    "ID", "Name", "Company");
+
             for (CompanyRepresentative rep : pendingReps) {
-                System.out.println("ID: " + rep.getUserId() + " | Name: " + rep.getName() +
-                        " | Company: " + rep.getCompany().getName());
+                System.out.printf("%-5s %-25s %-30s%n",
+                        rep.getUserId(),
+                        rep.getName(),
+                        rep.getCompany().getName());
             }
         }
     }
@@ -63,39 +123,57 @@ public class CareerStaffView {
             System.out.println("\nNo pending internship opportunities.");
         } else {
             System.out.println("\n=== Pending Internship Opportunities ===");
+            System.out.println("──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────");
+            System.out.printf("%-5s %-35s %-30s %-30s %-30s %-30s %-30s %-30s %-30s %-10s%n", "ID", "Title", "Description", "Preferred Major", "Open Date", "Closing Date", "Number of Slots", "Visibility" ,"Status",  "Level");
+            System.out.println("──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────");
             for (InternshipOpportunity opp : pendingOpps) {
-                System.out.println("ID: " + opp.getInternshipID() + " | Title: " + opp.getTitle() +
-                        " | Description: " + opp.getDescription() + " | Major: " + opp.getPrefMajor() +
-                        " | Open Date: " + opp.getOpenDate() + "Close Date: " + opp.getCloseDate() +
-                        " | Representative: " + opp.getRep() + " | Slots: " + opp.getNumOfSlots() +
-                        " | Level: " + opp.getLevel());
+            System.out.printf("%-5s %-35s %-30s %-30s %-30s %-30s %-30s %-30s %-30s %-10s%n",
+                    opp.getInternshipID(),
+                    truncate(opp.getTitle(), 35),
+                    truncate(opp.getDescription(), 30),
+                    truncate(opp.getPrefMajor(), 30),
+                    truncate(opp.getOpenDate(), 30),
+                    truncate(opp.getCloseDate(), 30),
+                    truncate(String.valueOf(opp.getNumOfSlots() + ""), 30),
+                    truncate(String.valueOf(opp.getVisibility()), 30),
+                    truncate(String.valueOf(opp.getStatus()), 30),
+                    opp.getLevel());
             }
+
         }
     }
 
     public void displayAllOpportunities(List<InternshipOpportunity> opportunities) {
         System.out.println("\n=== All Internship Opportunities ===");
+        System.out.println("──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────");
+        System.out.printf("%-5s %-35s %-30s %-30s %-30s %-30s %-30s %-30s %-30s %-10s%n", "ID", "Title", "Description", "Preferred Major", "Open Date", "Closing Date", "Number of Slots", "Visibility" ,"Status",  "Level");
+        System.out.println("──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────");
         for (InternshipOpportunity opp : opportunities) {
-            System.out.printf("%s %s%s", "Title:", opp.getTitle(), "\n");
-            System.out.printf("%s %s%s", "Description:", opp.getDescription(), "\n");
-            System.out.printf("%s %s%s", "Preferred Major:", opp.getPrefMajor(), "\n");
-            System.out.printf("%s %s%s", "Open Date:", opp.getOpenDate(), "\n");
-            System.out.printf("%s %s%s", "Close Date:", opp.getCloseDate(), "\n");
-            System.out.printf("%s %s%s", "Representative:", opp.getRep().getName(), "\n");
-            System.out.printf("%s %d%s", "Number of Slots:", opp.getNumOfSlots(), "\n");
-            System.out.printf("%s %s%s", "Level:", opp.getLevel().toString(), "\n");
-            System.out.printf("%s %s%s", "Visibility:", opp.getVisibility(), "\n");
-            System.out.printf("%s %s%s", "Status:", opp.getStatus().toString(), "\n");
+            System.out.printf("%-5s %-35s %-30s %-30s %-30s %-30s %-30s %-30s %-30s %-10s%n",
+                    opp.getInternshipID(),
+                    truncate(opp.getTitle(), 35),
+                    truncate(opp.getDescription(), 30),
+                    truncate(opp.getPrefMajor(), 30),
+                    truncate(opp.getOpenDate(), 30),
+                    truncate(opp.getCloseDate(), 30),
+                    truncate(String.valueOf(opp.getNumOfSlots() + ""), 30),
+                    truncate(String.valueOf(opp.getVisibility()), 30),
+                    truncate(String.valueOf(opp.getStatus()), 30),
+                    opp.getLevel());
         }
     }
 
     public void displayAllApplications(List<InternshipApplication> applications) {
-        System.out.println("\n=== All Internship Opportunities ===");
+        System.out.println("\n=== All Internship Applications ===");
+        System.out.println("──────────────────────────────────────────────────────────────────────────────────────────");
+        System.out.printf("%-5s %-35s %-30s %-10s%n", "ID", "Student ID", "Internship ID", "Status");
+        System.out.println("──────────────────────────────────────────────────────────────────────────────────────────");
         for (InternshipApplication app : applications) {
-            System.out.printf("%s %s%s", "Application ID:", app.getApplicationID(), "\n");
-            System.out.printf("%s %s%s", "Student ID:", app.getStudentID(), "\n");
-            System.out.printf("%s %s%s", "Internship ID:", app.getInternshipID(), "\n");
-            System.out.printf("%s %s%s", "Status:", app.getStatus().toString(), "\n");
+            System.out.printf("%-5s %-35s %-30s %-10s%n",
+                    app.getApplicationID(),
+                    truncate(app.getStudentID(), 35),
+                    truncate(app.getInternshipID(), 30),
+                    app.getStatus());
         }
     }
 
@@ -104,10 +182,16 @@ public class CareerStaffView {
             System.out.println("\nNo pending withdrawal requests.");
         } else {
             System.out.println("\n=== Pending Withdrawal Requests ===");
+
+        System.out.println("──────────────────────────────────────────────────────────────────────────────────────────");
+        System.out.printf("%-5s %-35s %-30s%n", "Application ID", "Student ID", "Internship ID");
+        System.out.println("──────────────────────────────────────────────────────────────────────────────────────────");
+
             for (InternshipApplication app : withdrawalRequests) {
-                System.out.println("Application ID: " + app.getApplicationID() +
-                        " | Student ID: " + app.getStudentID() +
-                        " | Internship ID: " + app.getInternshipID());
+                System.out.printf("%-5s %-35s %-30s%n",
+                        app.getApplicationID(),
+                        truncate(app.getStudentID(), 35),
+                        truncate(app.getInternshipID(), 30));
             }
         }
     }
@@ -145,5 +229,13 @@ public class CareerStaffView {
     public boolean getBooleanInput(String prompt) {
         System.out.print(prompt);
         return Boolean.parseBoolean(scanner.nextLine().trim());
+    }
+
+    private static String truncate(String str, int maxLength) {
+        if (str == null)
+            return "";
+        if (str.length() <= maxLength)
+            return str;
+        return str.substring(0, maxLength - 3) + "...";
     }
 }

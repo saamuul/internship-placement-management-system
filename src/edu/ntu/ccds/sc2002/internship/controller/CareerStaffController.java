@@ -117,9 +117,7 @@ public class CareerStaffController {
         careerStaffView.displayPendingCompanyReps(pendingReps);
         
         // 2. Ask user for the ID of the rep to approve
-        System.out.print("Enter the ID of the Company Representative to approve: ");
-        Scanner scRepId = new Scanner(System.in);
-        String repId = scRepId.nextLine();
+        String repId = careerStaffView.getInRepId();
         
         // 3. Find the rep by ID
         CompanyRepresentative selectedRep = pendingReps.stream()
@@ -129,7 +127,6 @@ public class CareerStaffController {
         
         if (selectedRep == null) {
             careerStaffView.showError("Company Representative not found.");
-            scRepId.close();
             return;
         }
         
@@ -141,7 +138,6 @@ public class CareerStaffController {
         } else {
             careerStaffView.showError("Failed to approve the Company Representative.");
         }
-        scRepId.close();
     }
 
 
@@ -170,9 +166,7 @@ public class CareerStaffController {
         careerStaffView.displayPendingInternshipOpportunities(pendingOpps);
         
         // 2. Ask user for the ID of the rep to approve
-        System.out.print("Enter the ID of the internship opportunity to approve: ");
-        Scanner scOppId = new Scanner(System.in);
-        String oppId = scOppId.nextLine();
+        String oppId = careerStaffView.getInCarOppId();
         
         // 3. Find the rep by ID
         InternshipOpportunity selectedOpp = pendingOpps.stream()
@@ -182,7 +176,6 @@ public class CareerStaffController {
         
         if (selectedOpp == null) {
             careerStaffView.showError("Internship Opportunity not found.");
-            scOppId.close();
             return;
         }
         
@@ -194,7 +187,6 @@ public class CareerStaffController {
         } else {
             careerStaffView.showError("Failed to approve the Internship Opportunity.");
         } 
-        scOppId.close();
     }
 
     /**
@@ -232,8 +224,7 @@ public class CareerStaffController {
         
         // 2. Ask user for the ID of the application to approve
         System.out.print("Enter the ID of the internship application to approve withdrawal: ");
-        Scanner scAppId = new Scanner(System.in);
-        String appId = scAppId.nextLine();
+        String appId = careerStaffView.getInAppWithId();
         
         // 3. Find the application by ID
         InternshipApplication selectedApp = withdrawalRequests.stream()
@@ -243,7 +234,6 @@ public class CareerStaffController {
         
         if (selectedApp == null) {
             careerStaffView.showError("Internship Application not found.");
-            scAppId.close();
             return;
         }
         
@@ -255,44 +245,12 @@ public class CareerStaffController {
         } else {
             careerStaffView.showError("Failed to approve the Internship Application withdrawal.");
         } 
-        scAppId.close();
     }
 
     private void handleGenerateReport(CareerStaff staff) {
-        Scanner sc = new Scanner(System.in);
-
-        System.out.print("Enter the Level (BASIC/INTERMEDIATE/ADVANCED): ");
-        String levelStr = sc.nextLine().trim().toUpperCase();
-
-        System.out.print("Enter the Preferred Major: ");
-        String prefMajor = sc.nextLine().trim();
-
-        System.out.print("Enter the Application Open Date (e.g., 2025-01-15): ");
-        String applOpenDate = sc.nextLine().trim();
-
-        System.out.print("Enter the Application Close Date (e.g., 2025-03-31): ");
-        String applCloseDate = sc.nextLine().trim();
-
-        System.out.print("Enter the Representative Name: ");
-        String repName = sc.nextLine().trim();
-
-        System.out.print("Enter the Number of Slots: ");
-        int numOfSlots = Integer.parseInt(sc.nextLine().trim());
-
-        System.out.print("Enter the Status (PENDING/SUCCESSFUL/UNSUCCESSFUL/FILLED): ");
-        String statusStr = sc.nextLine().trim().toUpperCase();
-
-        System.out.print("Enter the Visibility (True/False): ");
-        boolean visibility = Boolean.parseBoolean(sc.nextLine().trim());
-
-        Level level = Level.valueOf(levelStr);
-        Status status = Status.valueOf(statusStr);
-
-        Filter f = new Filter(level, prefMajor, applOpenDate, applCloseDate, repName, numOfSlots, status, visibility);
+        Filter f = careerStaffView.getInFilterReport();
         Report r = new Report(f, staff);
         careerStaffView.showReport(r);
-
-        sc.close();
     }
 
     /**
