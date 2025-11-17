@@ -5,9 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.ntu.ccds.sc2002.internship.config.DataConfig;
-import edu.ntu.ccds.sc2002.internship.model.Internship;
 import edu.ntu.ccds.sc2002.internship.model.Interview;
-import edu.ntu.ccds.sc2002.internship.repository.interfaces.IInternshipRepository;
 import edu.ntu.ccds.sc2002.internship.repository.interfaces.IInterviewRepository;
 import edu.ntu.ccds.sc2002.internship.util.CSVUtil;
 

@@ -3,7 +3,6 @@ package edu.ntu.ccds.sc2002.internship.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import edu.ntu.ccds.sc2002.internship.dto.OperationResult;
 import edu.ntu.ccds.sc2002.internship.enums.Level;
