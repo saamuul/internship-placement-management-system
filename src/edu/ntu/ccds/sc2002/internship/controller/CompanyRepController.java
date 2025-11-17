@@ -372,16 +372,186 @@ public class CompanyRepController {
         }
     }
 
+    public void handleEditOpportunity(User user) {
+        CompanyRepresentative companyRep = (CompanyRepresentative) user;
+        
+        // First show opportunities
+        handleViewOpportunities(user);
+        
+        // Get opportunity ID to edit
+        String opportunityId = view.getOpportunityIdForEdit();
+        
+        // Fetch the existing opportunity
+        List<InternshipOpportunity> myOpps = companyRepService.getCreatedOpportunities(user.getUserId());
+        InternshipOpportunity existingOpp = null;
+        for (InternshipOpportunity opp : myOpps) {
+            if (opp.getInternshipID().equals(opportunityId)) {
+                existingOpp = opp;
+                break;
+            }
+        }
+        
+        if (existingOpp == null) {
+            view.showError("Opportunity not found or you don't have permission to edit it.");
+            return;
+        }
+        
+        // Display current details
+        view.displayCurrentOpportunityDetails(existingOpp);
+        
+        // Get new values with validation
+        String title, desc, major, levelStr, openStr, closeStr;
+        int slots;
+        
+        // TITLE
+        while (true) {
+            try {
+                String input = view.promptForFieldUpdate("title", existingOpp.getTitle());
+                title = input.isEmpty() ? existingOpp.getTitle() : validator.requireNonEmpty(input);
+                break;
+            } catch (Exception e) {
+                view.showError(e.getMessage());
+            }
+        }
+        
+        // DESCRIPTION
+        while (true) {
+            try {
+                String input = view.promptForFieldUpdate("description", existingOpp.getDescription());
+                desc = input.isEmpty() ? existingOpp.getDescription() : validator.requireNonEmpty(input);
+                break;
+            } catch (Exception e) {
+                view.showError(e.getMessage());
+            }
+        }
+        
+        // MAJOR
+        while (true) {
+            try {
+                String input = view.promptForFieldUpdate("preferred major", existingOpp.getPrefMajor());
+                major = input.isEmpty() ? existingOpp.getPrefMajor() : validator.requireNonEmpty(input);
+                break;
+            } catch (Exception e) {
+                view.showError(e.getMessage());
+            }
+        }
+        
+        // LEVEL
+        while (true) {
+            try {
+                String input = view.promptForFieldUpdate("level", existingOpp.getLevel().toString());
+                levelStr = input.isEmpty() ? existingOpp.getLevel().toString() : validator.parseLevel(input);
+                break;
+            } catch (Exception e) {
+                view.showError(e.getMessage());
+            }
+        }
+        
+        // OPEN DATE
+        while (true) {
+            try {
+                String input = view.promptForFieldUpdate("open date", existingOpp.getOpenDate());
+                openStr = input.isEmpty() ? existingOpp.getOpenDate() : validator.parseDate(input).toString();
+                break;
+            } catch (Exception e) {
+                view.showError(e.getMessage());
+            }
+        }
+        
+        // CLOSE DATE
+        while (true) {
+            try {
+                String input = view.promptForFieldUpdate("close date", existingOpp.getCloseDate());
+                closeStr = input.isEmpty() ? existingOpp.getCloseDate() : validator.parseCloseDate(input, openStr).toString();
+                break;
+            } catch (Exception e) {
+                view.showError(e.getMessage());
+            }
+        }
+        
+        // SLOTS
+        while (true) {
+            try {
+                String input = view.promptForFieldUpdate("number of slots", String.valueOf(existingOpp.getNumOfSlots()));
+                slots = input.isEmpty() ? existingOpp.getNumOfSlots() : validator.parseIntInRange(input, 1, 10);
+                break;
+            } catch (Exception e) {
+                view.showError(e.getMessage());
+            }
+        }
+        
+        // Perform update
+        Level levelEnum = Level.valueOf(levelStr);
+        OperationResult result = companyRepService.editOpportunity(
+                companyRep.getUserId(), opportunityId, title, desc, levelEnum, major, openStr, closeStr, slots);
+        
+        if (result.isSuccess()) {
+            activityLog.add("Edited opportunity ID: " + opportunityId);
+            view.showSuccess(result.getMessage());
+        } else {
+            view.showError(result.getMessage());
+        }
+    }
+    
+    public void handleDeleteOpportunity(User user) {
+        // First show opportunities
+        handleViewOpportunities(user);
+        
+        // Get opportunity ID to delete
+        String opportunityId = view.getOpportunityIdForDelete();
+        
+        // Confirm deletion
+        if (!view.confirmDelete(opportunityId)) {
+            view.showError("Deletion cancelled.");
+            return;
+        }
+        
+        // Perform deletion
+        OperationResult result = companyRepService.deleteOpportunity(user.getUserId(), opportunityId);
+        
+        if (result.isSuccess()) {
+            activityLog.add("Deleted opportunity ID: " + opportunityId);
+            view.showSuccess(result.getMessage());
+            // Clear cache to refresh the list
+            cachedOpportunities = null;
+            opportunityFilterApplied = false;
+        } else {
+            view.showError(result.getMessage());
+        }
+    }
+    
     public void handleViewProposedInterviews(String companyRepId) {
-        //List<Interview> interviews = companyRepService.getProposedInterviews(companyRepId);
-        //view.displayProposedInterviews(interviews);
+        List<Interview> interviews = companyRepService.getProposedInterviews(companyRepId);
+        if (interviews.isEmpty()) {
+            view.showError("No proposed interviews found for your internships.");
+        } else {
+            view.displayProposedInterviews(interviews);
+        }
+    }
+    
+    public void handleProposeInterview(String companyRepId) {
+        System.out.print("Enter Internship ID to propose interview: ");
+        String internshipId = view.getInternshipIdInput();
+        String studentId = view.getStudentIdInput();
+        System.out.print("Enter proposed time (e.g., 2025-11-20 14:00): ");
+        String proposedTime = view.getConfirmedTimeInput();
+        
+        companyRepService.proposeInterview(companyRepId, internshipId, studentId, proposedTime);
+        activityLog.add("Proposed interview for student " + studentId + " on internship " + internshipId);
+        view.showSuccess("Interview time proposed successfully.");
     }
 
     public void handleConfirmInterview(String companyRepId) {
+        // First show proposed interviews
+        handleViewProposedInterviews(companyRepId);
+        
+        System.out.println("\nSelect an interview to confirm:");
         String internshipId = view.getInternshipIdInput();
         String studentId = view.getStudentIdInput();
         String confirmedTime = view.getConfirmedTimeInput();
+        
         companyRepService.confirmInterview(companyRepId, internshipId, studentId, confirmedTime);
+        activityLog.add("Confirmed interview for student " + studentId + " on internship " + internshipId);
         view.showSuccess("Interview confirmed.");
     }
 }

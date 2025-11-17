@@ -272,16 +272,149 @@ public class CompanyRepService implements ICompanyRepService {
         return String.valueOf(maxId + 1);
     }
 
-    // @Override
-    // public List<Interview> getProposedInterviews(String companyRepId) {
-    //     return interviewRepository.getInterviewsByCompanyRep(companyRepId, internshipRepository)
-    //             .stream()
-    //             .filter(i -> i.getConfirmedTime() == null || i.getConfirmedTime().isEmpty())
-    //             .collect(Collectors.toList());
-    // }
+    @Override
+    public List<Interview> getProposedInterviews(String companyRepId) {
+        // Get all interviews and filter by company rep's internships
+        List<Interview> allInterviews = interviewRepository.getAllInterviews();
+        List<InternshipOpportunity> myOpportunities = getCreatedOpportunities(companyRepId);
+        List<Interview> result = new ArrayList<>();
+        
+        for (Interview interview : allInterviews) {
+            // Check if interview is for one of my internships
+            for (InternshipOpportunity opp : myOpportunities) {
+                if (opp.getInternshipID().equals(interview.getInternshipId())) {
+                    // Only show if proposed but not yet confirmed
+                    if ((interview.getConfirmedTime() == null || interview.getConfirmedTime().isEmpty())
+                        && interview.getProposedTime() != null && !interview.getProposedTime().isEmpty()) {
+                        result.add(interview);
+                    }
+                    break;
+                }
+            }
+        }
+        return result;
+    }
+    
+    @Override
+    public void proposeInterview(String companyRepId, String internshipId, String studentId, String proposedTime) {
+        // Verify ownership of the internship
+        List<InternshipOpportunity> myOpps = getCreatedOpportunities(companyRepId);
+        boolean isOwner = false;
+        for (InternshipOpportunity opp : myOpps) {
+            if (opp.getInternshipID().equals(internshipId)) {
+                isOwner = true;
+                break;
+            }
+        }
+        
+        if (isOwner) {
+            Interview interview = new Interview(studentId, internshipId, proposedTime, "");
+            interviewRepository.addInterview(interview);
+        }
+    }
 
     @Override
     public void confirmInterview(String companyRepId, String internshipId, String studentId, String confirmedTime) {
         interviewRepository.updateInterview(new Interview(studentId, internshipId, "", confirmedTime));
+    }
+    
+    @Override
+    public OperationResult editOpportunity(String repId, String opportunityId, String title, String description,
+            Level level, String major, String openDate, String closeDate, int slots) {
+        // Verify ownership
+        Optional<InternshipOpportunity> oppOpt = internshipRepository.findById(opportunityId);
+        if (!oppOpt.isPresent()) {
+            return OperationResult.failure("Internship opportunity not found.");
+        }
+        
+        InternshipOpportunity opp = oppOpt.get();
+        
+        // Find the rep's name
+        List<CompanyRepresentative> reps = userRepository.findAllCompanyReps();
+        String repName = null;
+        for (CompanyRepresentative r : reps) {
+            if (r.getUserId().equalsIgnoreCase(repId)) {
+                repName = r.getName();
+                break;
+            }
+        }
+        
+        if (repName == null) {
+            return OperationResult.failure("Company representative not found.");
+        }
+        
+        if (!opp.getRep().getName().equalsIgnoreCase(repName)) {
+            return OperationResult.failure("You don't have permission to edit this opportunity.");
+        }
+        
+        // Check if there are pending or approved applications
+        List<InternshipApplication> applications = applicationRepository.findByInternshipId(opportunityId);
+        for (InternshipApplication app : applications) {
+            if (app.getStatus() == Status.PENDING || app.getStatus() == Status.SUCCESSFUL) {
+                return OperationResult.failure("Cannot edit opportunity with pending or approved applications. Please review all applications first.");
+            }
+        }
+        
+        // Validate slots
+        if (slots < 1 || slots > 10) {
+            return OperationResult.failure("Number of slots must be between 1 and 10.");
+        }
+        
+        // Update the opportunity
+        opp.setTitle(title);
+        opp.setDescription(description);
+        opp.setLevel(level);
+        opp.setPrefMajor(major);
+        opp.setOpenDate(openDate);
+        opp.setCloseDate(closeDate);
+        opp.updateNumOfSlots(slots);
+        
+        boolean success = internshipRepository.save(opp);
+        
+        return success ? OperationResult.success("Internship opportunity updated successfully.")
+                : OperationResult.failure("Failed to update opportunity.");
+    }
+    
+    @Override
+    public OperationResult deleteOpportunity(String repId, String opportunityId) {
+        // Verify ownership
+        Optional<InternshipOpportunity> oppOpt = internshipRepository.findById(opportunityId);
+        if (!oppOpt.isPresent()) {
+            return OperationResult.failure("Internship opportunity not found.");
+        }
+        
+        InternshipOpportunity opp = oppOpt.get();
+        
+        // Find the rep's name
+        List<CompanyRepresentative> reps = userRepository.findAllCompanyReps();
+        String repName = null;
+        for (CompanyRepresentative r : reps) {
+            if (r.getUserId().equalsIgnoreCase(repId)) {
+                repName = r.getName();
+                break;
+            }
+        }
+        
+        if (repName == null) {
+            return OperationResult.failure("Company representative not found.");
+        }
+        
+        if (!opp.getRep().getName().equalsIgnoreCase(repName)) {
+            return OperationResult.failure("You don't have permission to delete this opportunity.");
+        }
+        
+        // Check if there are accepted applications or active interviews
+        List<InternshipApplication> applications = applicationRepository.findByInternshipId(opportunityId);
+        for (InternshipApplication app : applications) {
+            if (app.getStatus() == Status.SUCCESSFUL) {
+                return OperationResult.failure("Cannot delete opportunity with accepted applications. Students have already accepted this internship.");
+            }
+        }
+        
+        // Delete the opportunity
+        boolean success = internshipRepository.deleteOpportunity(opportunityId);
+        
+        return success ? OperationResult.success("Internship opportunity deleted successfully.")
+                : OperationResult.failure("Failed to delete opportunity.");
     }
 }

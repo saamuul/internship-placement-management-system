@@ -64,4 +64,12 @@ public interface IInternshipRepository {
      * @return number of opportunities deleted
      */
     int deleteExpiredOpportunities();
+    
+    /**
+     * Delete an internship opportunity by ID
+     * 
+     * @param opportunityId the ID of the opportunity to delete
+     * @return true if deleted successfully, false otherwise
+     */
+    boolean deleteOpportunity(String opportunityId);
 }

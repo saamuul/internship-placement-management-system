@@ -333,7 +333,21 @@ public class StudentController {
     }
 
     public void handleInterviewProposal(String studentId) {
+        // First check if student has an accepted internship
+        InternshipApplication acceptedApp = studentService.getAcceptedInternship(studentId);
+        if (acceptedApp == null) {
+            studentView.showError("You must first accept an internship before proposing an interview.");
+            return;
+        }
+        
         Interview interview = studentView.getInterviewProposalInput(studentId);
+        
+        // Verify the internship ID matches the accepted application
+        if (!interview.getInternshipId().equals(acceptedApp.getInternshipID())) {
+            studentView.showError("You can only propose interviews for your accepted internship.");
+            return;
+        }
+        
         // Check if interview already exists for this student and internship
         List<Interview> existingInterviews = studentService.getStudentInterviews(studentId);
         boolean alreadyProposed = false;
@@ -347,15 +361,27 @@ public class StudentController {
             studentView.showError("You have already proposed an interview for this internship.");
             return;
         }
+        
         studentService.proposeInterview(interview.getStudentId(), interview.getInternshipId(),
                 interview.getProposedTime());
+        activityLog.add("Proposed interview for internship " + interview.getInternshipId());
         studentView.showSuccess("Interview proposed.");
     }
 
     public void handleInterviewConfirmation(String studentId) {
-        Interview interview = studentView.getInterviewConfirmationInput(studentId);
-        // Check if interview has been proposed for this internship
+        // First show existing interviews
         List<Interview> existingInterviews = studentService.getStudentInterviews(studentId);
+        if (existingInterviews.isEmpty()) {
+            studentView.showError("No interviews found. Please propose an interview first.");
+            return;
+        }
+        
+        studentView.displayStudentInterviews(existingInterviews);
+        System.out.println("\nSelect an interview to confirm:");
+        
+        Interview interview = studentView.getInterviewConfirmationInput(studentId);
+        
+        // Check if interview has been proposed for this internship
         Interview toConfirm = null;
         for (Interview i : existingInterviews) {
             if (i.getInternshipId().equals(interview.getInternshipId())) {
@@ -371,13 +397,19 @@ public class StudentController {
             studentView.showError("This interview has already been confirmed.");
             return;
         }
+        
         studentService.confirmInterview(interview.getStudentId(), interview.getInternshipId(),
                 interview.getConfirmedTime());
+        activityLog.add("Confirmed interview for internship " + interview.getInternshipId());
         studentView.showSuccess("Interview confirmed.");
     }
 
     public void handleShowStudentInterviews(String studentId) {
         List<Interview> interviews = studentService.getStudentInterviews(studentId);
-        studentView.displayStudentInterviews(interviews);
+        if (interviews.isEmpty()) {
+            studentView.showError("No interviews scheduled yet.");
+        } else {
+            studentView.displayStudentInterviews(interviews);
+        }
     }
 }

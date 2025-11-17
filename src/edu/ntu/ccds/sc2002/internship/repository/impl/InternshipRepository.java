@@ -244,4 +244,19 @@ public class InternshipRepository implements IInternshipRepository {
 
         return deletedCount;
     }
+    
+    @Override
+    public boolean deleteOpportunity(String opportunityId) {
+        List<String[]> rows = CSVUtil.readCSV(DataConfig.OPPORTUNITY_CSV_PATH);
+        
+        for (int i = 1; i < rows.size(); i++) {
+            String[] row = rows.get(i);
+            if (row[0].equals(opportunityId)) {
+                rows.remove(i);
+                return CSVUtil.writeAllRows(DataConfig.OPPORTUNITY_CSV_PATH, rows);
+            }
+        }
+        
+        return false;
+    }
 }

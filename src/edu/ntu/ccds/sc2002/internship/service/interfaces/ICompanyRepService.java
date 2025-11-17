@@ -51,6 +51,29 @@ public interface ICompanyRepService {
      */
     OperationResult changePassword(String repId, String oldPassword, String newPassword);
 
-    //List<Interview> getProposedInterviews(String companyRepId);
+    /**
+     * Get proposed interviews for company rep's internships
+     */
+    List<Interview> getProposedInterviews(String companyRepId);
+    
+    /**
+     * Company rep proposes interview times for an application
+     */
+    void proposeInterview(String companyRepId, String internshipId, String studentId, String proposedTime);
+    
+    /**
+     * Company rep confirms interview time
+     */
     void confirmInterview(String companyRepId, String internshipId, String studentId, String confirmedTime);
+    
+    /**
+     * Edit an existing internship opportunity
+     */
+    OperationResult editOpportunity(String repId, String opportunityId, String title, String description,
+            Level level, String major, String openDate, String closeDate, int slots);
+    
+    /**
+     * Delete an internship opportunity
+     */
+    OperationResult deleteOpportunity(String repId, String opportunityId);
 }

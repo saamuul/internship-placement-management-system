@@ -48,6 +48,30 @@ public class InternshipOpportunity {
         Status statNum = Status.valueOf(stat.trim().toUpperCase());
         this.status = statNum;
     }
+    
+    public void setTitle(String title) {
+        this.title = title;
+    }
+    
+    public void setDescription(String description) {
+        this.description = description;
+    }
+    
+    public void setPrefMajor(String prefMajor) {
+        this.prefMajor = prefMajor;
+    }
+    
+    public void setOpenDate(String openDate) {
+        this.openDate = openDate;
+    }
+    
+    public void setCloseDate(String closeDate) {
+        this.closeDate = closeDate;
+    }
+    
+    public void setLevel(Level level) {
+        this.level = level;
+    }
 
     public String getInternshipID() {
         return this.internshipID;

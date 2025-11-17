@@ -49,10 +49,13 @@ public class CompanyRepView {
         System.out.println("7) Clear Application Filters");
         System.out.println("8) Review Internship Applications");
         System.out.println("9) Toggle Internship Visibility");
-        System.out.println("10) View Proposed Interviews");
-        System.out.println("11) Confirm Interview");
-        System.out.println("12) Change Password");
-        System.out.println("13) Logout");
+        System.out.println("10) Edit Internship Opportunity");
+        System.out.println("11) Delete Internship Opportunity");
+        System.out.println("12) View Proposed Interviews");
+        System.out.println("13) Propose Interview Time");
+        System.out.println("14) Confirm Interview");
+        System.out.println("15) Change Password");
+        System.out.println("16) Logout");
         System.out.print("Choose: ");
     }
 
@@ -348,6 +351,39 @@ public class CompanyRepView {
     public String getConfirmedTimeInput() {
         System.out.print("Enter Confirmed Time: ");
         return scanner.nextLine();
+    }
+    
+    public String getOpportunityIdForEdit() {
+        System.out.print("Enter Opportunity ID to edit: ");
+        return scanner.nextLine();
+    }
+    
+    public String getOpportunityIdForDelete() {
+        System.out.print("Enter Opportunity ID to delete: ");
+        return scanner.nextLine();
+    }
+    
+    public boolean confirmDelete(String opportunityId) {
+        System.out.print("Are you sure you want to delete opportunity " + opportunityId + "? (yes/no): ");
+        String response = scanner.nextLine().trim().toLowerCase();
+        return response.equals("yes") || response.equals("y");
+    }
+    
+    public void displayCurrentOpportunityDetails(InternshipOpportunity opp) {
+        System.out.println("\n=== Current Opportunity Details ===");
+        System.out.println("Title: " + opp.getTitle());
+        System.out.println("Description: " + opp.getDescription());
+        System.out.println("Preferred Major: " + opp.getPrefMajor());
+        System.out.println("Level: " + opp.getLevel());
+        System.out.println("Open Date: " + opp.getOpenDate());
+        System.out.println("Close Date: " + opp.getCloseDate());
+        System.out.println("Slots: " + opp.getNumOfSlots());
+        System.out.println("\n=== Enter New Details (or press Enter to keep current) ===");
+    }
+    
+    public String promptForFieldUpdate(String fieldName, String currentValue) {
+        System.out.print("New " + fieldName + " [" + currentValue + "]: ");
+        return scanner.nextLine().trim();
     }
 
     public void showSuccess(String message) {
