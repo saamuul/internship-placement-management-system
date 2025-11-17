@@ -10,12 +10,17 @@ The Internship Placement Management System is developed as part of the **SC2002 
 
 This project follows the **Model-View-Controller (MVC)** architectural pattern for clear separation of concerns:
 
-- **model/** - Data entities and enums (User, Internship, Application, etc.)
-- **controller/** - Business logic and coordination (StudentController, etc.)
-- **view/** - User interface and display (StudentView, MainView, etc.)
-- **util/** - Helper classes for file I/O, validation, date handling
-- **main/** - Application entry point
-- **data/** - CSV files for data storage
+- **model/** - Data entities and enums (User, Student, CompanyRepresentative, CareerStaff, InternshipOpportunity, InternshipApplication, Interview, etc.)
+- **repository/** - Data access layer with interfaces and CSV-based implementations
+- **service/** - Business logic layer with service interfaces and implementations
+- **controller/** - Request handling and flow coordination (MainController, AuthController, StudentController, CompanyRepController, CareerStaffController)
+- **view/** - User interface and display (MainView, StudentView, CompanyRepView, CareerStaffView)
+- **dto/** - Data transfer objects (AuthResult, OperationResult, ToggleVisHelper)
+- **util/** - Helper classes (CSVUtil, InputValidation)
+- **config/** - Configuration constants (DataConfig)
+- **enums/** - Enumeration types (Status, Level, UserRole, RegistrationResult)
+- **main/** - Application entry point (InternshipSystem)
+- **data/** - CSV files for data persistence
 - **docs/** - Project documentation, diagrams, and reports
 
 ## Getting Started
