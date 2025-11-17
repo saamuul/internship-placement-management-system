@@ -77,19 +77,23 @@ public class CompanyRepController {
             case "9":
                 handleManageOpportunities(user);
                 break;
-                
-            case "10": // View Proposed Interviews
+            case "10":
+                handleEditOpportunity(user);
+                break;
+            case "11":
+                handleDeleteOpportunity(user);
+            case "12": // View Proposed Interviews
                 handleViewProposedInterviews(user.getUserId());
                 break;
-
-            case "11": // Confirm Interview
+            case "13": // Propose Interview
+                handleProposeInterview(user.getUserId());
+                break;
+            case "14": // Confirm Interview
                 handleConfirmInterview(user.getUserId());
                 break;
-
-            case "12":
+            case "15":
                 return handleChangePassword(user);
-
-            case "13":
+            case "16":
                 cachedApplications = null;
                 cachedOpportunities = null;
                 applicationFilterApplied = false;
