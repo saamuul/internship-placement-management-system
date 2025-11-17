@@ -1,5 +1,6 @@
 package edu.ntu.ccds.sc2002.internship.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import edu.ntu.ccds.sc2002.internship.dto.OperationResult;
@@ -26,6 +27,8 @@ public class CareerStaffController {
     private final CareerStaffView careerStaffView;
     private final ICareerStaffService careerStaffService;
 
+    private List<String> activityLog = new ArrayList<>();
+
     private List<CompanyRepresentative> cachedReps = null;
     private boolean filterApplied = false;
 
@@ -46,7 +49,7 @@ public class CareerStaffController {
         CareerStaff staff = (CareerStaff) user;
 
         // View: Display menu and get choice
-        careerStaffView.showDashboard(user);
+        careerStaffView.showDashboard(user, activityLog);
         String choice = careerStaffView.getMenuChoice();
 
         // Controller: Route based on choice
@@ -83,6 +86,7 @@ public class CareerStaffController {
                 return handleChangePassword(staff);
 
             case "9":
+                activityLog.clear(); 
                 careerStaffView.showLogout();
                 return true;
 
@@ -146,6 +150,7 @@ public class CareerStaffController {
 
         // 6. Display result
         if (result.isSuccess()) {
+            activityLog.add("Approved company representative ID: " + selectedRep.getUserId() + " with status: " + Approved);
             careerStaffView.showSuccess(result.getMessage());
         } else {
             careerStaffView.showError(result.getMessage());
@@ -198,6 +203,7 @@ public class CareerStaffController {
                 Approved);
 
         if (result.isSuccess()) {
+            activityLog.add("Approved internship opportunity ID: " + selectedOpp.getInternshipID() + " with status: " + Approved);
             careerStaffView.showSuccess(result.getMessage());
         } else {
             careerStaffView.showError(result.getMessage());
@@ -246,6 +252,7 @@ public class CareerStaffController {
                 Approved);
 
         if (result.isSuccess()) {
+            activityLog.add("Approved withdrawal request ID: " + selectedApp.getApplicationID() + " with status: " + Approved);
             careerStaffView.showSuccess(result.getMessage());
         } else {
             careerStaffView.showError(result.getMessage());

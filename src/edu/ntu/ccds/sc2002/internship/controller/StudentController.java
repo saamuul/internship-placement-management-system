@@ -91,6 +91,7 @@ public class StudentController {
             case "10": // Logout
                 filterApplied = false;
                 cachedInternships = null;
+                activityLog.clear(); 
                 studentView.showLogout();
                 return true;
 
@@ -266,7 +267,16 @@ public class StudentController {
 
         // Display filtered results
         studentView.displayInternships(cachedInternships);
-        studentView.showSuccess("Filter applied. Showing " + cachedInternships.size() + " internship(s).");
+
+        boolean anyFilterApplied = filter.getLevel() != null ||
+            (filter.getRepName() != null && !filter.getRepName().isEmpty()) ||
+            (filter.getClosingDate() != null && !filter.getClosingDate().isEmpty());
+
+        if (anyFilterApplied) {
+            studentView.showSuccess("Filter applied. Showing " + cachedInternships.size() + " internship(s).");
+        } else {
+            studentView.showSuccess("No filter applied. Showing all " + cachedInternships.size() + " internship(s).");
+        }
     }
 
     // Handles clearing applied filters

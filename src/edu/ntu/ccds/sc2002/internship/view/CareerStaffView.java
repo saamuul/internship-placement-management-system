@@ -28,9 +28,17 @@ public class CareerStaffView {
         this.scanner = scanner;
     }
 
-    public void showDashboard(User user) {
+    public void showDashboard(User user, List<String> activityLog) {
         System.out.println("\n=== Career Staff Dashboard ===");
         System.out.println("Welcome, " + user.getName());
+        System.out.println("\n----- Recent Activities -----");
+        if (activityLog.isEmpty()) {
+            System.out.println("No recent activities.");
+        } else {
+            for (String activity : activityLog) {
+                System.out.println(activity);
+            }
+        }
         System.out.println("1) View Pending Company Representatives");
         System.out.println("2) Approve Company Representative");
         System.out.println("3) View All Internship Opportunities");
@@ -56,23 +64,47 @@ public class CareerStaffView {
 
     // Gets company representative approval status
     public boolean getInRepAppr() {
-        System.out.print("Approve Company Representative? (Y/N): ");
-        String input = scanner.nextLine().trim();
-        return input.equalsIgnoreCase("Y");
+        while (true) {
+            System.out.print("Approve Company Representative? (Y/N): ");
+            String input = scanner.nextLine().trim().toUpperCase();
+            if (input.equals("Y")) {
+                return true;
+            } else if (input.equals("N")) {
+                return false;
+            } else {
+                System.out.println("Invalid input. Please enter Y or N.");
+            }
+        }
     }
 
     // Gets career opportunity approval status
     public boolean getInCarOppAppr() {
-        System.out.print("Approve Career Opportunity? (Y/N): ");
-        String input = scanner.nextLine().trim();
-        return input.equalsIgnoreCase("Y");
+        while (true) {
+            System.out.print("Approve Career Opportunity? (Y/N): ");
+            String input = scanner.nextLine().trim().toUpperCase();
+            if (input.equals("Y")) {
+                return true;
+            } else if (input.equals("N")) {
+                return false;
+            } else {
+                System.out.println("Invalid input. Please enter Y or N.");
+            }
+        }
     }
 
     // Gets application withdrawal approval status
     public boolean getInAppWithAppr() {
-        System.out.print("Approve Application Withdrawal? (Y/N): ");
-        String input = scanner.nextLine().trim();
-        return input.equalsIgnoreCase("Y");
+        while (true) {
+            System.out.print("Approve Application Withdrawal? (Y/N): ");
+            String input = scanner.nextLine().trim().toUpperCase();
+            if (input.equals("Y")) {
+                return true;
+            } else if (input.equals("N")) {
+                return false;
+            } else {
+                System.out.println("Invalid input. Please enter Y or N.");
+            }
+        }
     }
 
     // Gets internship opportunity ID.

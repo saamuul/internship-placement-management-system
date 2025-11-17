@@ -26,6 +26,8 @@ public class CompanyRepController {
     private final ICompanyRepService companyRepService;
     private final InputValidation validator;
 
+    private List<String> activityLog = new ArrayList<>();
+
     // Filter state persistence - maintains filter settings across menu pages
     private List<InternshipOpportunity> cachedOpportunities = null;
     private List<InternshipApplication> cachedApplications = null;
@@ -43,7 +45,7 @@ public class CompanyRepController {
      * Returns true if user wants to logout.
      */
     public boolean handleCompanyRepMenu(User user) {
-        view.showDashboard(user);
+        view.showDashboard(user, activityLog);
         String choice = view.getMenuChoice();
 
         switch (choice) {
@@ -81,6 +83,7 @@ public class CompanyRepController {
                 cachedOpportunities = null;
                 applicationFilterApplied = false;
                 opportunityFilterApplied = false;
+                activityLog.clear(); 
                 view.showLogout();
                 return true;
             default:
@@ -171,6 +174,7 @@ public class CompanyRepController {
                 companyRep.getUserId(), title, desc, levelEnum, major, openStr, closeStr, slots);
 
         if (result.isSuccess()) {
+            activityLog.add("Created internship opportunity: " + title);
             view.showSuccess(result.getMessage());
         } else {
             view.showError(result.getMessage());
@@ -201,6 +205,7 @@ public class CompanyRepController {
         boolean visible = Boolean.parseBoolean(input.getState());
         OperationResult result = companyRepService.toggleVisibility(user.getUserId(), input.getId(), visible);
         if (result.isSuccess()) {
+            activityLog.add("Toggled visibility for opportunity ID: " + input.getId());
             view.showSuccess(result.getMessage());
         } else {
             view.showError(result.getMessage());
@@ -226,6 +231,7 @@ public class CompanyRepController {
         }
 
         if (result.isSuccess()) {
+            activityLog.add("Reviewed application ID: " + choice + " to status: " + status);
             view.showSuccess(result.getMessage());
         } else {
             view.showError(result.getMessage());
@@ -302,7 +308,19 @@ public class CompanyRepController {
         cachedApplications = filtered;
         applicationFilterApplied = true;
         view.displayApplications(cachedApplications);
-        view.showSuccess("Filter applied. Showing " + cachedApplications.size() + " application(s).");
+
+        boolean anyFilterApplied =  filter.getLevel() != null ||
+                (filter.getPreferredMajor() != null && !filter.getPreferredMajor().isEmpty()) ||
+                (filter.getRepName() != null && !filter.getRepName().isEmpty()) ||
+                filter.getStatus() != null ||
+                filter.isVisibility() != null ||
+                (filter.getClosingDate() != null && !filter.getClosingDate().isEmpty());
+
+        if (anyFilterApplied) {
+            view.showSuccess("Filter applied. Showing " + cachedApplications.size() + " application(s).");
+        } else {
+            view.showSuccess("No filter applied. Showing all " + cachedApplications.size() + " application(s).");
+        }
     }
 
     // Handles clearing application filters

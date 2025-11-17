@@ -27,9 +27,17 @@ public class CompanyRepView {
         this.scanner = scanner;
     }
 
-    public void showDashboard(User user) {
+    public void showDashboard(User user, List<String> activityLog) {
         System.out.println("\n=== Company Representative Dashboard ===");
         System.out.println("Welcome, " + user.getName());
+        System.out.println("\n----- Recent Activities -----");
+        if (activityLog.isEmpty()) {
+            System.out.println("No recent activities.");
+        } else {
+            for (String activity : activityLog) {
+                System.out.println(activity);
+            }
+        }
         System.out.println("1) Create Internship Opportunity");
         System.out.println("2) View Created Opportunities");
         System.out.println("3) Filter Opportunities");
