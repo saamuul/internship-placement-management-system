@@ -77,6 +77,10 @@ public class CompanyRepController {
             case "10":
                 return handleChangePassword(user);
             case "11":
+                cachedApplications = null;
+                cachedOpportunities = null;
+                applicationFilterApplied = false;
+                opportunityFilterApplied = false;
                 view.showLogout();
                 return true;
             default:
@@ -225,13 +229,6 @@ public class CompanyRepController {
             view.showSuccess(result.getMessage());
         } else {
             view.showError(result.getMessage());
-        }
-
-        // Refresh view to show updated data
-        System.out.println();
-        List<InternshipApplication> updatedList = companyRepService.getPendingApplications(user.getUserId());
-        if (updatedList != null && !updatedList.isEmpty()) {
-            view.displayApplications(updatedList);
         }
         return;
     }

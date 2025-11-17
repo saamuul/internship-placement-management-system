@@ -1,5 +1,6 @@
 package edu.ntu.ccds.sc2002.internship.controller;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +27,8 @@ public class StudentController {
     private final StudentView studentView;
     private final IStudentService studentService;
 
+    private List<String> activityLog = new ArrayList<>();
+
     // Filter state persistence - maintains filter settings across menu pages
     private List<Internship> cachedInternships = null;
     private boolean filterApplied = false;
@@ -45,7 +48,7 @@ public class StudentController {
         }
 
         // View: Display menu and get choice
-        studentView.showDashboard(user);
+        studentView.showDashboard(user, activityLog);
         String choice = studentView.getMenuChoice();
 
         // Controller: Route based on choice
@@ -86,6 +89,8 @@ public class StudentController {
                 return handleChangePassword(user); // Return logout status based on password change result
 
             case "10": // Logout
+                filterApplied = false;
+                cachedInternships = null;
                 studentView.showLogout();
                 return true;
 
@@ -126,6 +131,7 @@ public class StudentController {
 
         // View: Display result
         if (result.isSuccess()) {
+            activityLog.add("Applied for internship ID: " + internshipId);
             studentView.showSuccess(result.getMessage());
         } else {
             studentView.showError(result.getMessage());
@@ -183,14 +189,11 @@ public class StudentController {
 
         // View: Display result
         if (result.isSuccess()) {
+            activityLog.add("Accepted internship application ID: " + applicationId);
             studentView.showSuccess(result.getMessage());
         } else {
             studentView.showError(result.getMessage());
         }
-
-        // Refresh view to show updated data
-        System.out.println();
-        handleViewInternshipApplications(user);
     }
 
     // Handles viewing accepted internship.
@@ -211,14 +214,11 @@ public class StudentController {
 
         // View: Display result
         if (result.isSuccess()) {
+            activityLog.add("Withdrew internship application ID: " + applicationId);
             studentView.showSuccess(result.getMessage());
         } else {
             studentView.showError(result.getMessage());
         }
-
-        // Refresh view to show updated data
-        System.out.println();
-        handleViewInternshipApplications(user);
     }
 
     // Handles filtering internships based on user-selected criteria
@@ -247,10 +247,12 @@ public class StudentController {
                 matches = false;
             }
 
-            // Filter by title (using prefMajor field for keyword search)
-            if (filter.getPreferredMajor() != null &&
-                    !internship.getTitle().toLowerCase().contains(filter.getPreferredMajor().toLowerCase())) {
-                matches = false;
+            if (filter.getClosingDate() != null && !filter.getClosingDate().isEmpty()) {
+                LocalDate filterDate = LocalDate.parse(filter.getClosingDate());
+                LocalDate internshipCloseDate = LocalDate.parse(internship.getCloseDate());
+                if (internshipCloseDate.isAfter(filterDate)) {
+                    continue; // Skip if closing date is after filter date
+                }
             }
 
             if (matches) {

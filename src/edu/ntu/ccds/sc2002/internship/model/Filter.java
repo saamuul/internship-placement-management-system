@@ -9,7 +9,13 @@ public class Filter {
     private String repName;
     private Status statusFilter;
     private Boolean visibility;
-    private String closingDate; // Filter by closing date
+    private String closingDate; 
+
+    public Filter(Level levelFilter, String repName, String closingDate) {
+        this.levelFilter = levelFilter;
+        this.repName = repName;
+        this.closingDate = closingDate;    
+    }
 
     public Filter(Level levelFilter, String preferredMajor, String repName, Status statusFilter, Boolean visibility,
             String closingDate) {
