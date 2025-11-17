@@ -212,7 +212,7 @@ public class CompanyRepView {
         System.out.println("Select filters to apply (type numbers separated by commas):");
         System.out.println("1) Level (BASIC/INTERMEDIATE/ADVANCED)");
         System.out.println("2) Preferred Major");
-        System.out.println("3) Status (PENDING/ACCEPTED/REJECTED/FILLED)");
+        System.out.println("3) Status (PENDING/SUCCESSFUL/UNSUCCESSFUL/FILLED)");
         System.out.println("4) Visibility (true/false)");
         System.out.println("5) Closing Date (YYYY-MM-DD)");
         System.out.println("Or press ENTER for no filters.");
@@ -248,7 +248,7 @@ public class CompanyRepView {
                         break;
 
                     case "3":
-                        System.out.print("Enter Status (PENDING/ACCEPTED/REJECTED/FILLED): ");
+                        System.out.print("Enter Status (PENDING/SUCCESSFUL/UNSUCCESSFUL/FILLED): ");
                         String statusStr = scanner.nextLine().trim().toUpperCase();
                         try {
                             status = Status.valueOf(statusStr);
@@ -280,7 +280,7 @@ public class CompanyRepView {
     public Filter getApplicationFilterInput() {
         System.out.println("\n=== Filter Applications ===");
         System.out.println("Select filters to apply (type numbers separated by commas):");
-        System.out.println("1) Status (PENDING/ACCEPTED/REJECTED/WITHDRAWN)");
+        System.out.println("1) Status (PENDING/SUCCESSFUL/UNSUCCESSFUL)");
         System.out.println("2) Student ID");
         System.out.println("Or press ENTER for no filters.");
 
@@ -300,7 +300,7 @@ public class CompanyRepView {
             for (String choice : choices) {
                 switch (choice.trim()) {
                     case "1":
-                        System.out.print("Enter Status (PENDING/ACCEPTED/REJECTED/WITHDRAWN): ");
+                        System.out.print("Enter Status (PENDING/SUCCESSFUL/UNSUCCESSFUL): ");
                         String statusStr = scanner.nextLine().trim().toUpperCase();
                         try {
                             status = Status.valueOf(statusStr);
