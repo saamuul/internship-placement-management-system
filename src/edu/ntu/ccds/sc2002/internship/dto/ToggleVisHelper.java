@@ -1,4 +1,4 @@
-package edu.ntu.ccds.sc2002.internship.util;
+package edu.ntu.ccds.sc2002.internship.dto;
 
 /**
  * Data Transfer Object for toggle visibility operations.

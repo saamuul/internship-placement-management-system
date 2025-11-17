@@ -3,13 +3,13 @@ package edu.ntu.ccds.sc2002.internship.view;
 import java.util.List;
 import java.util.Scanner;
 
+import edu.ntu.ccds.sc2002.internship.dto.ToggleVisHelper;
 import edu.ntu.ccds.sc2002.internship.enums.Level;
 import edu.ntu.ccds.sc2002.internship.enums.Status;
 import edu.ntu.ccds.sc2002.internship.model.Filter;
 import edu.ntu.ccds.sc2002.internship.model.InternshipApplication;
 import edu.ntu.ccds.sc2002.internship.model.InternshipOpportunity;
 import edu.ntu.ccds.sc2002.internship.model.User;
-import edu.ntu.ccds.sc2002.internship.util.ToggleVisHelper;
 
 /**
  * View class for Company Representative interface.

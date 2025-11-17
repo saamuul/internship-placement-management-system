@@ -49,5 +49,4 @@ public class CareerStaff extends User {
 
         return false; // Career Staff not found
     }
-
 }

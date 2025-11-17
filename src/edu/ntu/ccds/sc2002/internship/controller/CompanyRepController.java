@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.ntu.ccds.sc2002.internship.dto.OperationResult;
+import edu.ntu.ccds.sc2002.internship.dto.ToggleVisHelper;
 import edu.ntu.ccds.sc2002.internship.enums.Level;
 import edu.ntu.ccds.sc2002.internship.enums.Status;
 import edu.ntu.ccds.sc2002.internship.model.CompanyRepresentative;
@@ -13,7 +14,6 @@ import edu.ntu.ccds.sc2002.internship.model.InternshipOpportunity;
 import edu.ntu.ccds.sc2002.internship.model.User;
 import edu.ntu.ccds.sc2002.internship.service.interfaces.ICompanyRepService;
 import edu.ntu.ccds.sc2002.internship.util.InputValidation;
-import edu.ntu.ccds.sc2002.internship.util.ToggleVisHelper;
 import edu.ntu.ccds.sc2002.internship.view.CompanyRepView;
 
 /**
