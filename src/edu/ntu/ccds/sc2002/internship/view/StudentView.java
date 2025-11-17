@@ -26,9 +26,18 @@ public class StudentView {
         this.scanner = scanner;
     }
 
-    public void showDashboard(User user) {
-        System.out.println("\n=== Student Dashboard ===");
+    public void showDashboard(User user, List<String> activityLog) {
+        System.out.println("\n===== Student Dashboard =====");
         System.out.println("Welcome, " + user.getName());
+        System.out.println("\n----- Recent Activities -----");
+        if (activityLog.isEmpty()) {
+            System.out.println("No recent activities.");
+        } else {
+            for (String activity : activityLog) {
+                System.out.println(activity);
+            }
+        }
+        System.out.println("------------------------------");
         System.out.println("1) View Available Internships");
         System.out.println("2) Filter Internships");
         System.out.println("3) Clear Filters");
@@ -168,20 +177,15 @@ public class StudentView {
         System.out.println("\n=== Filter Internships ===");
         System.out.println("Select filters to apply (type numbers separated by commas):");
         System.out.println("1) Enter Level (BASIC/INTERMEDIATE/ADVANCED)");
-        System.out.println("2) Preferred Major");
-        System.out.println("3) Company Representative Name");
-        System.out.println("4) Status");
-        System.out.println("5) Closing Date (YYYY-MM-DD)");
+        System.out.println("2) Company Representative Name");
+        System.out.println("3) Closing Date (YYYY-MM-DD)");
         System.out.println("Or press ENTER for no filters.");
 
         System.out.print("Your choice: ");
         String input = scanner.nextLine().trim();
 
         Level level = null;
-        String prefMajor = null;
         String repName = null;
-        Status status = null;
-        Boolean visibility = null;
         String closingDate = null;
 
         if (!input.isEmpty()) {
@@ -200,37 +204,22 @@ public class StudentView {
                         break;
 
                     case "2":
-                        System.out.print("Enter Preferred Major: ");
-                        prefMajor = scanner.nextLine().trim();
-                        break;
-
-                    case "3":
                         System.out.print("Enter Company Representative Name: ");
                         repName = scanner.nextLine().trim();
                         break;
 
-                    case "4":
-                        System.out.print("Enter Status (PENDING/ACCEPTED/REJECTED/FILLED/WITHDRAWN): ");
-                        String statusStr = scanner.nextLine().trim().toUpperCase();
-                        try {
-                            status = Status.valueOf(statusStr);
-                        } catch (IllegalArgumentException e) {
-                            System.out.println("Invalid status, skipping...");
-                        }
-                        break;
-
-                    case "5":
+                    case "3":
                         System.out.print("Enter Closing Date (YYYY-MM-DD): ");
                         closingDate = scanner.nextLine().trim();
                         break;
 
                     default:
-                        System.out.println("Invalid filter option '" + choice + "'. Please enter numbers 1-5 only.");
+                        System.out.println("Invalid filter option '" + choice + "'. Please enter numbers 1-3 only.");
                 }
             }
         }
 
-        return new Filter(level, prefMajor, repName, status, visibility, closingDate);
+        return new Filter(level, repName, closingDate);
     }
 
     // Prompts for and gets password confirmation from user.

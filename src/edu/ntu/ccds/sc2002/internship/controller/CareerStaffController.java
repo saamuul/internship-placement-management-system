@@ -26,9 +26,6 @@ public class CareerStaffController {
     private final CareerStaffView careerStaffView;
     private final ICareerStaffService careerStaffService;
 
-    // Filter state persistence - maintains filter settings across menu pages
-    private Filter savedFilter = null;
-    private List<InternshipOpportunity> cachedOpportunities = null;
     private List<CompanyRepresentative> cachedReps = null;
     private boolean filterApplied = false;
 
@@ -152,15 +149,6 @@ public class CareerStaffController {
             careerStaffView.showSuccess(result.getMessage());
         } else {
             careerStaffView.showError(result.getMessage());
-        }
-
-        // Refresh view to show updated data
-        System.out.println();
-        List<CompanyRepresentative> updatedReps = careerStaffService.getPendingCompanyReps();
-        if (!updatedReps.isEmpty()) {
-            careerStaffView.displayPendingCompanyReps(updatedReps);
-        } else {
-            careerStaffView.showSuccess("No more pending company representatives.");
         }
     }
 
