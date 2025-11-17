@@ -16,4 +16,3 @@ CompanyRepID,Name,Password,CompanyName,Department,Position,Email,Status
 15,Test User,password,Test Corp,IT,Manager,test@example.com,PENDING
 16,ben,password,Google,HR,CEO,ben@gmail.com,PENDING
 17,NewRep,password,NewCompany,IT,Manager,newrep@company.com,PENDING
-18,crep001,password,2,1,APPROVED,password,PENDING

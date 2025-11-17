@@ -39,6 +39,7 @@ public class CareerStaffView {
                 System.out.println(activity);
             }
         }
+        System.out.println("------------------------------");
         System.out.println("1) View Pending Company Representatives");
         System.out.println("2) Approve Company Representative");
         System.out.println("3) View All Internship Opportunities");

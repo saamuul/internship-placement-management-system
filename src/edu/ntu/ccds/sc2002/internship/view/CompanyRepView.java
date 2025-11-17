@@ -39,6 +39,7 @@ public class CompanyRepView {
                 System.out.println(activity);
             }
         }
+        System.out.println("------------------------------");
         System.out.println("1) Create Internship Opportunity");
         System.out.println("2) View Created Opportunities");
         System.out.println("3) Filter Opportunities");
