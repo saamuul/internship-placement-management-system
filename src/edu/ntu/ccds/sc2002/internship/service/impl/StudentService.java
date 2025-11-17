@@ -10,11 +10,13 @@ import edu.ntu.ccds.sc2002.internship.enums.Status;
 import edu.ntu.ccds.sc2002.internship.model.Internship;
 import edu.ntu.ccds.sc2002.internship.model.InternshipApplication;
 import edu.ntu.ccds.sc2002.internship.model.InternshipOpportunity;
+import edu.ntu.ccds.sc2002.internship.model.Interview;
 import edu.ntu.ccds.sc2002.internship.model.Student;
 import edu.ntu.ccds.sc2002.internship.repository.interfaces.IApplicationRepository;
 import edu.ntu.ccds.sc2002.internship.repository.interfaces.IInternshipRepository;
 import edu.ntu.ccds.sc2002.internship.repository.interfaces.IUserRepository;
 import edu.ntu.ccds.sc2002.internship.repository.interfaces.IWithdrawalRepository;
+import edu.ntu.ccds.sc2002.internship.repository.interfaces.IInterviewRepository;
 import edu.ntu.ccds.sc2002.internship.service.interfaces.IStudentService;
 
 /**
@@ -26,15 +28,18 @@ public class StudentService implements IStudentService {
     private final IInternshipRepository internshipRepository;
     private final IApplicationRepository applicationRepository;
     private final IWithdrawalRepository withdrawalRepository;
+    private final IInterviewRepository interviewRepository;
 
     public StudentService(IUserRepository userRepository,
             IInternshipRepository internshipRepository,
             IApplicationRepository applicationRepository,
-            IWithdrawalRepository withdrawalRepository) {
+            IWithdrawalRepository withdrawalRepository,
+            IInterviewRepository interviewRepository) {
         this.userRepository = userRepository;
         this.internshipRepository = internshipRepository;
         this.applicationRepository = applicationRepository;
         this.withdrawalRepository = withdrawalRepository;
+        this.interviewRepository = interviewRepository;
     }
 
     @Override
@@ -286,5 +291,27 @@ public class StudentService implements IStudentService {
 
         return success ? OperationResult.success("Password changed successfully.")
                 : OperationResult.failure("Failed to save password.");
+    }
+
+    @Override
+    public void proposeInterview(String studentId, String internshipId, String proposedTime) {
+        Interview interview = new Interview(studentId, internshipId, proposedTime, "");
+        interviewRepository.addInterview(interview);
+    }
+
+    @Override
+    public void confirmInterview(String studentId, String internshipId, String confirmedTime) {
+        Interview interview = new Interview(studentId, internshipId, "", confirmedTime);
+        interviewRepository.updateInterview(interview);
+    }
+
+    @Override
+    public List<Interview> getStudentInterviews(String studentId) {
+        List<Interview> all = interviewRepository.getAllInterviews();
+        List<Interview> result = new ArrayList<>();
+        for (Interview i : all) {
+            if (i.getStudentId().equals(studentId)) result.add(i);
+        }
+        return result;
     }
 }

@@ -11,6 +11,7 @@ import edu.ntu.ccds.sc2002.internship.model.CompanyRepresentative;
 import edu.ntu.ccds.sc2002.internship.model.Filter;
 import edu.ntu.ccds.sc2002.internship.model.InternshipApplication;
 import edu.ntu.ccds.sc2002.internship.model.InternshipOpportunity;
+import edu.ntu.ccds.sc2002.internship.model.Interview;
 import edu.ntu.ccds.sc2002.internship.model.User;
 import edu.ntu.ccds.sc2002.internship.service.interfaces.ICompanyRepService;
 import edu.ntu.ccds.sc2002.internship.util.InputValidation;
@@ -76,9 +77,19 @@ public class CompanyRepController {
             case "9":
                 handleManageOpportunities(user);
                 break;
-            case "10":
+                
+            case "10": // View Proposed Interviews
+                handleViewProposedInterviews(user.getUserId());
+                break;
+
+            case "11": // Confirm Interview
+                handleConfirmInterview(user.getUserId());
+                break;
+
+            case "12":
                 return handleChangePassword(user);
-            case "11":
+
+            case "13":
                 cachedApplications = null;
                 cachedOpportunities = null;
                 applicationFilterApplied = false;
@@ -359,5 +370,18 @@ public class CompanyRepController {
             view.showError(result.getMessage());
             return false; // Stay in menu on error
         }
+    }
+
+    public void handleViewProposedInterviews(String companyRepId) {
+        //List<Interview> interviews = companyRepService.getProposedInterviews(companyRepId);
+        //view.displayProposedInterviews(interviews);
+    }
+
+    public void handleConfirmInterview(String companyRepId) {
+        String internshipId = view.getInternshipIdInput();
+        String studentId = view.getStudentIdInput();
+        String confirmedTime = view.getConfirmedTimeInput();
+        companyRepService.confirmInterview(companyRepId, internshipId, studentId, confirmedTime);
+        view.showSuccess("Interview confirmed.");
     }
 }

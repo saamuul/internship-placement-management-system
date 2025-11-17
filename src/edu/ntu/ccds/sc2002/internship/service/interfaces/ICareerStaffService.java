@@ -1,13 +1,11 @@
 package edu.ntu.ccds.sc2002.internship.service.interfaces;
 
-import edu.ntu.ccds.sc2002.internship.model.CareerStaff;
 import edu.ntu.ccds.sc2002.internship.model.CompanyRepresentative;
 import edu.ntu.ccds.sc2002.internship.model.Filter;
 import edu.ntu.ccds.sc2002.internship.model.InternshipApplication;
 import edu.ntu.ccds.sc2002.internship.model.InternshipOpportunity;
 import edu.ntu.ccds.sc2002.internship.dto.OperationResult;
 import edu.ntu.ccds.sc2002.internship.model.Report;
-import edu.ntu.ccds.sc2002.internship.enums.Status;
 
 import java.util.List;
 

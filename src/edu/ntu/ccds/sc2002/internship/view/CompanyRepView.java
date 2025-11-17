@@ -9,6 +9,7 @@ import edu.ntu.ccds.sc2002.internship.enums.Status;
 import edu.ntu.ccds.sc2002.internship.model.Filter;
 import edu.ntu.ccds.sc2002.internship.model.InternshipApplication;
 import edu.ntu.ccds.sc2002.internship.model.InternshipOpportunity;
+import edu.ntu.ccds.sc2002.internship.model.Interview;
 import edu.ntu.ccds.sc2002.internship.model.User;
 
 /**
@@ -47,8 +48,10 @@ public class CompanyRepView {
         System.out.println("7) Clear Application Filters");
         System.out.println("8) Review Internship Applications");
         System.out.println("9) Toggle Internship Visibility");
-        System.out.println("10) Change Password");
-        System.out.println("11) Logout");
+        System.out.println("10) View Proposed Interviews");
+        System.out.println("11) Confirm Interview");
+        System.out.println("12) Change Password");
+        System.out.println("13) Logout");
         System.out.print("Choose: ");
     }
 
@@ -321,6 +324,29 @@ public class CompanyRepView {
         }
 
         return new Filter(level, prefMajor, repName, status, visibility, closingDate);
+    }
+
+    public void displayProposedInterviews(List<Interview> interviews) {
+        System.out.println("Proposed Interviews:");
+        for (Interview i : interviews) {
+            System.out.printf("Internship: %s, Student: %s, Proposed Time: %s\n",
+                i.getInternshipId(), i.getStudentId(), i.getProposedTime());
+        }
+    }
+
+    public String getInternshipIdInput() {
+        System.out.print("Enter Internship ID: ");
+        return scanner.nextLine();
+    }
+
+    public String getStudentIdInput() {
+        System.out.print("Enter Student ID: ");
+        return scanner.nextLine();
+    }
+
+    public String getConfirmedTimeInput() {
+        System.out.print("Enter Confirmed Time: ");
+        return scanner.nextLine();
     }
 
     public void showSuccess(String message) {

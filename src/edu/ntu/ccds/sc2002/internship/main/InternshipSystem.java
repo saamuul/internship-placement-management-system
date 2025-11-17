@@ -11,10 +11,12 @@ import edu.ntu.ccds.sc2002.internship.repository.impl.ApplicationRepository;
 import edu.ntu.ccds.sc2002.internship.repository.impl.InternshipRepository;
 import edu.ntu.ccds.sc2002.internship.repository.impl.UserRepository;
 import edu.ntu.ccds.sc2002.internship.repository.impl.WithdrawalRepository;
+import edu.ntu.ccds.sc2002.internship.repository.impl.InterviewRepository;
 import edu.ntu.ccds.sc2002.internship.repository.interfaces.IApplicationRepository;
 import edu.ntu.ccds.sc2002.internship.repository.interfaces.IInternshipRepository;
 import edu.ntu.ccds.sc2002.internship.repository.interfaces.IUserRepository;
 import edu.ntu.ccds.sc2002.internship.repository.interfaces.IWithdrawalRepository;
+import edu.ntu.ccds.sc2002.internship.repository.interfaces.IInterviewRepository;
 import edu.ntu.ccds.sc2002.internship.service.impl.CareerStaffService;
 import edu.ntu.ccds.sc2002.internship.service.impl.CompanyRepService;
 import edu.ntu.ccds.sc2002.internship.service.impl.StudentService;
@@ -37,6 +39,9 @@ import edu.ntu.ccds.sc2002.internship.view.StudentView;
  * - Service (service/) - Business logic layer
  * - Repository (repository/) - Data access layer
  * - Utility (util/) - Helper classes for file I/O, validation
+ * - DTO (dto/) - Data Transfer Objects for operation results
+ * - Enums (enums/) - Enumerations for statuses and types
+ * - Config (config/) - Configuration files and constants
  * - Main (main/) - Application entry point with DI setup
  * - Data (data/) - CSV files for data storage
  * - Docs (docs/) - Project documentation, diagrams, and reports
@@ -51,6 +56,7 @@ public class InternshipSystem {
         IInternshipRepository internshipRepository = new InternshipRepository();
         IApplicationRepository applicationRepository = new ApplicationRepository();
         IWithdrawalRepository withdrawalRepository = new WithdrawalRepository();
+        IInterviewRepository interviewRepository = new InterviewRepository();
 
         // Cleanup: Delete expired internship opportunities (past closing date)
         int deletedCount = internshipRepository.deleteExpiredOpportunities();
@@ -64,12 +70,14 @@ public class InternshipSystem {
                 userRepository,
                 internshipRepository,
                 applicationRepository,
-                withdrawalRepository);
+                withdrawalRepository,
+                interviewRepository);
 
         ICompanyRepService companyRepService = new CompanyRepService(
                 userRepository,
                 internshipRepository,
-                applicationRepository);
+                applicationRepository,
+                interviewRepository);
 
         ICareerStaffService careerStaffService = new CareerStaffService(
                 userRepository,

@@ -8,6 +8,7 @@ import edu.ntu.ccds.sc2002.internship.dto.OperationResult;
 import edu.ntu.ccds.sc2002.internship.model.Filter;
 import edu.ntu.ccds.sc2002.internship.model.Internship;
 import edu.ntu.ccds.sc2002.internship.model.InternshipApplication;
+import edu.ntu.ccds.sc2002.internship.model.Interview;
 import edu.ntu.ccds.sc2002.internship.model.Student;
 import edu.ntu.ccds.sc2002.internship.model.User;
 import edu.ntu.ccds.sc2002.internship.service.interfaces.IStudentService;
@@ -85,13 +86,25 @@ public class StudentController {
                 handleWithdrawApplication(user);
                 break;
 
-            case "9": // Change Password
-                return handleChangePassword(user); // Return logout status based on password change result
+            case "9": // Propose Interview
+                handleInterviewProposal(user.getUserId());
+                break;
 
-            case "10": // Logout
+            case "10": // Confirm Interview
+                handleInterviewConfirmation(user.getUserId());
+                break;
+
+            case "11": // View Interviews
+                handleShowStudentInterviews(user.getUserId());
+                break;
+
+            case "12": // Change Password
+                return handleChangePassword(user);
+
+            case "13": // Logout
                 filterApplied = false;
                 cachedInternships = null;
-                activityLog.clear(); 
+                activityLog.clear();
                 studentView.showLogout();
                 return true;
 
@@ -269,8 +282,8 @@ public class StudentController {
         studentView.displayInternships(cachedInternships);
 
         boolean anyFilterApplied = filter.getLevel() != null ||
-            (filter.getRepName() != null && !filter.getRepName().isEmpty()) ||
-            (filter.getClosingDate() != null && !filter.getClosingDate().isEmpty());
+                (filter.getRepName() != null && !filter.getRepName().isEmpty()) ||
+                (filter.getClosingDate() != null && !filter.getClosingDate().isEmpty());
 
         if (anyFilterApplied) {
             studentView.showSuccess("Filter applied. Showing " + cachedInternships.size() + " internship(s).");
@@ -317,5 +330,54 @@ public class StudentController {
             studentView.showError(result.getMessage());
             return false; // Stay in menu on error
         }
+    }
+
+    public void handleInterviewProposal(String studentId) {
+        Interview interview = studentView.getInterviewProposalInput(studentId);
+        // Check if interview already exists for this student and internship
+        List<Interview> existingInterviews = studentService.getStudentInterviews(studentId);
+        boolean alreadyProposed = false;
+        for (Interview i : existingInterviews) {
+            if (i.getInternshipId().equals(interview.getInternshipId())) {
+                alreadyProposed = true;
+                break;
+            }
+        }
+        if (alreadyProposed) {
+            studentView.showError("You have already proposed an interview for this internship.");
+            return;
+        }
+        studentService.proposeInterview(interview.getStudentId(), interview.getInternshipId(),
+                interview.getProposedTime());
+        studentView.showSuccess("Interview proposed.");
+    }
+
+    public void handleInterviewConfirmation(String studentId) {
+        Interview interview = studentView.getInterviewConfirmationInput(studentId);
+        // Check if interview has been proposed for this internship
+        List<Interview> existingInterviews = studentService.getStudentInterviews(studentId);
+        Interview toConfirm = null;
+        for (Interview i : existingInterviews) {
+            if (i.getInternshipId().equals(interview.getInternshipId())) {
+                toConfirm = i;
+                break;
+            }
+        }
+        if (toConfirm == null) {
+            studentView.showError("You must propose an interview for this internship before confirming.");
+            return;
+        }
+        if (toConfirm.getConfirmedTime() != null && !toConfirm.getConfirmedTime().isEmpty()) {
+            studentView.showError("This interview has already been confirmed.");
+            return;
+        }
+        studentService.confirmInterview(interview.getStudentId(), interview.getInternshipId(),
+                interview.getConfirmedTime());
+        studentView.showSuccess("Interview confirmed.");
+    }
+
+    public void handleShowStudentInterviews(String studentId) {
+        List<Interview> interviews = studentService.getStudentInterviews(studentId);
+        studentView.displayStudentInterviews(interviews);
     }
 }

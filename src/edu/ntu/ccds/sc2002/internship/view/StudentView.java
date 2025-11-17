@@ -4,10 +4,10 @@ import java.util.List;
 import java.util.Scanner;
 
 import edu.ntu.ccds.sc2002.internship.enums.Level;
-import edu.ntu.ccds.sc2002.internship.enums.Status;
 import edu.ntu.ccds.sc2002.internship.model.Filter;
 import edu.ntu.ccds.sc2002.internship.model.Internship;
 import edu.ntu.ccds.sc2002.internship.model.InternshipApplication;
+import edu.ntu.ccds.sc2002.internship.model.Interview;
 import edu.ntu.ccds.sc2002.internship.model.User;
 
 /**
@@ -46,8 +46,11 @@ public class StudentView {
         System.out.println("6) View Accepted Internship");
         System.out.println("7) Accept Internship");
         System.out.println("8) Withdraw Internship Application(s)");
-        System.out.println("9) Change Password");
-        System.out.println("10) Logout");
+        System.out.println("9) Propose Interview");
+        System.out.println("10) Confirm Interview");
+        System.out.println("11) View Interviews");
+        System.out.println("12) Change Password");
+        System.out.println("13) Logout");
         System.out.print("Choose: ");
     }
 
@@ -226,6 +229,30 @@ public class StudentView {
     public String getConfirmPasswordInput() {
         System.out.print("Confirm new password: ");
         return scanner.nextLine();
+    }
+
+    public Interview getInterviewProposalInput(String studentId) {
+        System.out.print("Enter Internship ID to propose interview: ");
+        String internshipId = scanner.nextLine();
+        System.out.print("Enter proposed time (e.g., 2025-11-20 14:00): ");
+        String proposedTime = scanner.nextLine();
+        return new Interview(studentId, internshipId, proposedTime, "");
+    }
+
+    public Interview getInterviewConfirmationInput(String studentId) {
+        System.out.print("Enter Internship ID to confirm: ");
+        String internshipId = scanner.nextLine();
+        System.out.print("Enter confirmed time: ");
+        String confirmedTime = scanner.nextLine();
+        return new Interview(studentId, internshipId, "", confirmedTime);
+    }
+
+    public void displayStudentInterviews(List<Interview> interviews) {
+        System.out.println("Your Interviews:");
+        for (Interview i : interviews) {
+            System.out.printf("Internship: %s, Proposed: %s, Confirmed: %s\n",
+                i.getInternshipId(), i.getProposedTime(), i.getConfirmedTime());
+        }
     }
 
     private String truncate(String str, int maxLength) {

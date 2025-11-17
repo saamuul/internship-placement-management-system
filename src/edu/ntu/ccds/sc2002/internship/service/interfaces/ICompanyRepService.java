@@ -1,8 +1,8 @@
 package edu.ntu.ccds.sc2002.internship.service.interfaces;
 
-import edu.ntu.ccds.sc2002.internship.model.CompanyRepresentative;
 import edu.ntu.ccds.sc2002.internship.model.InternshipApplication;
 import edu.ntu.ccds.sc2002.internship.model.InternshipOpportunity;
+import edu.ntu.ccds.sc2002.internship.model.Interview;
 import edu.ntu.ccds.sc2002.internship.enums.Level;
 import edu.ntu.ccds.sc2002.internship.dto.OperationResult;
 import edu.ntu.ccds.sc2002.internship.enums.Status;
@@ -50,4 +50,7 @@ public interface ICompanyRepService {
      * Change representative password
      */
     OperationResult changePassword(String repId, String oldPassword, String newPassword);
+
+    //List<Interview> getProposedInterviews(String companyRepId);
+    void confirmInterview(String companyRepId, String internshipId, String studentId, String confirmedTime);
 }

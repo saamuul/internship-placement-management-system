@@ -3,6 +3,7 @@ package edu.ntu.ccds.sc2002.internship.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import edu.ntu.ccds.sc2002.internship.dto.OperationResult;
 import edu.ntu.ccds.sc2002.internship.enums.Level;
@@ -10,8 +11,10 @@ import edu.ntu.ccds.sc2002.internship.enums.Status;
 import edu.ntu.ccds.sc2002.internship.model.CompanyRepresentative;
 import edu.ntu.ccds.sc2002.internship.model.InternshipApplication;
 import edu.ntu.ccds.sc2002.internship.model.InternshipOpportunity;
+import edu.ntu.ccds.sc2002.internship.model.Interview;
 import edu.ntu.ccds.sc2002.internship.repository.interfaces.IApplicationRepository;
 import edu.ntu.ccds.sc2002.internship.repository.interfaces.IInternshipRepository;
+import edu.ntu.ccds.sc2002.internship.repository.interfaces.IInterviewRepository;
 import edu.ntu.ccds.sc2002.internship.repository.interfaces.IUserRepository;
 import edu.ntu.ccds.sc2002.internship.service.interfaces.ICompanyRepService;
 
@@ -23,13 +26,16 @@ public class CompanyRepService implements ICompanyRepService {
     private final IUserRepository userRepository;
     private final IInternshipRepository internshipRepository;
     private final IApplicationRepository applicationRepository;
+    private final IInterviewRepository interviewRepository;
 
     public CompanyRepService(IUserRepository userRepository,
             IInternshipRepository internshipRepository,
-            IApplicationRepository applicationRepository) {
+            IApplicationRepository applicationRepository,
+            IInterviewRepository interviewRepository) {
         this.userRepository = userRepository;
         this.internshipRepository = internshipRepository;
         this.applicationRepository = applicationRepository;
+        this.interviewRepository = interviewRepository;
     }
 
     @Override
@@ -264,5 +270,18 @@ public class CompanyRepService implements ICompanyRepService {
         }
 
         return String.valueOf(maxId + 1);
+    }
+
+    // @Override
+    // public List<Interview> getProposedInterviews(String companyRepId) {
+    //     return interviewRepository.getInterviewsByCompanyRep(companyRepId, internshipRepository)
+    //             .stream()
+    //             .filter(i -> i.getConfirmedTime() == null || i.getConfirmedTime().isEmpty())
+    //             .collect(Collectors.toList());
+    // }
+
+    @Override
+    public void confirmInterview(String companyRepId, String internshipId, String studentId, String confirmedTime) {
+        interviewRepository.updateInterview(new Interview(studentId, internshipId, "", confirmedTime));
     }
 }

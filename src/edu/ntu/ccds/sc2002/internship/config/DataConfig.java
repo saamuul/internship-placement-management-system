@@ -13,6 +13,7 @@ public class DataConfig {
     public static final String OPPORTUNITY_CSV_PATH = "data/Internship_Opportunity_List.csv";
     public static final String APPLICATION_CSV_PATH = "data/Internship_Applications_List.csv";
     public static final String WITHDRAWAL_CSV_PATH = "data/Internship_Withdrawal_Request_List.csv";
+    public static final String INTERVIEW_SCHEDULE_PATH = "data/Interview_Schedule.csv";
     
     // Private constructor to prevent instantiation
     private DataConfig() {

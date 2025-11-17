@@ -2,8 +2,8 @@ package edu.ntu.ccds.sc2002.internship.service.interfaces;
 
 import edu.ntu.ccds.sc2002.internship.model.Internship;
 import edu.ntu.ccds.sc2002.internship.model.InternshipApplication;
+import edu.ntu.ccds.sc2002.internship.model.Interview;
 import edu.ntu.ccds.sc2002.internship.dto.OperationResult;
-import edu.ntu.ccds.sc2002.internship.model.Student;
 
 import java.util.List;
 
@@ -46,4 +46,8 @@ public interface IStudentService {
      * Change student password
      */
     OperationResult changePassword(String studentId, String oldPassword, String newPassword);
+
+    void proposeInterview(String studentId, String internshipId, String proposedTime);
+    void confirmInterview(String studentId, String internshipId, String confirmedTime);
+    List<Interview> getStudentInterviews(String studentId);
 }
