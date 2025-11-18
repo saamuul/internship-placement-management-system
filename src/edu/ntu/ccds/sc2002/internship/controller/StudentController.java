@@ -152,13 +152,14 @@ public class StudentController {
     }
 
     // Handles viewing student's internship applications.
-    private void handleViewInternshipApplications(User user) {
+    // Return true if no error
+    private boolean handleViewInternshipApplications(User user) {
         List<InternshipApplication> applications = studentService.getApplications(user.getUserId());
 
         // Check if there are any applications
         if (applications == null || applications.isEmpty()) {
             studentView.showError("No internship applications found.");
-            return;
+            return false;
         }
 
         // Prepare data: Create lists for parallel display
@@ -188,11 +189,15 @@ public class StudentController {
 
         // Pass prepared data to view
         studentView.displayApplications(appIds, titles, companies, levels, statuses);
+        return true;
     }
 
     // Handles accepting an internship placement.
     private void handleAcceptInternship(User user) {
-        handleViewInternshipApplications(user);
+        // If there is no applications, just return
+        if (!handleViewInternshipApplications(user)) {
+            return;
+        };
 
         // View: Get input
         String applicationId = studentView.getApplicationIdInput();
@@ -217,7 +222,10 @@ public class StudentController {
 
     // Handles withdrawing an internship application.
     private void handleWithdrawApplication(User user) {
-        handleViewInternshipApplications(user);
+        // If there is no applications, just return
+        if (!handleViewInternshipApplications(user)) {
+            return;
+        }
 
         // View: Get input
         String applicationId = studentView.getApplicationIdInputForWithdrawal();
