@@ -22,6 +22,7 @@ This project follows the **Model-View-Controller (MVC)** architectural pattern f
 - **main/** - Application entry point (InternshipSystem)
 - **data/** - CSV files for data persistence
 - **docs/** - Project documentation, diagrams, and reports
+- **html/** - Javadoc parses the declarations and documentation comments in a set of Java source files and produces a corresponding set of HTML pages
 
 ## Getting Started
 
