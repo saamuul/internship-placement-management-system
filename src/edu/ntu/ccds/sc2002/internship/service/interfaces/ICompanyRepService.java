@@ -57,16 +57,19 @@ public interface ICompanyRepService {
     List<Interview> getProposedInterviews(String companyRepId);
     
     /**
+     * Get confirmed interviews for company rep's internships
+     */
+    List<Interview> getConfirmedInterviews(String companyRepId);
+    
+    /**
      * Company rep proposes interview times for an application
      */
-    void proposeInterview(String companyRepId, String internshipId, String studentId, String proposedTime);
-    
+    boolean proposeInterview(String companyRepId, String internshipId, String studentId, String proposedTime);
+
     /**
      * Company rep confirms interview time
      */
-    void confirmInterview(String companyRepId, String internshipId, String studentId, String confirmedTime);
-    
-    /**
+    boolean confirmInterview(String companyRepId, String internshipId, String studentId, String confirmedTime);    /**
      * Edit an existing internship opportunity
      */
     OperationResult editOpportunity(String repId, String opportunityId, String title, String description,

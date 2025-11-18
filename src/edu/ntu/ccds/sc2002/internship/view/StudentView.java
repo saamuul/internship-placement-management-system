@@ -47,10 +47,9 @@ public class StudentView {
         System.out.println("7) Accept Internship");
         System.out.println("8) Withdraw Internship Application(s)");
         System.out.println("9) Propose Interview");
-        System.out.println("10) Confirm Interview");
-        System.out.println("11) View Interviews");
-        System.out.println("12) Change Password");
-        System.out.println("13) Logout");
+        System.out.println("10) View Interviews");
+        System.out.println("11) Change Password");
+        System.out.println("12) Logout");
         System.out.print("Choose: ");
     }
 
@@ -233,9 +232,9 @@ public class StudentView {
 
     public Interview getInterviewProposalInput(String studentId) {
         System.out.print("Enter Internship ID to propose interview: ");
-        String internshipId = scanner.nextLine();
+        String internshipId = scanner.nextLine().trim();
         System.out.print("Enter proposed time (e.g., 2025-11-20 14:00): ");
-        String proposedTime = scanner.nextLine();
+        String proposedTime = scanner.nextLine().trim();
         return new Interview(studentId, internshipId, proposedTime, "");
     }
 
@@ -248,11 +247,28 @@ public class StudentView {
     }
 
     public void displayStudentInterviews(List<Interview> interviews) {
-        System.out.println("Your Interviews:");
-        for (Interview i : interviews) {
-            System.out.printf("Internship: %s, Proposed: %s, Confirmed: %s\n",
-                i.getInternshipId(), i.getProposedTime(), i.getConfirmedTime());
+        System.out.println("\n=== Your Interview Schedule ===");
+        System.out.println("─────────────────────────────────────────────────────────────────────────────────────────");
+        System.out.printf("%-15s %-30s %-30s %-10s%n", "Internship ID", "Proposed Time", "Confirmed Time", "Status");
+        System.out.println("─────────────────────────────────────────────────────────────────────────────────────────");
+        if (interviews.isEmpty()) {
+            System.out.println("No interviews scheduled.");
+        } else {
+            for (Interview i : interviews) {
+                String status = (i.getConfirmedTime() != null && !i.getConfirmedTime().isEmpty()) 
+                    ? "CONFIRMED" 
+                    : "PENDING";
+                String confirmedTime = (i.getConfirmedTime() != null && !i.getConfirmedTime().isEmpty())
+                    ? i.getConfirmedTime()
+                    : "-";
+                System.out.printf("%-15s %-30s %-30s %-10s%n",
+                    i.getInternshipId(), 
+                    i.getProposedTime(),
+                    confirmedTime,
+                    status);
+            }
         }
+        System.out.println("─────────────────────────────────────────────────────────────────────────────────────────");
     }
 
     private String truncate(String str, int maxLength) {

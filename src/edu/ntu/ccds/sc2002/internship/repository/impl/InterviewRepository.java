@@ -29,60 +29,50 @@ public class InterviewRepository implements IInterviewRepository {
     }
 
     @Override
-    public void addInterview(Interview interview) {
+    public boolean addInterview(Interview interview) {
+        // Check if interview already exists for this student and internship
+        List<Interview> existing = getAllInterviews();
+        for (Interview i : existing) {
+            if (i.getStudentId().equals(interview.getStudentId()) &&
+                i.getInternshipId().equals(interview.getInternshipId())) {
+                // Interview already exists, don't add duplicate
+                return false;
+            }
+        }
+        
         String[] row = {
                 interview.getStudentId(),
                 interview.getInternshipId(),
                 interview.getProposedTime(),
                 interview.getConfirmedTime()
         };
-        CSVUtil.appendRow(DataConfig.INTERVIEW_SCHEDULE_PATH, row);
+        return CSVUtil.appendRow(DataConfig.INTERVIEW_SCHEDULE_PATH, row);
     }
 
     @Override
-    public void updateInterview(Interview updatedInterview) {
-        CSVUtil.updateMatchingRows(
+    public boolean updateInterview(Interview updatedInterview) {
+        int updated = CSVUtil.updateMatchingRows(
                 DataConfig.INTERVIEW_SCHEDULE_PATH,
                 r -> r.length >= 2 &&
                         r[0].equals(updatedInterview.getStudentId()) &&
                         r[1].equals(updatedInterview.getInternshipId()),
-                r -> new String[] {
+                r -> {
+                    // Preserve existing values if new ones are empty
+                    String proposedTime = updatedInterview.getProposedTime() != null && 
+                                         !updatedInterview.getProposedTime().isEmpty() 
+                                         ? updatedInterview.getProposedTime() 
+                                         : r[2];
+                    String confirmedTime = updatedInterview.getConfirmedTime() != null && 
+                                          !updatedInterview.getConfirmedTime().isEmpty() 
+                                          ? updatedInterview.getConfirmedTime() 
+                                          : r[3];
+                    return new String[] {
                         updatedInterview.getStudentId(),
                         updatedInterview.getInternshipId(),
-                        updatedInterview.getProposedTime(),
-                        updatedInterview.getConfirmedTime()
+                        proposedTime,
+                        confirmedTime
+                    };
                 });
+        return updated > 0;
     }
-
-    // @Override
-    // public Internship getInternshipById(String internshipId) {
-    //     // Example implementation:
-    //     List<Internship> allInternships = getAllInternships(); // or your method to fetch all
-    //     for (Internship internship : allInternships) {
-    //         if (internship.getInternshipId().equals(internshipId)) {
-    //             return internship;
-    //         }
-    //     }
-    //     return null;
-    // }
-
-    // @Override
-    // public List<Interview> getInterviewsByCompanyRep(String companyRepId, List<Internship> allInternships) {
-    //     List<Interview> all = getAllInterviews();
-    //     List<Interview> result = new ArrayList<>();
-    //     for (Interview i : all) {
-    //         Internship internship = null;
-    //         for (Internship temp : allInternships) {
-    //             if (temp.getInternshipId().equals(i.getInternshipId())) {
-    //                 internship = temp;
-    //                 break;
-    //             }
-    //         }
-    //         if (internship != null && internship.getRep() != null
-    //             && internship.getRep().getUserId().equals(companyRepId)) {
-    //             result.add(i);
-    //         }
-    //     }
-    //     return result;
-    // }
 }

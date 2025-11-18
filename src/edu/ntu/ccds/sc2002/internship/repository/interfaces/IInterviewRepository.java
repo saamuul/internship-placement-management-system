@@ -9,11 +9,7 @@ import edu.ntu.ccds.sc2002.internship.model.Interview;
 public interface IInterviewRepository {
     List<Interview> getAllInterviews();
 
-    void addInterview(Interview interview);
+    boolean addInterview(Interview interview);
 
-    void updateInterview(Interview interview);
-
-    // Internship getInternshipById(String internshipId);
-
-    // List<Interview> getInterviewsByCompanyRep(String companyRepId, IInternshipRepository internshipRepository);
+    boolean updateInterview(Interview interview);
 }

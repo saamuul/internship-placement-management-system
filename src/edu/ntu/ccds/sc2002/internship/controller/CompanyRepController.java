@@ -78,18 +78,34 @@ public class CompanyRepController {
                 handleManageOpportunities(user);
                 break;
                 
-            case "10": // View Proposed Interviews
-                handleViewProposedInterviews(user.getUserId());
+            case "10": // Edit Internship Opportunity
+                handleEditOpportunity(user);
+                break;
+                
+            case "11": // Delete Internship Opportunity
+                handleDeleteOpportunity(user);
                 break;
 
-            case "11": // Confirm Interview
+            case "12": // View Proposed Interviews
+                handleViewProposedInterviews(user.getUserId());
+                break;
+                
+            case "13": // View Confirmed Interviews
+                handleViewConfirmedInterviews(user.getUserId());
+                break;
+                
+            case "14": // Propose Interview Time
+                handleProposeInterview(user.getUserId());
+                break;
+
+            case "15": // Confirm Interview
                 handleConfirmInterview(user.getUserId());
                 break;
 
-            case "12":
+            case "16":
                 return handleChangePassword(user);
 
-            case "13":
+            case "17":
                 cachedApplications = null;
                 cachedOpportunities = null;
                 applicationFilterApplied = false;
@@ -521,37 +537,178 @@ public class CompanyRepController {
     }
     
     public void handleViewProposedInterviews(String companyRepId) {
-        List<Interview> interviews = companyRepService.getProposedInterviews(companyRepId);
-        if (interviews.isEmpty()) {
-            view.showError("No proposed interviews found for your internships.");
-        } else {
-            view.displayProposedInterviews(interviews);
+        try {
+            List<Interview> interviews = companyRepService.getProposedInterviews(companyRepId);
+            if (interviews.isEmpty()) {
+                view.showError("No proposed interviews found for your internships.");
+            } else {
+                view.displayProposedInterviews(interviews);
+            }
+        } catch (Exception e) {
+            view.showError("An error occurred while retrieving interviews: " + e.getMessage());
+        }
+    }
+    
+    public void handleViewConfirmedInterviews(String companyRepId) {
+        try {
+            List<Interview> interviews = companyRepService.getConfirmedInterviews(companyRepId);
+            if (interviews.isEmpty()) {
+                view.showError("No confirmed interviews found for your internships.");
+            } else {
+                view.displayConfirmedInterviews(interviews);
+            }
+        } catch (Exception e) {
+            view.showError("An error occurred while retrieving interviews: " + e.getMessage());
         }
     }
     
     public void handleProposeInterview(String companyRepId) {
-        System.out.print("Enter Internship ID to propose interview: ");
-        String internshipId = view.getInternshipIdInput();
-        String studentId = view.getStudentIdInput();
-        System.out.print("Enter proposed time (e.g., 2025-11-20 14:00): ");
-        String proposedTime = view.getConfirmedTimeInput();
-        
-        companyRepService.proposeInterview(companyRepId, internshipId, studentId, proposedTime);
-        activityLog.add("Proposed interview for student " + studentId + " on internship " + internshipId);
-        view.showSuccess("Interview time proposed successfully.");
+        try {
+            // Get applications that have been accepted (SUCCESSFUL) for this rep's opportunities
+            List<InternshipApplication> acceptedApps = companyRepService.getApplicationsForMyOpportunities(companyRepId);
+            
+            // Filter to only show SUCCESSFUL (accepted) applications
+            List<InternshipApplication> successfulApps = new ArrayList<>();
+            for (InternshipApplication app : acceptedApps) {
+                if (app.getStatus() == Status.SUCCESSFUL) {
+                    successfulApps.add(app);
+                }
+            }
+            
+            if (successfulApps.isEmpty()) {
+                view.showError("No accepted applications found. Students must accept internship offers before scheduling interviews.");
+                return;
+            }
+            
+            // Display accepted applications so rep can see which students to interview
+            System.out.println("\n=== Students Who Have Accepted Your Internship Offers ===");
+            view.displayApplications(successfulApps);
+            
+            String internshipId = view.getInternshipIdInput();
+            
+            // Validate internship ID is not empty
+            if (internshipId == null || internshipId.trim().isEmpty()) {
+                view.showError("Internship ID cannot be empty.");
+                return;
+            }
+            
+            String studentId = view.getStudentIdInput();
+            if (studentId == null || studentId.trim().isEmpty()) {
+                view.showError("Student ID cannot be empty.");
+                return;
+            }
+            
+            // Verify the student has accepted this internship
+            boolean validMatch = false;
+            for (InternshipApplication app : successfulApps) {
+                if (app.getInternshipID().equals(internshipId) && app.getStudentID().equals(studentId)) {
+                    validMatch = true;
+                    break;
+                }
+            }
+            
+            if (!validMatch) {
+                view.showError("Invalid combination. This student has not accepted this internship.");
+                return;
+            }
+            
+            String proposedTime = view.getProposedTimeInput();
+            if (proposedTime == null || proposedTime.trim().isEmpty()) {
+                view.showError("Proposed time cannot be empty.");
+                return;
+            }
+            
+            // Validate datetime format and future date
+            String validatedTime;
+            try {
+                validatedTime = validator.parseDateTime(proposedTime);
+            } catch (IllegalArgumentException e) {
+                view.showError(e.getMessage());
+                return;
+            }
+            
+            boolean success = companyRepService.proposeInterview(companyRepId, internshipId, studentId, validatedTime);
+            if (success) {
+                activityLog.add("Proposed interview for student " + studentId + " on internship " + internshipId);
+                view.showSuccess("Interview time proposed successfully.");
+            } else {
+                view.showError("Failed to propose interview. Student may not have accepted this internship or interview already exists.");
+            }
+        } catch (Exception e) {
+            view.showError("An error occurred while proposing interview: " + e.getMessage());
+        }
     }
 
     public void handleConfirmInterview(String companyRepId) {
-        // First show proposed interviews
-        handleViewProposedInterviews(companyRepId);
-        
-        System.out.println("\nSelect an interview to confirm:");
-        String internshipId = view.getInternshipIdInput();
-        String studentId = view.getStudentIdInput();
-        String confirmedTime = view.getConfirmedTimeInput();
-        
-        companyRepService.confirmInterview(companyRepId, internshipId, studentId, confirmedTime);
-        activityLog.add("Confirmed interview for student " + studentId + " on internship " + internshipId);
-        view.showSuccess("Interview confirmed.");
+        try {
+            // First show proposed interviews
+            List<Interview> proposedInterviews = companyRepService.getProposedInterviews(companyRepId);
+            if (proposedInterviews.isEmpty()) {
+                view.showError("No proposed interviews found for your internships.");
+                return;
+            }
+            
+            view.displayProposedInterviews(proposedInterviews);
+            
+            view.promptSelectInterviewToConfirm();
+            String internshipId = view.getInternshipIdInput();
+            
+            if (internshipId == null || internshipId.trim().isEmpty()) {
+                view.showError("Internship ID cannot be empty.");
+                return;
+            }
+            
+            String studentId = view.getStudentIdInput();
+            
+            if (studentId == null || studentId.trim().isEmpty()) {
+                view.showError("Student ID cannot be empty.");
+                return;
+            }
+            
+            // Verify interview exists in the proposed list
+            Interview toConfirm = null;
+            for (Interview i : proposedInterviews) {
+                if (i.getInternshipId().equals(internshipId) && i.getStudentId().equals(studentId)) {
+                    toConfirm = i;
+                    break;
+                }
+            }
+            
+            if (toConfirm == null) {
+                view.showError("Interview not found in your proposed interviews.");
+                return;
+            }
+            
+            if (toConfirm.getConfirmedTime() != null && !toConfirm.getConfirmedTime().isEmpty()) {
+                view.showError("This interview has already been confirmed.");
+                return;
+            }
+            
+            String confirmedTime = view.getConfirmedTimeInput();
+            
+            if (confirmedTime == null || confirmedTime.trim().isEmpty()) {
+                view.showError("Confirmed time cannot be empty.");
+                return;
+            }
+            
+            // Validate datetime format and future date
+            String validatedTime;
+            try {
+                validatedTime = validator.parseDateTime(confirmedTime);
+            } catch (IllegalArgumentException e) {
+                view.showError(e.getMessage());
+                return;
+            }
+            
+            boolean success = companyRepService.confirmInterview(companyRepId, internshipId, studentId, validatedTime);
+            if (success) {
+                activityLog.add("Confirmed interview for student " + studentId);
+                view.showSuccess("Interview confirmed successfully.");
+            } else {
+                view.showError("Failed to confirm interview. Please try again.");
+            }
+        } catch (Exception e) {
+            view.showError("An error occurred while confirming interview: " + e.getMessage());
+        }
     }
 }

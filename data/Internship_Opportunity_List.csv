@@ -15,7 +15,7 @@ ID,Title,Description,Major,OpenDate,CloseDate,RepName,Slots,Visibility,Status,Le
 14,Frontend Developer Intern,Create responsive web interfaces with React,Computer Science,2025-11-19,2025-12-28,Daniel Lee,5,false,SUCCESSFUL,BASIC
 15,Video Production Intern,Edit and produce multimedia content,Information Engineering & Media,2025-11-22,2025-12-27,Cheryl Goh,3,true,SUCCESSFUL,BASIC
 16,Systems Integration Intern,Integrate enterprise software systems,Computer Engineering,2025-11-18,2026-01-05,Sarah Lim,2,true,SUCCESSFUL,INTERMEDIATE
-17,Quality Assurance Intern,Test software and report bugs,Computer Science,2025-11-23,2025-12-29,Alice Smith,3,true,SUCCESSFUL,BASIC
+17,Quality Assurance Intern,Test software and report bugs,Computer Science,2025-11-23,2025-12-29,Alice Smith,2,true,SUCCESSFUL,BASIC
 18,Blockchain Developer Intern,Develop smart contracts and DApps,Computer Science,2025-11-20,2026-01-12,Marcus Ong,2,true,SUCCESSFUL,ADVANCED
 19,IoT Solutions Intern,Build Internet of Things applications,Computer Engineering,2025-11-21,2025-12-31,Brandon Yap,3,true,SUCCESSFUL,INTERMEDIATE
 20,Business Intelligence Intern,Create dashboards and reports from data,Data Science & AI,2025-11-19,2025-12-26,Daniel Lee,4,true,SUCCESSFUL,BASIC

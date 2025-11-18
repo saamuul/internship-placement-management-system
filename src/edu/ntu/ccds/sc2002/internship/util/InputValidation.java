@@ -1,6 +1,7 @@
 package edu.ntu.ccds.sc2002.internship.util;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
@@ -9,6 +10,7 @@ import edu.ntu.ccds.sc2002.internship.enums.Status;
 public class InputValidation {
 
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    private static final DateTimeFormatter DATETIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
     public String requireNonEmpty(String input) {
         if (input == null || input.trim().isEmpty()) {
@@ -76,5 +78,25 @@ public class InputValidation {
             throw new IllegalArgumentException("Invalid visibility. Please try again. ");
         }
         return val;
+    }
+    
+    public String parseDateTime(String dateTime) {
+        if (dateTime == null || dateTime.trim().isEmpty()) {
+            throw new IllegalArgumentException("Date and time cannot be empty.");
+        }
+        
+        try {
+            LocalDateTime parsedDateTime = LocalDateTime.parse(dateTime.trim(), DATETIME_FORMATTER);
+            
+            // Validate that the datetime is not in the past
+            LocalDateTime now = LocalDateTime.now();
+            if (parsedDateTime.isBefore(now)) {
+                throw new IllegalArgumentException("Interview time cannot be in the past. Please enter a future date and time.");
+            }
+            
+            return parsedDateTime.format(DATETIME_FORMATTER);
+        } catch (DateTimeParseException e) {
+            throw new IllegalArgumentException("Invalid date-time format. Please use format: YYYY-MM-DD HH:MM (e.g., 2025-11-20 14:00)");
+        }
     }
 }

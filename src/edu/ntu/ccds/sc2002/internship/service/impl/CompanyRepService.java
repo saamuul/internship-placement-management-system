@@ -296,7 +296,29 @@ public class CompanyRepService implements ICompanyRepService {
     }
     
     @Override
-    public void proposeInterview(String companyRepId, String internshipId, String studentId, String proposedTime) {
+    public List<Interview> getConfirmedInterviews(String companyRepId) {
+        // Get all interviews and filter by company rep's internships
+        List<Interview> allInterviews = interviewRepository.getAllInterviews();
+        List<InternshipOpportunity> myOpportunities = getCreatedOpportunities(companyRepId);
+        List<Interview> result = new ArrayList<>();
+        
+        for (Interview interview : allInterviews) {
+            // Check if interview is for one of my internships
+            for (InternshipOpportunity opp : myOpportunities) {
+                if (opp.getInternshipID().equals(interview.getInternshipId())) {
+                    // Only show if confirmed
+                    if (interview.getConfirmedTime() != null && !interview.getConfirmedTime().isEmpty()) {
+                        result.add(interview);
+                    }
+                    break;
+                }
+            }
+        }
+        return result;
+    }
+    
+    @Override
+    public boolean proposeInterview(String companyRepId, String internshipId, String studentId, String proposedTime) {
         // Verify ownership of the internship
         List<InternshipOpportunity> myOpps = getCreatedOpportunities(companyRepId);
         boolean isOwner = false;
@@ -307,15 +329,33 @@ public class CompanyRepService implements ICompanyRepService {
             }
         }
         
-        if (isOwner) {
-            Interview interview = new Interview(studentId, internshipId, proposedTime, "");
-            interviewRepository.addInterview(interview);
+        if (!isOwner) {
+            return false;
         }
+        
+        // Check if student has accepted this internship (status = SUCCESSFUL)
+        List<InternshipApplication> allApps = applicationRepository.findAll();
+        boolean hasAccepted = false;
+        for (InternshipApplication app : allApps) {
+            if (app.getStudentID().equals(studentId) && 
+                app.getInternshipID().equals(internshipId) && 
+                app.getStatus() == Status.SUCCESSFUL) {
+                hasAccepted = true;
+                break;
+            }
+        }
+        
+        if (!hasAccepted) {
+            return false;
+        }
+        
+        Interview interview = new Interview(studentId, internshipId, proposedTime, "");
+        return interviewRepository.addInterview(interview);
     }
 
     @Override
-    public void confirmInterview(String companyRepId, String internshipId, String studentId, String confirmedTime) {
-        interviewRepository.updateInterview(new Interview(studentId, internshipId, "", confirmedTime));
+    public boolean confirmInterview(String companyRepId, String internshipId, String studentId, String confirmedTime) {
+        return interviewRepository.updateInterview(new Interview(studentId, internshipId, "", confirmedTime));
     }
     
     @Override

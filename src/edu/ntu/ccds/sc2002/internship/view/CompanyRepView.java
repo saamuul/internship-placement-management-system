@@ -52,10 +52,11 @@ public class CompanyRepView {
         System.out.println("10) Edit Internship Opportunity");
         System.out.println("11) Delete Internship Opportunity");
         System.out.println("12) View Proposed Interviews");
-        System.out.println("13) Propose Interview Time");
-        System.out.println("14) Confirm Interview");
-        System.out.println("15) Change Password");
-        System.out.println("16) Logout");
+        System.out.println("13) View Confirmed Interviews");
+        System.out.println("14) Propose Interview Time");
+        System.out.println("15) Confirm Interview");
+        System.out.println("16) Change Password");
+        System.out.println("17) Logout");
         System.out.print("Choose: ");
     }
 
@@ -331,26 +332,55 @@ public class CompanyRepView {
     }
 
     public void displayProposedInterviews(List<Interview> interviews) {
-        System.out.println("Proposed Interviews:");
-        for (Interview i : interviews) {
-            System.out.printf("Internship: %s, Student: %s, Proposed Time: %s\n",
-                i.getInternshipId(), i.getStudentId(), i.getProposedTime());
+        System.out.println("\n=== Proposed Interviews (Not Yet Confirmed) ===");
+        System.out.println("─────────────────────────────────────────────────────────────────────────────────");
+        System.out.printf("%-15s %-15s %-30s%n", "Internship ID", "Student ID", "Proposed Time");
+        System.out.println("─────────────────────────────────────────────────────────────────────────────────");
+        if (interviews.isEmpty()) {
+            System.out.println("No proposed interviews found.");
+        } else {
+            for (Interview i : interviews) {
+                System.out.printf("%-15s %-15s %-30s%n",
+                    i.getInternshipId(), 
+                    i.getStudentId(), 
+                    i.getProposedTime());
+            }
         }
+        System.out.println("─────────────────────────────────────────────────────────────────────────────────");
+    }
+    
+    public void displayConfirmedInterviews(List<Interview> interviews) {
+        System.out.println("\n=== Confirmed Interviews ===");
+        System.out.println("───────────────────────────────────────────────────────────────────────────────────────────────────────────");
+        System.out.printf("%-15s %-15s %-30s %-30s%n", "Internship ID", "Student ID", "Proposed Time", "Confirmed Time");
+        System.out.println("───────────────────────────────────────────────────────────────────────────────────────────────────────────");
+        if (interviews.isEmpty()) {
+            System.out.println("No confirmed interviews found.");
+        } else {
+            for (Interview i : interviews) {
+                System.out.printf("%-15s %-15s %-30s %-30s%n",
+                    i.getInternshipId(), 
+                    i.getStudentId(), 
+                    i.getProposedTime(),
+                    i.getConfirmedTime());
+            }
+        }
+        System.out.println("───────────────────────────────────────────────────────────────────────────────────────────────────────────");
     }
 
     public String getInternshipIdInput() {
         System.out.print("Enter Internship ID: ");
-        return scanner.nextLine();
+        return scanner.nextLine().trim();
     }
 
     public String getStudentIdInput() {
         System.out.print("Enter Student ID: ");
-        return scanner.nextLine();
+        return scanner.nextLine().trim();
     }
 
     public String getConfirmedTimeInput() {
-        System.out.print("Enter Confirmed Time: ");
-        return scanner.nextLine();
+        System.out.print("Enter confirmed time (e.g., 2025-11-20 14:00): ");
+        return scanner.nextLine().trim();
     }
     
     public String getOpportunityIdForEdit() {
@@ -385,9 +415,22 @@ public class CompanyRepView {
         System.out.print("New " + fieldName + " [" + currentValue + "]: ");
         return scanner.nextLine().trim();
     }
+    
+    public String getProposedTimeInput() {
+        System.out.print("Enter proposed time (e.g., 2025-11-20 14:00): ");
+        return scanner.nextLine().trim();
+    }
+    
+    public void promptSelectInterviewToConfirm() {
+        System.out.println("\nSelect an interview to confirm:");
+    }
 
     public void showSuccess(String message) {
         System.out.println("SUCCESS: " + message);
+    }
+    
+    public void showInfo(String message) {
+        System.out.println(message);
     }
 
     public void showError(String message) {

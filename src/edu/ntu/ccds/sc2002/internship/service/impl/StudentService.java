@@ -294,16 +294,12 @@ public class StudentService implements IStudentService {
     }
 
     @Override
-    public void proposeInterview(String studentId, String internshipId, String proposedTime) {
+    public boolean proposeInterview(String studentId, String internshipId, String proposedTime) {
         Interview interview = new Interview(studentId, internshipId, proposedTime, "");
-        interviewRepository.addInterview(interview);
+        return interviewRepository.addInterview(interview);
     }
 
-    @Override
-    public void confirmInterview(String studentId, String internshipId, String confirmedTime) {
-        Interview interview = new Interview(studentId, internshipId, "", confirmedTime);
-        interviewRepository.updateInterview(interview);
-    }
+
 
     @Override
     public List<Interview> getStudentInterviews(String studentId) {

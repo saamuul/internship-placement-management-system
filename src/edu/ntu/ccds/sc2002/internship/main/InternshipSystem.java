@@ -96,7 +96,7 @@ public class InternshipSystem {
 
         // Initialize role-specific controllers (Controller layer) with DI
         InputValidation inputValidation = new InputValidation();
-        StudentController studentController = new StudentController(studentView, studentService);
+        StudentController studentController = new StudentController(studentView, studentService, inputValidation);
         CompanyRepController companyRepController = new CompanyRepController(
                 companyRepView,
                 companyRepService,

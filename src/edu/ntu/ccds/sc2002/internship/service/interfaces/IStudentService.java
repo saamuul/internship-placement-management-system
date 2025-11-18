@@ -47,7 +47,6 @@ public interface IStudentService {
      */
     OperationResult changePassword(String studentId, String oldPassword, String newPassword);
 
-    void proposeInterview(String studentId, String internshipId, String proposedTime);
-    void confirmInterview(String studentId, String internshipId, String confirmedTime);
+    boolean proposeInterview(String studentId, String internshipId, String proposedTime);
     List<Interview> getStudentInterviews(String studentId);
 }
